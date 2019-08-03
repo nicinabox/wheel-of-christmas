@@ -2,6 +2,9 @@
   "name": "wheel-of-christmas",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^12.7.0"
+  },
   "devDependencies": {
     "react-scripts": "3.0.1"
   },
