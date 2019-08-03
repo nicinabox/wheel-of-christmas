@@ -1,0 +1,8 @@
+export default [
+  ' A PACKAGE  OF BROWN     GRAVY        MIX',
+  '   THE     CHRONICLES   OF NARNIA',
+  'ACROPOLIS   MUSEUM IN  ATHENS        GREECE',
+  '          HYPOTHETICAL',
+  'DEEP FRIED  SALT AND     PEPPER   CALAMARI',
+  'THERE IS A FROG ON MY  HOT DOG!'
+]

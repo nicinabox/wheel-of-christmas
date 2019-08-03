@@ -1,0 +1,10 @@
+.PuzzleBuilder {
+  display: flex;
+  flex-direction: column;
+}
+
+.PuzzleBuilder input {
+  font-family: monospace;
+  font-size: 2rem;
+  padding: 1rem;
+}

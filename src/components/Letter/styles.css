@@ -1,0 +1,26 @@
+.Letter {
+  background: white;
+  flex: 1;
+  font-size: 5rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-weight: 900;
+  color: #222;
+}
+
+.Letter[disabled] {
+}
+
+.Letter.isActive {
+  background-color: #1d3ff8;
+}
+
+.Letter.isSolved {
+  background-color: white;
+}
+
+.Letter.isSpace {
+  opacity: 0;
+  background-color: white;
+}
