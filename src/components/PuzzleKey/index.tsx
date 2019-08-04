@@ -21,14 +21,16 @@ const PuzzleKey: React.FC<Props> = ({ onLetterClick, usedChars }) => {
 
   return (
     <div className="PuzzleKey">
-      {chars.map((char) => (
-        <button
-          key={char}
-          disabled={usedChars.includes(char)}
-          onClick={() => onLetterClick(char)}>
-          {char}
-        </button>
-      ))}
+      <div className="PuzzleKey-background">
+        {chars.map((char) => (
+          <button
+            key={char}
+            disabled={usedChars.includes(char)}
+            onClick={() => onLetterClick(char)}>
+            {char}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }

@@ -6,3 +6,10 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Avenir Next LT Pro Cn';
+    src: url('AvenirNextLTPro-HeavyCn.woff2') format('woff2'),
+        url('AvenirNextLTPro-HeavyCn.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}

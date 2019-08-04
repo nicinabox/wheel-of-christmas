@@ -1,13 +1,16 @@
 .PuzzleKey {
-  border-radius: 1rem;
-  padding: 0 1rem;
   margin: 1rem;
-  background: #8c959d;
-  border: 5px solid white;
-  box-shadow: 5px 5px 0 0 #5f6468 inset;
   display: flex;
   justify-content: center;
   user-select: none;
+}
+
+.PuzzleKey-background {
+  background: #8c959d;
+  border: 5px solid white;
+  box-shadow: 5px 5px 0 0 #5f6468 inset;
+  border-radius: 1rem;
+  padding: 0 1rem;
 }
 
 .PuzzleKey button {

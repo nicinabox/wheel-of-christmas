@@ -3,6 +3,7 @@ import NewWindow from 'react-new-window'
 import * as API from '../../interfaces/api'
 import PuzzleBoard from '../PuzzleBoard'
 import PuzzleKey from '../PuzzleKey'
+import Category from '../Category'
 
 import './styles.css'
 
@@ -49,16 +50,6 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
     onPuzzleChange(direction)
   }
 
-  const handleRevealSolvedLetters = () => {
-    // const indexes = activeChars.reduce((acc: number[], char) => {
-    //   const result = chars.reduce((a: number[], c, i) => (c === char) ? a.concat(i) : a, [])
-    //   return acc.concat(result)
-    // }, [])
-    //
-    // setSolvedIndexes(solvedIndexes.concat(indexes))
-    // setActiveChars([])
-  }
-
   const Wrapper = shouldPopOut
     ? NewWindow
     : ({children}: { children: any }) => children
@@ -71,6 +62,8 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
           revealedIndexes={revealedIndexes}
           onLetterReveal={handleLetterReveal}
         />
+
+        <Category category="Around the house" />
 
         <PuzzleKey
           usedChars={usedChars}

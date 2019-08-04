@@ -1,0 +1,18 @@
+.Category {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.Category-background {
+  background: #feb769;
+  border: 5px solid #333333;
+  border-radius: 1.3rem;
+  box-shadow: 5px 5px 0 0 #98754e inset;
+  color: white;
+  text-shadow: 3px 3px black;
+  font-weight: 900;
+  text-align: center;
+  font-size: 2.8rem;
+  padding: 1rem 2rem;
+}
