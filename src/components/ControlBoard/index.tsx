@@ -11,10 +11,16 @@ interface Props {
   onPuzzleChange: (direction: number) => void;
 }
 
+const generateAlphas = () => {
+  const start = 'A'.charCodeAt(0)
+  return new Array(26)
+    .fill(1)
+    .map((_, i) => String.fromCharCode(start + i))
+}
+
 const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
   const chars = puzzle.split('')
-  const uniqChars = uniq(chars)
-  const selectableChars = uniqChars.filter(c => c.trim()).sort()
+  const selectableChars = generateAlphas()
 
   const [shouldPopOut, setShouldPopOut] = useState(false)
   const [activeChars, setActiveChars] = useState<string[]>([])
