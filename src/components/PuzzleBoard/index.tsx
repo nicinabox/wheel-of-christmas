@@ -5,6 +5,7 @@ import Letter from '../Letter'
 import Tile from '../Tile'
 
 import './styles.css'
+import { ReactComponent as Logo } from '../../images/logo.svg';
 
 interface Props {
   chars: string[];
@@ -20,17 +21,20 @@ const PuzzleBoard: React.FC<Props> = ({ chars, solvedChars, revealedIndexes, onL
       <div className="PuzzleBoard-tiles">
         {range(1,53).map((tileId, index) => {
           const char = chars[index]
+          const isSpace = /[\s]/.test(char)
 
           return (
             <Tile key={index} className={`Tile-${tileId}`}>
-              {char ? (
+              {char && !isSpace ? (
                 <Letter
                   char={char}
                   isSolved={solvedChars.includes(char)}
                   isRevealed={revealedIndexes.includes(index)}
                   onReveal={() => onLetterReveal(index)}
                 />
-              ) : null}
+              ) : (
+                <Logo />
+              )}
             </Tile>
           )
         })}

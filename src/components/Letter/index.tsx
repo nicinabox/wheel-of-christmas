@@ -12,6 +12,7 @@ interface Props {
 }
 
 const Letter: React.FC<Props> = ({ char, isRevealed, isSolved, onReveal }) => {
+
   return (
       <div className="Letter">
         <button
@@ -20,9 +21,8 @@ const Letter: React.FC<Props> = ({ char, isRevealed, isSolved, onReveal }) => {
           className={cx('Letter-button', {
             'isSolved': isRevealed ? null : isSolved,
             'isRevealed': isRevealed,
-            'isSpace': /[\s]/.test(char),
           })}>
-          {isRevealed ? char : ' '}
+          {isRevealed && char}
         </button>
       </div>
   )

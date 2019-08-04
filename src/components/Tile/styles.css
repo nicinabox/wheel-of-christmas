@@ -10,9 +10,11 @@
 .Tile-inner {
   background: linear-gradient(#34AD78, #2C9467);
   border-radius: 6px;
+  overflow: hidden;
   display: flex;
   flex: 1;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
 
 .Tile-1 { grid-area: 1 / 2 / 2 / 3; }
