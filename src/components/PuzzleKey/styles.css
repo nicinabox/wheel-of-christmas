@@ -1,0 +1,25 @@
+.PuzzleKey {
+  border-radius: 1rem;
+  padding: 0 1rem;
+  margin: 1rem;
+  background: #8c959d;
+  border: 5px solid white;
+  box-shadow: 5px 5px 0 0 #5f6468 inset;
+  display: flex;
+  justify-content: center;
+  user-select: none;
+}
+
+.PuzzleKey button {
+  background: none;
+  border: none;
+  font-weight: 900;
+  font-size: 2.6rem;
+  color: white;
+  padding: 1rem;
+  outline: none;
+}
+
+.PuzzleKey button[disabled] {
+  opacity: 0;
+}

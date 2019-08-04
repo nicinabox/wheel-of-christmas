@@ -12,7 +12,9 @@ const Tile: React.FC<Props> = ({ className, children }) => {
 
   return (
       <div className={cx('Tile', className)}>
-        {children}
+        <div className="Tile-inner">
+          {children}
+        </div>
       </div>
   )
 }

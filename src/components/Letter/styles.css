@@ -1,26 +1,31 @@
 .Letter {
-  background: white;
+  display: flex;
   flex: 1;
-  font-size: 5rem;
+}
+
+.Letter[disabled] {
+  user-select: none;
+}
+
+.Letter-button {
+  font-size: 7rem;
+  line-height: 1;
   padding: 0;
   margin: 0;
   border: none;
   font-weight: 900;
   color: #222;
+  flex: 1;
 }
 
-.Letter[disabled] {
+.Letter-button.isSolved {
+  background-color: #5c79fe;
 }
 
-.Letter.isActive {
-  background-color: #1d3ff8;
-}
-
-.Letter.isSolved {
+.Letter-button.isRevaled {
   background-color: white;
 }
 
-.Letter.isSpace {
+.Letter-button.isSpace {
   opacity: 0;
-  background-color: white;
 }

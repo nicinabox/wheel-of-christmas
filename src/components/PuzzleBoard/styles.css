@@ -1,0 +1,15 @@
+.PuzzleBoard {
+  background-color: #45E7A0;
+  display: flex;
+  align-items: center;
+  width: 90vw;
+  height: calc(90vw * 0.44566474);
+  margin: 100px auto;
+}
+
+.PuzzleBoard-tiles {
+  flex: 1;
+  height: 100%;color: #000;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}

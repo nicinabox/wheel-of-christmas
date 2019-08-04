@@ -5,34 +5,26 @@ import cx from 'classnames'
 import './styles.css'
 
 interface Props {
-  letter: string;
-  isActive: boolean;
+  char: string;
   isSolved: boolean;
-  onClick: () => void;
+  isRevealed: boolean;
+  onReveal: () => void;
 }
 
-const Letter: React.FC<Props> = ({ letter, isActive, isSolved, onClick }) => {
-
-  function handlePress(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    onClick()
-  }
-
+const Letter: React.FC<Props> = ({ char, isRevealed, isSolved, onReveal }) => {
   return (
-      <button
-        onClick={handlePress}
-        className={cx('Letter', {
-          'isActive': isActive,
-          'isSolved': isSolved,
-          'isSpace': /[\s]/.test(letter),
-        })}
-        disabled={!isActive}>
-        {isSolved ? (
-          <span className="Letter-reveled">{letter}</span>
-        ) : (
-          <span className="Letter-hidden" />
-        )}
-      </button>
+      <div className="Letter">
+        <button
+          onClick={onReveal}
+          disabled={!isSolved}
+          className={cx('Letter-button', {
+            'isSolved': isRevealed ? null : isSolved,
+            'isRevealed': isRevealed,
+            'isSpace': /[\s]/.test(char),
+          })}>
+          {isRevealed ? char : ' '}
+        </button>
+      </div>
   )
 }
 

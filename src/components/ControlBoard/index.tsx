@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { uniq } from 'lodash'
 import NewWindow from 'react-new-window'
 import * as API from '../../interfaces/api'
-import LetterBoard from '../LetterBoard'
+import PuzzleBoard from '../PuzzleBoard'
+import PuzzleKey from '../PuzzleKey'
 
 import './styles.css'
 
@@ -11,50 +11,52 @@ interface Props {
   onPuzzleChange: (direction: number) => void;
 }
 
-const generateAlphas = () => {
-  const start = 'A'.charCodeAt(0)
-  return new Array(26)
-    .fill(1)
-    .map((_, i) => String.fromCharCode(start + i))
-}
-
 const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
   const chars = puzzle.split('')
-  const selectableChars = generateAlphas()
 
   const [shouldPopOut, setShouldPopOut] = useState(false)
-  const [activeChars, setActiveChars] = useState<string[]>([])
-  const [solvedIndexes, setSolvedIndexes] = useState<number[]>([])
-
-  const isCharSolved = (char: string) => {
-    const instanceIndexes = chars.reduce((acc: number[], c: string, i) => {
-      if (c === char) return acc.concat(i)
-      return acc
-    }, [])
-
-    return instanceIndexes
-      .map((instanceIndex: number) => solvedIndexes.includes(instanceIndex))
-      .every(f => f)
-  }
+  const [usedChars, setUsedChars] = useState<string[]>([])
+  const [solvedChars, setSolvedChars] = useState<string[]>([])
+  const [revealedIndexes, setRevealedIndexes] = useState<number[]>([])
 
   const handleSolve = () => {
-    setSolvedIndexes(chars.map((c, i) => i))
-  }
-
-  const handlePuzzleChange = (direction: number) => {
-    setActiveChars([])
-    setSolvedIndexes([])
-    onPuzzleChange(direction)
-  }
-
-  const handleRevealActiveLetters = () => {
-    const indexes = activeChars.reduce((acc: number[], char) => {
+    const indexes = chars.reduce((acc: number[], char) => {
       const result = chars.reduce((a: number[], c, i) => (c === char) ? a.concat(i) : a, [])
       return acc.concat(result)
     }, [])
+    setRevealedIndexes(revealedIndexes.concat(indexes))
+    setSolvedChars([])
+  }
 
-    setSolvedIndexes(solvedIndexes.concat(indexes))
-    setActiveChars([])
+  const handleLetterAttempt = (char: string) => {
+    if (!chars.includes(char)) {
+      // TODO: play a sad trombone sound
+      return setUsedChars(usedChars.concat(char))
+    }
+
+    // TODO: play success sound
+    setUsedChars(usedChars.concat(char))
+    setSolvedChars(solvedChars.concat(char))
+  }
+
+  const handleLetterReveal = (index: number) => {
+    setRevealedIndexes(revealedIndexes.concat(index))
+  }
+
+  const handlePuzzleChange = (direction: number) => {
+    setSolvedChars([])
+    setRevealedIndexes([])
+    onPuzzleChange(direction)
+  }
+
+  const handleRevealSolvedLetters = () => {
+    // const indexes = activeChars.reduce((acc: number[], char) => {
+    //   const result = chars.reduce((a: number[], c, i) => (c === char) ? a.concat(i) : a, [])
+    //   return acc.concat(result)
+    // }, [])
+    //
+    // setSolvedIndexes(solvedIndexes.concat(indexes))
+    // setActiveChars([])
   }
 
   const Wrapper = shouldPopOut
@@ -63,37 +65,20 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
 
   return (
       <div>
-        <LetterBoard
+        <PuzzleBoard
           chars={chars}
-          activeChars={activeChars}
-          solvedIndexes={solvedIndexes}
-          onLetterClick={(index) => {
-            setSolvedIndexes(solvedIndexes.concat(index))
-            setActiveChars([])
-          }}
+          solvedChars={solvedChars}
+          revealedIndexes={revealedIndexes}
+          onLetterReveal={handleLetterReveal}
+        />
+
+        <PuzzleKey
+          usedChars={usedChars}
+          onLetterClick={handleLetterAttempt}
         />
 
         <Wrapper>
           <div className="ControlBoard">
-            <div className="ControlBoard-letters">
-              {selectableChars.map((char) => (
-                <button
-                  key={char}
-                  disabled={isCharSolved(char)}
-                  onClick={() => {
-                    const nextChars = uniq(activeChars.concat(char))
-                    setActiveChars(nextChars)
-                  }}>
-                  {char}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={handleRevealActiveLetters}
-              disabled={!activeChars.length}>
-              Reveal
-            </button>
-            <hr/>
             <details>
               <summary>Spoiler</summary>
               <p>

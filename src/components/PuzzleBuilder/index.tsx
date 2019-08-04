@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 import './styles.css'
 
-import LetterBoard from '../LetterBoard'
+import PuzzleBoard from '../PuzzleBoard'
 
 interface Props {}
 
 const PuzzleBuilder: React.FC<Props> = (props) => {
     const [puzzle, setPuzzle] = useState('')
     const chars = puzzle.split('')
-    const activeChars = chars.map((c) => c)
-    const solvedIndexes = chars.map((c, i) => i)
+    const solvedChars = chars.map((c) => c)
+    const revealedIndexes = chars.map((c, i) => i)
 
     return (
       <div className="PuzzleBuilder">
-        <LetterBoard
+        <PuzzleBoard
           chars={chars}
-          activeChars={activeChars}
-          solvedIndexes={solvedIndexes}
-          onLetterClick={() => {}}
+          solvedChars={solvedChars}
+          revealedIndexes={revealedIndexes}
+          onLetterReveal={() => {}}
         />
 
         <input
