@@ -1,7 +1,7 @@
 export default [
   {
     category: 'Around the house',
-    text: ' A PACKAGE  OF BROWN     GRAVY        MIX'
+    text: ' PACKAGE\'s  OF BROWN GRAVY  MIX!'
   },
   {
     category: 'Around the house',

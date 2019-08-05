@@ -15,10 +15,17 @@ interface Props {
 const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
   const chars = puzzle.text.toUpperCase().split('')
 
+  const initialRevealedIndexes = chars.reduce((acc: number[], c, i) => {
+    if (/[^\w]/.test(c)) {
+      return acc.concat(i)
+    }
+    return acc
+  }, [])
+
   const [shouldPopOut, setShouldPopOut] = useState(false)
   const [usedChars, setUsedChars] = useState<string[]>([])
   const [solvedChars, setSolvedChars] = useState<string[]>([])
-  const [revealedIndexes, setRevealedIndexes] = useState<number[]>([])
+  const [revealedIndexes, setRevealedIndexes] = useState<number[]>(initialRevealedIndexes)
 
   const handleSolve = () => {
     const indexes = chars.reduce((acc: number[], char) => {
