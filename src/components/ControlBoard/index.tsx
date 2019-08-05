@@ -45,6 +45,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
   }
 
   const handlePuzzleChange = (direction: number) => {
+    setUsedChars([])
     setSolvedChars([])
     setRevealedIndexes([])
     onPuzzleChange(direction)
