@@ -10,7 +10,7 @@ interface Props {
 
 const Game: React.FC<Props> = ({ puzzles }) => {
     const [currentPuzzleIndex, setCurrentPuzzle] = useState(0)
-    const currentPuzzle = puzzles[currentPuzzleIndex].toUpperCase()
+    const currentPuzzle = puzzles[currentPuzzleIndex]
     const puzzlesSize = puzzles.length - 1
 
     function handleChangePuzzle(direction: number) {

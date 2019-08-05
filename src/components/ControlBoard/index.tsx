@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
-  const chars = puzzle.split('')
+  const chars = puzzle.text.toUpperCase().split('')
 
   const [shouldPopOut, setShouldPopOut] = useState(false)
   const [usedChars, setUsedChars] = useState<string[]>([])
@@ -63,7 +63,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
           onLetterReveal={handleLetterReveal}
         />
 
-        <Category category="Around the house" />
+        <Category category={puzzle.category} />
 
         <PuzzleKey
           usedChars={usedChars}
@@ -75,7 +75,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
             <details>
               <summary>Spoiler</summary>
               <p>
-                {puzzle}
+                {puzzle.text}
               </p>
               <button onClick={handleSolve}>Solve</button>
             </details>

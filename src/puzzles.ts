@@ -1,8 +1,22 @@
 export default [
-  ' A PACKAGE  OF BROWN     GRAVY        MIX',
-  '   THE     CHRONICLES   OF NARNIA',
-  'ACROPOLIS   MUSEUM IN  ATHENS        GREECE',
-  '          HYPOTHETICAL',
-  'DEEP FRIED  SALT AND     PEPPER   CALAMARI',
-  'THERE IS A FROG ON MY  HOT DOG!'
+  {
+    category: 'Around the house',
+    text: ' A PACKAGE  OF BROWN     GRAVY        MIX'
+  },
+  {
+    category: 'Around the house',
+    text: '   THE     CHRONICLES   OF NARNIA'
+  },
+  {
+    category: 'Around the house',
+    text: '          HYPOTHETICAL',
+  },
+  {
+    category: 'Around the house',
+    text: 'DEEP FRIED  SALT AND     PEPPER   CALAMARI',
+  },
+  {
+    category: 'Around the house',
+    text: 'THERE IS A FROG ON MY  HOT DOG!'
+  },
 ]
