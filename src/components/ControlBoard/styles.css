@@ -6,3 +6,17 @@
   padding: 1rem;
   font-size: 1.4rem;
 }
+
+.ControlsButton {
+  border: none;
+  background: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  outline: none;
+  padding: 10px;
+}
+
+.ControlsButton svg {
+  fill: white;
+}

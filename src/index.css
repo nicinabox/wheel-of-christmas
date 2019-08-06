@@ -12,4 +12,9 @@ body {
 
 button {
   font-family: "Avenir Next";
+  cursor: pointer;
+}
+
+button[disabled] {
+  cursor: inherit;
 }

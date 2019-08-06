@@ -7,6 +7,8 @@ import PuzzleKey from '../PuzzleKey'
 import Category from '../Category'
 import { getRevealedIndexes } from '../../utils'
 
+import { ReactComponent as ControlsIcon } from '../../images/controls.svg';
+
 import './styles.css'
 
 interface Props {
@@ -73,9 +75,13 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setCurrentSound(PUZZLE_REVEAL)
   }
 
-  const Wrapper = shouldPopOut
+  const Controls = shouldPopOut
     ? NewWindow
-    : ({children}: { children: any }) => children
+    : ({ children, onUnload }: { children: any, onUnload: any }) => (
+      <button onClick={() => setShouldPopOut(true)} title="Open Controls" className="ControlsButton">
+        <ControlsIcon width={25} />
+      </button>
+    )
 
   // @ts-ignore
   const { PLAYING } = ReactSound.status
@@ -104,7 +110,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
           onLetterClick={handleLetterAttempt}
         />
 
-        <Wrapper>
+        <Controls onUnload={() => setShouldPopOut(false)}>
           <div className="ControlBoard">
             <details>
               <summary>Spoiler</summary>
@@ -114,20 +120,21 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
               <button onClick={handleSolve}>Solve</button>
             </details>
             <hr/>
-            <button onClick={() => setShouldPopOut(!shouldPopOut)}>
-              Pop {shouldPopOut ? 'In' : 'Out'}
-            </button>
 
             <button onClick={handleSolveRSTLNE}>
               Solve RSTLNE
             </button>
 
             <hr/>
-            <span>{puzzleNumber} / {totalPuzzles}</span>
-            <button onClick={() => handlePuzzleChange(-1)}>Previous Puzzle</button>
-            <button onClick={() => handlePuzzleChange(1)}>Next Puzzle</button>
+            <p>{puzzleNumber} / {totalPuzzles}</p>
+            <button
+              disabled={puzzleNumber === 1}
+              onClick={() => handlePuzzleChange(-1)}>←</button>
+            <button
+              disabled={puzzleNumber === totalPuzzles}
+              onClick={() => handlePuzzleChange(1)}>→</button>
           </div>
-        </Wrapper>
+        </Controls>
       </div>
   )
 }
