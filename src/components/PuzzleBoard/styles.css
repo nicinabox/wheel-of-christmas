@@ -1,20 +1,23 @@
 .PuzzleBoard {
+  margin: 50px auto;
+  display: flex;
+  width: 95vw;
+  height: calc(95vw * 0.44566777);
+}
+
+.PuzzleBoard-border {
+  padding: 4.3vw;
   background-image: url(../../images/background.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   display: flex;
-  align-items: center;
-  width: 90vw;
-  height: calc(90vw * 0.44566777);
-  padding: 4.2%;
-  margin: 70px auto;
 }
 
 .PuzzleBoard-tiles {
-  height: 100%;
-  width: 100%;
   color: #000;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-gap: 2px;
 }

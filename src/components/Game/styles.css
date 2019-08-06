@@ -1,6 +1,6 @@
 .Game {
+  background: linear-gradient(#5C79FE, #2E3D7F);
   display: flex;
   flex-direction: column;
   flex: 1;
-  background: linear-gradient(#5C79FE, #2E3D7F);
 }
