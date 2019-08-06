@@ -28,6 +28,8 @@ const Game: React.FC<Props> = ({ puzzles }) => {
       <div className="Game">
         <ControlBoard
           puzzle={currentPuzzle}
+          puzzleNumber={currentPuzzleIndex + 1}
+          totalPuzzles={puzzles.length}
           onPuzzleChange={handleChangePuzzle}
         />
       </div>

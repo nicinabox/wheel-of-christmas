@@ -10,10 +10,12 @@ import './styles.css'
 
 interface Props {
   puzzle: API.Puzzle;
+  puzzleNumber: number;
+  totalPuzzles: number;
   onPuzzleChange: (direction: number) => void;
 }
 
-const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
+const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onPuzzleChange }) => {
   const chars = puzzle.text.toUpperCase().split('')
 
   const [shouldPopOut, setShouldPopOut] = useState(false)
@@ -98,6 +100,8 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
               Solve RSTLNE
             </button>
 
+            <hr/>
+            <span>{puzzleNumber} / {totalPuzzles}</span>
             <button onClick={() => handlePuzzleChange(-1)}>Previous Puzzle</button>
             <button onClick={() => handlePuzzleChange(1)}>Next Puzzle</button>
           </div>
