@@ -17,6 +17,10 @@
   justify-content: center;
 }
 
+.Tile-logo {
+  padding: 12%;
+}
+
 .Tile-1 { grid-area: 1 / 2 / 2 / 3; }
 .Tile-2 { grid-area: 1 / 3 / 2 / 4; }
 .Tile-3 { grid-area: 1 / 4 / 2 / 5; }

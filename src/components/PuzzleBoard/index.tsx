@@ -33,7 +33,7 @@ const PuzzleBoard: React.FC<Props> = ({ chars, solvedChars, revealedIndexes, onL
                   onReveal={() => onLetterReveal(index)}
                 />
               ) : (
-                <Logo />
+                <Logo className="Tile-logo" width="100%" height="100%" />
               )}
             </Tile>
           )
