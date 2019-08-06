@@ -1,5 +1,5 @@
 .PuzzleBoard {
-  margin: 50px auto;
+  margin: 3vw auto;
   display: flex;
   width: 95vw;
   height: calc(95vw * 0.44566777);
