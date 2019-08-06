@@ -33,6 +33,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   }
 
   const handleSolveRSTLNE = () => {
+    setUsedChars(usedChars.concat('RSTLNE'.split('')))
     setRevealedIndexes(
       revealedIndexes.concat(
         getRevealedIndexes(chars, /[RSTLNE]/i)
