@@ -19,7 +19,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
   const [shouldPopOut, setShouldPopOut] = useState(false)
   const [usedChars, setUsedChars] = useState<string[]>([])
   const [solvedChars, setSolvedChars] = useState<string[]>([])
-  const [revealedIndexes, setRevealedIndexes] = useState<number[]>(getRevealedIndexes(chars, (c) => /[^\w]/.test(c)))
+  const [revealedIndexes, setRevealedIndexes] = useState<number[]>(getRevealedIndexes(chars, /[^\w]/))
 
   const handleSolve = () => {
     const indexes = chars.reduce((acc: number[], char) => {
@@ -28,6 +28,14 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
     }, [])
     setRevealedIndexes(revealedIndexes.concat(indexes))
     setSolvedChars([])
+  }
+
+  const handleSolveRSTLNE = () => {
+    setRevealedIndexes(
+      revealedIndexes.concat(
+        getRevealedIndexes(chars, /[RSTLNE]/i)
+      )
+    )
   }
 
   const handleLetterAttempt = (char: string) => {
@@ -84,6 +92,10 @@ const ControlBoard: React.FC<Props> = ({ puzzle, onPuzzleChange }) => {
             <hr/>
             <button onClick={() => setShouldPopOut(!shouldPopOut)}>
               Pop {shouldPopOut ? 'In' : 'Out'}
+            </button>
+
+            <button onClick={handleSolveRSTLNE}>
+              Solve RSTLNE
             </button>
 
             <button onClick={() => handlePuzzleChange(-1)}>Previous Puzzle</button>
