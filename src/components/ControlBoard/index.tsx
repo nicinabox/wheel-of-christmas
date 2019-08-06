@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NewWindow from 'react-new-window'
+import ReactSound, { PlayStatus } from 'react-sound'
 import * as API from '../../interfaces/api'
 import PuzzleBoard from '../PuzzleBoard'
 import PuzzleKey from '../PuzzleKey'
@@ -15,10 +16,17 @@ interface Props {
   onPuzzleChange: (direction: number) => void;
 }
 
+const BUZZER = 'Buzzer.mp3'
+const DING = 'Ding.mp3'
+const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
+const PUZZLE_SOLVE = 'Puzzle solve.mp3'
+const RSTLNE = 'R S T L N E.mp3'
+
 const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onPuzzleChange }) => {
   const chars = puzzle.text.toUpperCase().split('')
 
-  const [shouldPopOut, setShouldPopOut] = useState(false)
+  const [currentSound, setCurrentSound] = useState(PUZZLE_REVEAL)
+  const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
   const [usedChars, setUsedChars] = useState<string[]>([])
   const [solvedChars, setSolvedChars] = useState<API.SolvedChars>([])
   const [revealedIndexes, setRevealedIndexes] = useState<API.RevealedIndexes>(getRevealedIndexes(chars, /[^\w]/g))
@@ -28,28 +36,29 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
       const result = chars.reduce((a: number[], c, i) => (c === char) ? a.concat(i) : a, [])
       return acc.concat(result)
     }, [])
+
     setRevealedIndexes(revealedIndexes.concat(indexes))
+    setUsedChars(usedChars.concat(chars))
     setSolvedChars([])
+    setCurrentSound(PUZZLE_SOLVE)
   }
 
   const handleSolveRSTLNE = () => {
-    setUsedChars(usedChars.concat('RSTLNE'.split('')))
-    setRevealedIndexes(
-      revealedIndexes.concat(
-        getRevealedIndexes(chars, /[RSTLNE]/i)
-      )
-    )
+    const rstlne = 'RSTLNE'.split('')
+    setUsedChars(usedChars.concat(rstlne))
+    setSolvedChars(solvedChars.concat(rstlne))
+    setCurrentSound(RSTLNE)
   }
 
   const handleLetterAttempt = (char: string) => {
     if (!chars.includes(char)) {
-      // TODO: play a sad trombone sound
+      setCurrentSound(BUZZER)
       return setUsedChars(usedChars.concat(char))
     }
 
-    // TODO: play success sound
     setUsedChars(usedChars.concat(char))
     setSolvedChars(solvedChars.concat(char))
+    setCurrentSound(DING)
   }
 
   const handleLetterReveal = (index: number) => {
@@ -61,14 +70,26 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setSolvedChars([])
     setRevealedIndexes([])
     onPuzzleChange(direction)
+    setCurrentSound(PUZZLE_REVEAL)
   }
 
   const Wrapper = shouldPopOut
     ? NewWindow
     : ({children}: { children: any }) => children
 
+  // @ts-ignore
+  const { PLAYING } = ReactSound.status
+
   return (
       <div>
+        {currentSound && (
+          <ReactSound
+            url={require(`../../sounds/${currentSound}`)}
+            playStatus={PLAYING}
+            onFinishedPlaying={() => setCurrentSound('')}
+          />
+        )}
+
         <PuzzleBoard
           chars={chars}
           solvedChars={solvedChars}
