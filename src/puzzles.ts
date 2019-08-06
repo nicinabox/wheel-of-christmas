@@ -1,22 +1,22 @@
 export default [
   {
-    category: 'Around the house',
-    text: ' PACKAGE\'s  OF BROWN GRAVY  MIX!'
+    category: 'Fictional Character',
+    text: "  DR.       FRANKENSTEIN'S ASSISTANT          IGOR"
   },
   {
-    category: 'Around the house',
-    text: '   THE     CHRONICLES   OF NARNIA'
+    category: 'Classic Movie',
+    text: '             CITIZEN KANE'
   },
   {
-    category: 'Around the house',
-    text: '          HYPOTHETICAL',
+    category: 'Song/Artist',
+    text: '               AFRICA         BY TOTO',
   },
   {
-    category: 'Around the house',
-    text: 'DEEP FRIED  SALT AND     PEPPER   CALAMARI',
+    category: 'Movie Quotes',
+    text: '             YOU SHALL       NOT PASS!',
   },
   {
-    category: 'Around the house',
-    text: 'THERE IS A FROG ON MY  HOT DOG!'
+    category: "The 90's",
+    text: '               BEEPERS'
   },
 ]
