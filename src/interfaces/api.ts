@@ -5,4 +5,4 @@ export interface Puzzle {
 
 export type SolvedChars = string[];
 
-export type RevealedIndicies = number[];
+export type RevealedIndexes = number[];

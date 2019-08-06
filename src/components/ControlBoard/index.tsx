@@ -20,8 +20,8 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
   const [shouldPopOut, setShouldPopOut] = useState(false)
   const [usedChars, setUsedChars] = useState<string[]>([])
-  const [solvedChars, setSolvedChars] = useState<string[]>([])
-  const [revealedIndexes, setRevealedIndexes] = useState<number[]>(getRevealedIndexes(chars, /[^\w]/))
+  const [solvedChars, setSolvedChars] = useState<API.SolvedChars>([])
+  const [revealedIndexes, setRevealedIndexes] = useState<API.RevealedIndexes>(getRevealedIndexes(chars, /[^\w]/g))
 
   const handleSolve = () => {
     const indexes = chars.reduce((acc: number[], char) => {
