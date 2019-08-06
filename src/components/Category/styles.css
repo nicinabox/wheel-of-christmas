@@ -8,11 +8,11 @@
   background: #feb769;
   border: 0.3vw solid #333333;
   border-radius: 1.3vw;
-  box-shadow: 5px 5px 0 0 #98754e inset;
+  box-shadow: 0.3vw 0.3vw 0 0 #98754e inset;
   color: white;
-  text-shadow: 3px 3px black;
+  text-shadow: 0.2vw 0.2vw black;
   font-weight: 900;
   text-align: center;
   font-size: 2.2vw;
-  padding: 0.7vw 2vw;
+  padding: 0.4vw 2vw;
 }
