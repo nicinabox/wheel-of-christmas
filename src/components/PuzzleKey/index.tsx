@@ -7,6 +7,7 @@ import './styles.css'
 interface Props {
   usedChars: string[];
   onLetterClick: (char: string) => void;
+  className?: string;
 }
 
 const generateAlphas = () => {
@@ -16,12 +17,12 @@ const generateAlphas = () => {
     .map((_, i) => String.fromCharCode(start + i))
 }
 
-const PuzzleKey: React.FC<Props> = ({ onLetterClick, usedChars }) => {
+const PuzzleKey: React.FC<Props> = ({ onLetterClick, usedChars, className = 'PuzzleKey' }) => {
   const chars = generateAlphas()
 
   return (
-    <div className="PuzzleKey">
-      <div className="PuzzleKey-background">
+    <div className={className}>
+      <div className={`${className}-background`}>
         {chars.map((char) => (
           <button
             key={char}
