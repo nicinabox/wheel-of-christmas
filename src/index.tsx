@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import './fonts/avenir-heavy.css'
+import './fonts/avenir-next.css'
 import App from './components/App'
 import * as serviceWorker from './serviceWorker'
 

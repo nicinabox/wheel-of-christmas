@@ -4,12 +4,12 @@
 
 body {
   margin: 0;
-  font-family: "Avenir Next LT Pro";
+  font-family: "Avenir Next";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
 }
 
 button {
-  font-family: "Avenir Next LT Pro";
+  font-family: "Avenir Next";
 }
