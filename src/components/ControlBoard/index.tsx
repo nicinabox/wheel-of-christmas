@@ -110,6 +110,8 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
           onLetterClick={handleLetterAttempt}
         />
 
+        <div className="PuzzleBoard-footer" />
+
         <Controls onUnload={() => setShouldPopOut(false)}>
           <div className="ControlBoard">
             <header className="ControlBoard-header ControlBoard-section">

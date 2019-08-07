@@ -3,6 +3,8 @@
   display: flex;
   justify-content: center;
   user-select: none;
+  position: relative;
+  z-index: 1;
 }
 
 .UsedLetterBoard-background {
