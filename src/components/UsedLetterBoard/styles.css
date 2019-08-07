@@ -1,11 +1,11 @@
-.PuzzleKey {
+.UsedLetterBoard {
   margin: 1rem;
   display: flex;
   justify-content: center;
   user-select: none;
 }
 
-.PuzzleKey-background {
+.UsedLetterBoard-background {
   background: #8c959d;
   border: 0.3vw solid white;
   box-shadow: 0.3vw 0.3vw 0 0 #5f6468 inset;
@@ -13,7 +13,7 @@
   padding: 0 1rem;
 }
 
-.PuzzleKey button {
+.UsedLetterBoard button {
   background: none;
   border: none;
   font-weight: 900;
@@ -23,6 +23,6 @@
   outline: none;
 }
 
-.PuzzleKey button[disabled] {
+.UsedLetterBoard button[disabled] {
   opacity: 0;
 }

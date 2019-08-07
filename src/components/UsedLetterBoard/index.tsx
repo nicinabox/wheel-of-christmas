@@ -17,7 +17,7 @@ const generateAlphas = () => {
     .map((_, i) => String.fromCharCode(start + i))
 }
 
-const PuzzleKey: React.FC<Props> = ({ onLetterClick, usedChars, className = 'PuzzleKey' }) => {
+const UsedLetterBoard: React.FC<Props> = ({ onLetterClick, usedChars, className = 'UsedLetterBoard' }) => {
   const chars = generateAlphas()
 
   return (
@@ -36,4 +36,4 @@ const PuzzleKey: React.FC<Props> = ({ onLetterClick, usedChars, className = 'Puz
   )
 }
 
-export default PuzzleKey
+export default UsedLetterBoard

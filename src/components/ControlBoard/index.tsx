@@ -3,7 +3,7 @@ import NewWindow from 'react-new-window'
 import ReactSound, { PlayStatus } from 'react-sound'
 import * as API from '../../interfaces/api'
 import PuzzleBoard from '../PuzzleBoard'
-import PuzzleKey from '../PuzzleKey'
+import UsedLetterBoard from '../UsedLetterBoard'
 import Category from '../Category'
 import { getRevealedIndexes } from '../../utils'
 
@@ -115,17 +115,17 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
         <Category category={puzzle.category} />
 
-        <PuzzleKey
+        <UsedLetterBoard
           usedChars={usedChars}
           onLetterClick={handleLetterAttempt}
         />
 
         <Controls onUnload={() => setShouldPopOut(false)}>
           <div className="ControlBoard">
-            <PuzzleKey
+            <UsedLetterBoard
               usedChars={usedChars}
               onLetterClick={handleLetterAttempt}
-              className="ControlBoard-PuzzleKey"
+              className="ControlBoard-UsedLetterBoard"
             />
 
             <button
