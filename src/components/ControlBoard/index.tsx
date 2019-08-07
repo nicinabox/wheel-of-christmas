@@ -58,7 +58,6 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     const rstlne = 'RSTLNE'.split('')
     setUsedChars(usedChars.concat(rstlne))
     setSolvedChars(solvedChars.concat(rstlne))
-    setCurrentSound(RSTLNE)
   }
 
   const handleLetterAttempt = (char: string) => {
