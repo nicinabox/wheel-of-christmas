@@ -25,7 +25,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   const [currentSound, setCurrentSound] = useState(Sounds.PUZZLE_REVEAL)
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
   const [usedChars, setUsedChars] = useState<API.Char[]>([])
-  const [solvedChars, setSolvedChars] = useState<API.Char[]>([])
+  const [highlightedChars, setHighlightedChars] = useState<API.Char[]>([])
   const [revealedIndexes, setRevealedIndexes] = useState<API.Index[]>(getRevealedIndexes(chars, /[^\w]/g))
 
   const handleSolve = () => {
@@ -36,14 +36,15 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
     setRevealedIndexes(revealedIndexes.concat(indexes))
     setUsedChars(usedChars.concat(chars))
-    setSolvedChars([])
+    setHighlightedChars([])
     setCurrentSound(Sounds.PUZZLE_SOLVE)
   }
 
-  const handleSolveRSTLNE = () => {
-    const rstlne = 'RSTLNE'.split('')
-    setUsedChars(usedChars.concat(rstlne))
-    setSolvedChars(solvedChars.concat(rstlne))
+  const handleHighlightChars = (charStr: string) => {
+    const chars: API.Char[] = charStr.toUpperCase().split('')
+
+    setUsedChars(usedChars.concat(chars))
+    setHighlightedChars(highlightedChars.concat(chars))
   }
 
   const handleLetterAttempt = (char: API.Char) => {
@@ -53,7 +54,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     }
 
     setUsedChars(usedChars.concat(char))
-    setSolvedChars(solvedChars.concat(char))
+    setHighlightedChars(highlightedChars.concat(char))
     setCurrentSound(Sounds.DING)
   }
 
@@ -63,7 +64,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
   const handlePuzzleChange = (direction: number) => {
     setUsedChars([])
-    setSolvedChars([])
+    setHighlightedChars([])
     setRevealedIndexes([])
     onPuzzleChange(direction)
     setCurrentSound(Sounds.PUZZLE_REVEAL)
@@ -80,7 +81,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   // @ts-ignore
   const { PLAYING } = ReactSound.status
 
-  const unrevealed = getUnrevealedIndexes(solvedChars, revealedIndexes, chars)
+  const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, chars)
 
   return (
       <div>
@@ -94,7 +95,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
         <PuzzleBoard
           chars={chars}
-          solvedChars={solvedChars}
+          highlightedChars={highlightedChars}
           revealedIndexes={revealedIndexes}
           onLetterReveal={handleLetterReveal}
         />

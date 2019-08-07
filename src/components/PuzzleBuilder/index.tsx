@@ -8,14 +8,14 @@ interface Props {}
 const PuzzleBuilder: React.FC<Props> = (props) => {
     const [puzzle, setPuzzle] = useState('')
     const chars = puzzle.split('')
-    const solvedChars = chars.map((c) => c)
+    const highlightedChars = chars.map((c) => c)
     const revealedIndexes = chars.map((c, i) => i)
 
     return (
       <div className="PuzzleBuilder">
         <PuzzleBoard
           chars={chars}
-          solvedChars={solvedChars}
+          highlightedChars={highlightedChars}
           revealedIndexes={revealedIndexes}
           onLetterReveal={() => {}}
         />

@@ -21,7 +21,7 @@
   background: white;
 }
 
-.Letter-button.isSolved {
+.Letter-button.isHighlighted {
   background-color: #5c79fe;
 }
 

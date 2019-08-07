@@ -6,20 +6,20 @@ import './styles.css'
 
 interface Props {
   char: string;
-  isSolved: boolean;
+  isHighlighted: boolean;
   isRevealed: boolean;
   onReveal: () => void;
 }
 
-const Letter: React.FC<Props> = ({ char, isRevealed, isSolved, onReveal }) => {
+const Letter: React.FC<Props> = ({ char, isRevealed, isHighlighted, onReveal }) => {
 
   return (
       <div className="Letter">
         <button
           onClick={onReveal}
-          disabled={!isSolved}
+          disabled={!isHighlighted}
           className={cx('Letter-button', {
-            'isSolved': isRevealed ? null : isSolved,
+            'isHighlighted': isRevealed ? null : isHighlighted,
             'isRevealed': isRevealed,
           })}>
           {isRevealed && char}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { range } from 'lodash'
-// import * as API from 'types'
+import * as API from 'types'
 import Letter from '../Letter'
 import Tile from '../Tile'
 
@@ -8,13 +8,14 @@ import './styles.css'
 import { ReactComponent as Logo } from 'images/logo.svg';
 
 interface Props {
-  chars: string[];
-  solvedChars: string[];
-  revealedIndexes: number[];
+  chars: API.Char[];
+  highlightedChars: API.Char[];
+  revealedIndexes: API.Index[];
+  attemptedLetters?: API.Char;
   onLetterReveal: (index: number) => void;
 }
 
-const PuzzleBoard: React.FC<Props> = ({ chars, solvedChars, revealedIndexes, onLetterReveal }) => {
+const PuzzleBoard: React.FC<Props> = ({ chars, highlightedChars, revealedIndexes, attemptedLetters, onLetterReveal }) => {
 
   return (
     <div className="PuzzleBoard">
@@ -29,7 +30,7 @@ const PuzzleBoard: React.FC<Props> = ({ chars, solvedChars, revealedIndexes, onL
                 {char && !isSpace ? (
                   <Letter
                     char={char}
-                    isSolved={solvedChars.includes(char)}
+                    isHighlighted={highlightedChars.includes(char)}
                     isRevealed={revealedIndexes.includes(index)}
                     onReveal={() => onLetterReveal(index)}
                   />
