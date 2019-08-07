@@ -25,6 +25,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   const [currentSound, setCurrentSound] = useState(Sounds.PUZZLE_REVEAL)
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
   const [usedChars, setUsedChars] = useState<API.Char[]>([])
+  const [attemptedLetters, setAttemptedLetters] = useState<API.Char>('')
   const [highlightedChars, setHighlightedChars] = useState<API.Char[]>([])
   const [revealedIndexes, setRevealedIndexes] = useState<API.Index[]>(getRevealedIndexes(chars, /[^\w]/g))
 
@@ -43,6 +44,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   const handleHighlightChars = (charStr: string) => {
     const chars: API.Char[] = charStr.toUpperCase().split('')
 
+    setAttemptedLetters('')
     setUsedChars(usedChars.concat(chars))
     setHighlightedChars(highlightedChars.concat(chars))
   }
@@ -95,6 +97,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
         <PuzzleBoard
           chars={chars}
+          attemptedLetters={attemptedLetters}
           highlightedChars={highlightedChars}
           revealedIndexes={revealedIndexes}
           onLetterReveal={handleLetterReveal}
@@ -109,8 +112,8 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
         <Controls onUnload={() => setShouldPopOut(false)}>
           <div className="ControlBoard">
-            <div className="ControlBoard-header">
-              <h1>{puzzleNumber} / {totalPuzzles}</h1>
+            <header className="ControlBoard-header ControlBoard-section">
+              <strong>Puzzle {puzzleNumber} / {totalPuzzles}</strong>
 
               <div className="ControlBoard-navigation">
                 <button
@@ -124,37 +127,50 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
                   →
                 </button>
               </div>
-            </div>
+            </header>
 
-            <UsedLetterBoard
-              usedChars={usedChars}
-              onLetterClick={handleLetterAttempt}
-              className="ControlBoard-UsedLetterBoard"
-            />
+            <section className="ControlBoard-section">
+              <UsedLetterBoard
+                usedChars={usedChars}
+                onLetterClick={handleLetterAttempt}
+                className="ControlBoard-UsedLetterBoard"
+              />
 
-            <button
-              onClick={() => {
-                const index = Math.floor((Math.random() * unrevealed.length))
-                handleLetterReveal(unrevealed[index])
-              }}
-              disabled={!unrevealed.length}>
-              Reveal Highlighted{unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
-            </button>
-            <button onClick={handleSolveRSTLNE}>
-              Highlight RSTLNE
-            </button>
+              <button
+                onClick={() => {
+                  const index = Math.floor((Math.random() * unrevealed.length))
+                  handleLetterReveal(unrevealed[index])
+                }}
+                disabled={!unrevealed.length}>
+                Reveal Highlighted{unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
+              </button>
+            </section>
 
-            <hr/>
-            <details>
-              <summary>Spoiler</summary>
-              <p className="ControlBoard-spoiler">
-                {puzzle.text}
-              </p>
-              <button onClick={handleSolve}>Solve Puzzle</button>
-            </details>
+            <section className="ControlBoard-section">
+              <input
+                type="text"
+                value={attemptedLetters}
+                placeholder="Enter attempted letters"
+                onChange={(e) => setAttemptedLetters(e.target.value.substr(0, 4).toUpperCase())}
+              />
+              <button onClick={() => handleHighlightChars(attemptedLetters)}>
+                Highlight Letters
+              </button>
 
-            <hr/>
+              <button onClick={() => handleHighlightChars('RSTLNE')}>
+                Highlight RSTLNE
+              </button>
+            </section>
 
+            <section className="ControlBoard-section">
+              <details>
+                <summary>Spoiler</summary>
+                <p className="ControlBoard-spoiler">
+                  {puzzle.text}
+                </p>
+                <button onClick={handleSolve}>Solve Puzzle</button>
+              </details>
+            </section>
           </div>
         </Controls>
       </div>

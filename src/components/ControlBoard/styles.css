@@ -1,5 +1,6 @@
 .ControlBoard {
   padding: 1rem;
+  font-size: 1rem;
   user-select: text;
 }
 
@@ -7,6 +8,55 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.ControlBoard-section {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.ControlBoard summary {
+  cursor: pointer;
+  outline: none;
+  font-weight: bold;
+}
+
+.ControlBoard button {
+  font-size: 1rem;
+  border: none;
+  background: #8c959d;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  margin: 2px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.ControlBoard input {
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 2px solid #ddd;
+  padding: 0.3rem 0.8rem;
+}
+
+.ControlBoard button:hover {
+  background: #717b84;
+}
+
+.ControlBoard button[disabled] {
+  opacity: 0.4;
+}
+
+.ControlBoard button[disabled]:hover {
+  background: #8c959d;
+}
+
+.ControlBoard-spoiler {
+  font-size: 2rem;
+}
+
+.ControlBoard-UsedLetterBoard {
 }
 
 .ControlsButton {

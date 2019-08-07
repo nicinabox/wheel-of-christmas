@@ -42,6 +42,12 @@ const PuzzleBoard: React.FC<Props> = ({ chars, highlightedChars, revealedIndexes
           })}
         </div>
       </div>
+
+      {attemptedLetters ? (
+        <div className="PuzzleBoard-attempted-letters">
+          {attemptedLetters}
+        </div>
+      ) : null}
     </div>
   )
 }

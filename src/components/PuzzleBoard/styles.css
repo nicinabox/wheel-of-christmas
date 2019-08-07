@@ -21,3 +21,18 @@
   grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-gap: 0.14vw;
 }
+
+.PuzzleBoard-attempted-letters {
+  position: absolute;
+  right: 1vw;
+  top: 0.7vw;
+  padding: 0.2vw;
+  padding-left: 2vw;
+  color: white;
+  border-radius: 1.3vw;
+  text-shadow: 0.2vw 0.2vw black;
+  font-size: 4vw;
+  font-weight: normal;
+  letter-spacing: 1.6vw;
+  background: rgba(0, 0, 0, 1);
+}
