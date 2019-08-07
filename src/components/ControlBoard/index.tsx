@@ -120,10 +120,10 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
                 handleLetterReveal(unrevealed[index])
               }}
               disabled={!unrevealed.length}>
-              Reveal Solved{unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
+              Reveal Highlighted{unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
             </button>
             <button onClick={handleSolveRSTLNE}>
-              Solve RSTLNE
+              Highlight RSTLNE
             </button>
 
             <hr/>
@@ -132,7 +132,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
               <p>
                 {puzzle.text}
               </p>
-              <button onClick={handleSolve}>Solve</button>
+              <button onClick={handleSolve}>Solve Puzzle</button>
             </details>
 
             <hr/>
