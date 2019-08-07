@@ -1,10 +1,12 @@
 .ControlBoard {
   padding: 1rem;
+  user-select: text;
 }
 
-.ControlBoard-letters button {
-  padding: 1rem;
-  font-size: 1.4rem;
+.ControlBoard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ControlsButton {

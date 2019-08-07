@@ -108,6 +108,23 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
         <Controls onUnload={() => setShouldPopOut(false)}>
           <div className="ControlBoard">
+            <div className="ControlBoard-header">
+              <h1>{puzzleNumber} / {totalPuzzles}</h1>
+
+              <div className="ControlBoard-navigation">
+                <button
+                  disabled={puzzleNumber === 1}
+                  onClick={() => handlePuzzleChange(-1)}>
+                  ←
+                </button>
+                <button
+                  disabled={puzzleNumber === totalPuzzles}
+                  onClick={() => handlePuzzleChange(1)}>
+                  →
+                </button>
+              </div>
+            </div>
+
             <UsedLetterBoard
               usedChars={usedChars}
               onLetterClick={handleLetterAttempt}
@@ -129,20 +146,14 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
             <hr/>
             <details>
               <summary>Spoiler</summary>
-              <p>
+              <p className="ControlBoard-spoiler">
                 {puzzle.text}
               </p>
               <button onClick={handleSolve}>Solve Puzzle</button>
             </details>
 
             <hr/>
-            <p>{puzzleNumber} / {totalPuzzles}</p>
-            <button
-              disabled={puzzleNumber === 1}
-              onClick={() => handlePuzzleChange(-1)}>←</button>
-            <button
-              disabled={puzzleNumber === totalPuzzles}
-              onClick={() => handlePuzzleChange(1)}>→</button>
+
           </div>
         </Controls>
       </div>
