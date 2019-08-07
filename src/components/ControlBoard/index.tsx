@@ -5,7 +5,7 @@ import * as API from 'types'
 import PuzzleBoard from '../PuzzleBoard'
 import UsedLetterBoard from '../UsedLetterBoard'
 import Category from '../Category'
-import { getUnrevealedIndexes, getRevealedIndexes } from 'utils'
+import { isLastPuzzleVowelUsed, getUnrevealedIndexes, getRevealedIndexes } from 'utils'
 import * as Sounds from 'sounds'
 
 import { ReactComponent as ControlsIcon } from 'images/controls.svg';
@@ -60,9 +60,15 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
       return setUsedChars(usedChars.concat(char))
     }
 
-    setUsedChars(usedChars.concat(char))
+    const nextUsedChars = usedChars.concat(char)
+
+    setUsedChars(nextUsedChars)
     setHighlightedChars(highlightedChars.concat(char))
     setCurrentSound(Sounds.DING)
+
+    if (isLastPuzzleVowelUsed(puzzle, nextUsedChars)) {
+      // setCurrentSound(Sounds.LAST_VOWEL_USED)
+    }
   }
 
   const handleLetterReveal = (index: API.Index) => {

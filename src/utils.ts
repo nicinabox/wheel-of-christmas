@@ -24,3 +24,8 @@ export const getUnrevealedIndexes = (
     return acc
   }, [])
 }
+
+export const isLastPuzzleVowelUsed = (puzzle: API.Puzzle, usedChars: API.Char[]): boolean => {
+    const { text } = puzzle
+    return usedChars.every(c => text.includes(c))
+}
