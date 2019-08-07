@@ -27,13 +27,15 @@ const Game: React.FC<Props> = ({ puzzles }) => {
 
     return (
       <div className="Game">
-        <Snow />
-        <ControlBoard
-          puzzle={currentPuzzle}
-          puzzleNumber={currentPuzzleIndex + 1}
-          totalPuzzles={puzzles.length}
-          onPuzzleChange={handleChangePuzzle}
-        />
+        <div className="Game-container">
+          <Snow />
+          <ControlBoard
+            puzzle={currentPuzzle}
+            puzzleNumber={currentPuzzleIndex + 1}
+            totalPuzzles={puzzles.length}
+            onPuzzleChange={handleChangePuzzle}
+          />
+        </div>
       </div>
   )
 }

@@ -1,7 +1,9 @@
 .UsedLetterBoard {
-  margin: 1rem;
+  margin: 4vh 0;
+  flex: 1;
   display: flex;
   justify-content: center;
+  align-self: flex-end;
   user-select: none;
   position: relative;
   z-index: 1;
@@ -21,7 +23,7 @@
   font-weight: 900;
   font-size: 2vw;
   color: white;
-  padding: 0.3vw 0.8vw;
+  padding: 0.8vw 0.8vw;
   outline: none;
 }
 

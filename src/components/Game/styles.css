@@ -1,8 +1,11 @@
 .Game {
   background: linear-gradient(#5C79FE, #2E3D7F);
+  height: 100vh;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  flex: 1;
-  height: calc(100vw / 1.77);
-  position: relative;
+}
+
+.Game-container {
 }
