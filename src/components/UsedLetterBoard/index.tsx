@@ -1,6 +1,6 @@
 import React from 'react'
 // import cx from 'classnames'
-import * as API from '../../types'
+import * as API from 'types'
 
 import './styles.css'
 

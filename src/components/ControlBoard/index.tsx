@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import NewWindow from 'react-new-window'
 import ReactSound from 'react-sound'
-import * as API from '../../types'
+import * as API from 'types'
 import PuzzleBoard from '../PuzzleBoard'
 import UsedLetterBoard from '../UsedLetterBoard'
 import Category from '../Category'
-import { getUnrevealedIndexes, getRevealedIndexes } from '../../utils'
-import * as Sounds from '../../sounds'
+import { getUnrevealedIndexes, getRevealedIndexes } from 'utils'
+import * as Sounds from 'sounds'
 
-import { ReactComponent as ControlsIcon } from '../../images/controls.svg';
+import { ReactComponent as ControlsIcon } from 'images/controls.svg';
 
 import './styles.css'
 
@@ -86,7 +86,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
       <div>
         {currentSound && (
           <ReactSound
-            url={require(`../../sounds/${currentSound}`)}
+            url={require(`sounds/${currentSound}`)}
             playStatus={PLAYING}
             onFinishedPlaying={() => setCurrentSound('')}
           />

@@ -1,11 +1,11 @@
 import React from 'react'
 import { range } from 'lodash'
-// import * as API from '../../types'
+// import * as API from 'types'
 import Letter from '../Letter'
 import Tile from '../Tile'
 
 import './styles.css'
-import { ReactComponent as Logo } from '../../images/logo.svg';
+import { ReactComponent as Logo } from 'images/logo.svg';
 
 interface Props {
   chars: string[];

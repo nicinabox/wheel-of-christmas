@@ -4,7 +4,7 @@ import './styles.css'
 import Game from '../Game'
 import PuzzleBuilder from '../PuzzleBuilder'
 
-import PUZZLES_FIXTURE from '../../puzzles'
+import PUZZLES_FIXTURE from 'puzzles'
 
 interface Props {}
 
