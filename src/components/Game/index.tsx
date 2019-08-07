@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import * as API from 'types'
 import ControlBoard from '../ControlBoard'
+import Snow from '../Snow'
 
 import './styles.css'
 
@@ -26,6 +27,7 @@ const Game: React.FC<Props> = ({ puzzles }) => {
 
     return (
       <div className="Game">
+        <Snow />
         <ControlBoard
           puzzle={currentPuzzle}
           puzzleNumber={currentPuzzleIndex + 1}
