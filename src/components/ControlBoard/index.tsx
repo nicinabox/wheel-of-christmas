@@ -6,6 +6,7 @@ import PuzzleBoard from '../PuzzleBoard'
 import UsedLetterBoard from '../UsedLetterBoard'
 import Category from '../Category'
 import { getUnrevealedIndexes, getRevealedIndexes } from '../../utils'
+import * as Sounds from '../../sounds'
 
 import { ReactComponent as ControlsIcon } from '../../images/controls.svg';
 
@@ -18,16 +19,10 @@ interface Props {
   onPuzzleChange: (direction: number) => void;
 }
 
-const BUZZER = 'Buzzer.mp3'
-const DING = 'Ding.mp3'
-const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
-const PUZZLE_SOLVE = 'Puzzle solve.mp3'
-const RSTLNE = 'R S T L N E.mp3'
-
 const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onPuzzleChange }) => {
   const chars = puzzle.text.toUpperCase().split('')
 
-  const [currentSound, setCurrentSound] = useState(PUZZLE_REVEAL)
+  const [currentSound, setCurrentSound] = useState(Sounds.PUZZLE_REVEAL)
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
   const [usedChars, setUsedChars] = useState<API.Char[]>([])
   const [solvedChars, setSolvedChars] = useState<API.Char[]>([])
@@ -42,7 +37,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setRevealedIndexes(revealedIndexes.concat(indexes))
     setUsedChars(usedChars.concat(chars))
     setSolvedChars([])
-    setCurrentSound(PUZZLE_SOLVE)
+    setCurrentSound(Sounds.PUZZLE_SOLVE)
   }
 
   const handleSolveRSTLNE = () => {
@@ -53,13 +48,13 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
   const handleLetterAttempt = (char: API.Char) => {
     if (!chars.includes(char)) {
-      setCurrentSound(BUZZER)
+      setCurrentSound(Sounds.BUZZER)
       return setUsedChars(usedChars.concat(char))
     }
 
     setUsedChars(usedChars.concat(char))
     setSolvedChars(solvedChars.concat(char))
-    setCurrentSound(DING)
+    setCurrentSound(Sounds.DING)
   }
 
   const handleLetterReveal = (index: API.Index) => {
@@ -71,7 +66,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setSolvedChars([])
     setRevealedIndexes([])
     onPuzzleChange(direction)
-    setCurrentSound(PUZZLE_REVEAL)
+    setCurrentSound(Sounds.PUZZLE_REVEAL)
   }
 
   const Controls = shouldPopOut

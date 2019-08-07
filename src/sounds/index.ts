@@ -1,0 +1,5 @@
+export const BUZZER = 'Buzzer.mp3'
+export const DING = 'Ding.mp3'
+export const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
+export const PUZZLE_SOLVE = 'Puzzle solve.mp3'
+export const RSTLNE = 'R S T L N E.mp3'
