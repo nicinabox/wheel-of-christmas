@@ -1,11 +1,11 @@
 import React from 'react'
 // import cx from 'classnames'
-// import * as API from '../../interfaces/api'
+import * as API from '../../types'
 
 import './styles.css'
 
 interface Props {
-  usedChars: string[];
+  usedChars: API.Char[];
   onLetterClick: (char: string) => void;
   className?: string;
 }

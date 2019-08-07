@@ -1,6 +1,6 @@
 import React from 'react'
 import { range } from 'lodash'
-// import * as API from '../../interfaces/api'
+// import * as API from '../../types'
 import Letter from '../Letter'
 import Tile from '../Tile'
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import NewWindow from 'react-new-window'
-import ReactSound, { PlayStatus } from 'react-sound'
-import * as API from '../../interfaces/api'
+import ReactSound from 'react-sound'
+import * as API from '../../types'
 import PuzzleBoard from '../PuzzleBoard'
 import UsedLetterBoard from '../UsedLetterBoard'
 import Category from '../Category'
@@ -38,13 +38,13 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
   const [currentSound, setCurrentSound] = useState(PUZZLE_REVEAL)
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
-  const [usedChars, setUsedChars] = useState<string[]>([])
-  const [solvedChars, setSolvedChars] = useState<API.SolvedChars>([])
-  const [revealedIndexes, setRevealedIndexes] = useState<API.RevealedIndexes>(getRevealedIndexes(chars, /[^\w]/g))
+  const [usedChars, setUsedChars] = useState<API.Char[]>([])
+  const [solvedChars, setSolvedChars] = useState<API.Char[]>([])
+  const [revealedIndexes, setRevealedIndexes] = useState<API.Index[]>(getRevealedIndexes(chars, /[^\w]/g))
 
   const handleSolve = () => {
-    const indexes = chars.reduce((acc: number[], char) => {
-      const result = chars.reduce((a: number[], c, i) => (c === char) ? a.concat(i) : a, [])
+    const indexes = chars.reduce((acc: API.Index[], char) => {
+      const result = chars.reduce((a: API.Index[], c, i) => (c === char) ? a.concat(i) : a, [])
       return acc.concat(result)
     }, [])
 
@@ -60,7 +60,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setSolvedChars(solvedChars.concat(rstlne))
   }
 
-  const handleLetterAttempt = (char: string) => {
+  const handleLetterAttempt = (char: API.Char) => {
     if (!chars.includes(char)) {
       setCurrentSound(BUZZER)
       return setUsedChars(usedChars.concat(char))
@@ -71,7 +71,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setCurrentSound(DING)
   }
 
-  const handleLetterReveal = (index: number) => {
+  const handleLetterReveal = (index: API.Index) => {
     setRevealedIndexes(revealedIndexes.concat(index))
   }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import * as API from '../../interfaces/api'
+import * as API from '../../types'
 import ControlBoard from '../ControlBoard'
 
 import './styles.css'
