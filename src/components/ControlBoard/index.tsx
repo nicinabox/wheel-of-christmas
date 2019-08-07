@@ -5,7 +5,7 @@ import * as API from '../../types'
 import PuzzleBoard from '../PuzzleBoard'
 import UsedLetterBoard from '../UsedLetterBoard'
 import Category from '../Category'
-import { getRevealedIndexes } from '../../utils'
+import { getUnrevealedIndexes, getRevealedIndexes } from '../../utils'
 
 import { ReactComponent as ControlsIcon } from '../../images/controls.svg';
 
@@ -23,15 +23,6 @@ const DING = 'Ding.mp3'
 const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
 const PUZZLE_SOLVE = 'Puzzle solve.mp3'
 const RSTLNE = 'R S T L N E.mp3'
-
-const findUnrevealedIndexes = (unrevealedChars: string[], revealedIndexes: number[], chars: string[]) => {
-  return chars.reduce((acc: number[], c: string, i: number) => {
-    if (!revealedIndexes.includes(i) && unrevealedChars.includes(c)) {
-      return acc.concat(i)
-    }
-    return acc
-  }, [])
-}
 
 const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onPuzzleChange }) => {
   const chars = puzzle.text.toUpperCase().split('')
@@ -94,7 +85,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   // @ts-ignore
   const { PLAYING } = ReactSound.status
 
-  const unrevealed = findUnrevealedIndexes(solvedChars, revealedIndexes, chars)
+  const unrevealed = getUnrevealedIndexes(solvedChars, revealedIndexes, chars)
 
   return (
       <div>
