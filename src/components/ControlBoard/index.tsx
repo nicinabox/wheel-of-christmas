@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NewWindow from 'react-new-window'
 import ReactSound from 'react-sound'
 import * as API from 'types'
@@ -27,7 +27,12 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   const [usedChars, setUsedChars] = useState<API.Char[]>([])
   const [attemptedLetters, setAttemptedLetters] = useState<API.Char>('')
   const [highlightedChars, setHighlightedChars] = useState<API.Char[]>([])
-  const [revealedIndexes, setRevealedIndexes] = useState<API.Index[]>(getRevealedIndexes(chars, /[^\w]/g))
+  const [revealedIndexes, setRevealedIndexes] = useState<API.Index[]>([])
+
+  useEffect(() => {
+    const intitialRevealedIndexes = getRevealedIndexes(chars, /[^\w]/g)
+    setRevealedIndexes(intitialRevealedIndexes)
+  }, [puzzle])
 
   const handleSolve = () => {
     const indexes = chars.reduce((acc: API.Index[], char) => {
