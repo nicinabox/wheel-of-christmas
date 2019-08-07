@@ -10,6 +10,8 @@ interface Props {
   className?: string;
 }
 
+const VOWELS = 'AEIOU'.split('')
+
 const generateAlphas = () => {
   const start = 'A'.charCodeAt(0)
   return new Array(26)
@@ -27,6 +29,7 @@ const UsedLetterBoard: React.FC<Props> = ({ onLetterClick, usedChars, className 
           <button
             key={char}
             disabled={usedChars.includes(char)}
+            className={VOWELS.includes(char) ? `${className}--vowel` : undefined}
             onClick={() => onLetterClick(char)}>
             {char}
           </button>
