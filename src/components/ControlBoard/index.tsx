@@ -20,7 +20,7 @@ interface Props {
 }
 
 const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onPuzzleChange }) => {
-  const chars = puzzle.text.toUpperCase().split('')
+  const { chars } = puzzle
 
   const [currentSound, setCurrentSound] = useState(Sounds.PUZZLE_REVEAL)
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
@@ -30,7 +30,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   const [revealedIndexes, setRevealedIndexes] = useState<API.Index[]>([])
 
   useEffect(() => {
-    const intitialRevealedIndexes = getRevealedIndexes(chars, /[^\w]/g)
+    const intitialRevealedIndexes = getRevealedIndexes(puzzle.chars, /[^\w]/g)
     setRevealedIndexes(intitialRevealedIndexes)
   }, [puzzle])
 

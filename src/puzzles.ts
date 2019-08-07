@@ -19,4 +19,7 @@ export default [
     category: "The 90's",
     text: '               BEEPERS'
   },
-]
+].map(p => ({
+  ...p,
+  chars: p.text.toUpperCase().split('')
+}))

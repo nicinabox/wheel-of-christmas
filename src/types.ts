@@ -1,6 +1,7 @@
 export interface Puzzle {
   category: string;
   text: string;
+  chars: Char[];
 };
 
 export type Char = string;
