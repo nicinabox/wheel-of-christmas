@@ -20,14 +20,14 @@
 }
 
 @keyframes snowing {
-  0% {
+  /* 0% {
     opacity: 0;
-  }
-  70% {
-    opacity: 0.9;
-  }
+  } */
+  /* 80% {
+    opacity: 0.8;
+  } */
   100% {
-    transform: translatey(90vh);
+    transform: translatey(50vw);
     opacity: 0;
   }
 }

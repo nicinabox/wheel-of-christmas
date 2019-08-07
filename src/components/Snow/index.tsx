@@ -5,22 +5,27 @@ import './styles.css'
 interface Props {}
 
 const generateStyle = (n: number, total: number) => {
+  const size = random(0.1, 0.5);
+  const opacity = random(0.3, 0.9);
   return ({
-    animationDuration: `${random(8, 30)}s`,
-    animationDelay: `${random(1, 8)}s`,
+    opacity,
+    width: `${size}vw`,
+    height: `${size}vw`,
+    animationDuration: `${random(8, 40)}s`,
+    animationDelay: `${random(1, 15)}s`,
     left: `${n * (100 / total)}%`,
   })
 }
 
 export const Snow: React.FC<Props> = () => {
-  const totalFlakes = random(30, 60)
+  const totalFlakes = 100 // random(30, 60)
 
   return (
     <div className="Snow">
-      {range(1, totalFlakes + 1).map((n) => (
+      {range(1, totalFlakes + 1).map((n, i) => (
         <div
           className="Snowflake"
-          style={generateStyle(n, totalFlakes)}
+          style={generateStyle(i, totalFlakes)}
         />
       ))}
   </div>
