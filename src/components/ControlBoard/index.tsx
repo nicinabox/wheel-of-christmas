@@ -75,6 +75,10 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setRevealedIndexes(revealedIndexes.concat(index))
   }
 
+  const handleSetCurrentSound = (sound: string) => {
+    currentSound ? setCurrentSound('') : setCurrentSound(sound)
+  }
+
   const handlePuzzleChange = (direction: number) => {
     setUsedChars([])
     setHighlightedChars([])
@@ -91,10 +95,10 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
       </button>
     )
 
+  const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, chars)
+
   // @ts-ignore
   const { PLAYING } = ReactSound.status
-
-  const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, chars)
 
   return (
       <div>
@@ -194,7 +198,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
                 <fieldset>
                   <legend>Wheel</legend>
                   {[Sounds.BANKRUPT, Sounds.BEN_WEDGE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound) => (
-                    <button onClick={() => setCurrentSound(sound)}>
+                    <button onClick={() => handleSetCurrentSound(sound)}>
                       {Sounds.getSoundName(sound)}
                     </button>
                   ))}
@@ -202,7 +206,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
                 <fieldset>
                   <legend>Extra</legend>
                   {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound) => (
-                    <button onClick={() => setCurrentSound(sound)}>
+                    <button onClick={() => handleSetCurrentSound(sound)}>
                       {Sounds.getSoundName(sound)}
                     </button>
                   ))}
