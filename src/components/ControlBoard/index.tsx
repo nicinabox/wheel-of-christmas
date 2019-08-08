@@ -101,7 +101,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   const { PLAYING } = ReactSound.status
 
   return (
-      <div>
+      <React.Fragment>
         {currentSound && (
           <ReactSound
             url={require(`sounds/${currentSound}`)}
@@ -118,14 +118,14 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
           onLetterReveal={handleLetterReveal}
         />
 
-        <Category category={puzzle.category} />
+        <div className="PuzzleBoard-footer">
+          <Category category={puzzle.category} />
 
-        <UsedLetterBoard
-          usedChars={usedChars}
-          onLetterClick={handleLetterAttempt}
-        />
-
-        <div className="PuzzleBoard-footer" />
+          <UsedLetterBoard
+            usedChars={usedChars}
+            onLetterClick={handleLetterAttempt}
+          />
+        </div>
 
         <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
           <div className="ControlBoard">
@@ -215,7 +215,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
             </section>
           </div>
         </Controls>
-      </div>
+      </React.Fragment>
   )
 }
 

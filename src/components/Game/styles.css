@@ -1,6 +1,6 @@
 .Game {
   background: linear-gradient(#5C79FE, #2E3D7F);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
