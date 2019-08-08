@@ -32,6 +32,11 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   useEffect(() => {
     const intitialRevealedIndexes = getRevealedIndexes(puzzle.chars, /[^\w]/g)
     setRevealedIndexes(intitialRevealedIndexes)
+
+    setUsedChars([])
+    setHighlightedChars([])
+    setRevealedIndexes([])
+    setCurrentSound(Sounds.PUZZLE_REVEAL)
   }, [puzzle])
 
   const handleSolve = () => {
@@ -80,11 +85,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   }
 
   const handlePuzzleChange = (direction: number) => {
-    setUsedChars([])
-    setHighlightedChars([])
-    setRevealedIndexes([])
     onPuzzleChange(direction)
-    setCurrentSound(Sounds.PUZZLE_REVEAL)
   }
 
   const Controls = shouldPopOut
