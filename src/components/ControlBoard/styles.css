@@ -16,7 +16,23 @@
   border-bottom: 1px solid #ddd;
 }
 
-.ControlBoard summary {
+.ControlBoard-soundboard {
+  display: flex;
+}
+
+.ControlBoard-soundboard fieldset {
+  flex: 1;
+}
+
+.ControlBoard-soundboard button {
+  width: 100%;
+}
+
+.ControlBoard-section h3 {
+  font-size: 1rem;
+}
+
+.ControlBoard-section summary {
   cursor: pointer;
   outline: none;
   font-weight: bold;

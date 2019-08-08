@@ -20,3 +20,7 @@ export const BONUS_ROUND_TIMER = 'Bonus Round Timer.wav'
 export const THEME = 'Theme.wav'
 export const TOSS_UP_SOLVE = 'Toss Up Solve.wav'
 export const TOSS_UP_THEME = 'Toss Up Theme.wav'
+
+export const getSoundName = (sound: string) => {
+  return sound.replace(/\.\w{3}$/, '')
+}

@@ -85,7 +85,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
   const Controls = shouldPopOut
     ? NewWindow
-    : ({ children, onUnload }: { children: any, onUnload: any }) => (
+    : (props: { children: React.ReactNode; onUnload: () => void; title: string; }) => (
       <button onClick={() => setShouldPopOut(true)} title="Open Controls" className="ControlsButton">
         <ControlsIcon width={25} />
       </button>
@@ -123,7 +123,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
 
         <div className="PuzzleBoard-footer" />
 
-        <Controls onUnload={() => setShouldPopOut(false)}>
+        <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
           <div className="ControlBoard">
             <header className="ControlBoard-header ControlBoard-section">
               <strong>Puzzle {puzzleNumber} / {totalPuzzles}</strong>
@@ -143,6 +143,17 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
             </header>
 
             <section className="ControlBoard-section">
+              <details>
+                <summary>Spoiler</summary>
+                <p className="ControlBoard-spoiler">
+                  {puzzle.text}
+                </p>
+                <button onClick={handleSolve}>Solve Puzzle</button>
+              </details>
+            </section>
+
+            <section className="ControlBoard-section">
+              <h3>Used Letter Board</h3>
               <UsedLetterBoard
                 usedChars={usedChars}
                 onLetterClick={handleLetterAttempt}
@@ -160,6 +171,12 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
             </section>
 
             <section className="ControlBoard-section">
+              <h3>Bonus Round</h3>
+              <button onClick={() => handleHighlightChars('RSTLNE')}>
+                Highlight RSTLNE
+              </button>
+              <br/>
+
               <input
                 type="text"
                 value={attemptedLetters}
@@ -169,20 +186,28 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
               <button onClick={() => handleHighlightChars(attemptedLetters)}>
                 Highlight Letters
               </button>
-
-              <button onClick={() => handleHighlightChars('RSTLNE')}>
-                Highlight RSTLNE
-              </button>
             </section>
 
             <section className="ControlBoard-section">
-              <details>
-                <summary>Spoiler</summary>
-                <p className="ControlBoard-spoiler">
-                  {puzzle.text}
-                </p>
-                <button onClick={handleSolve}>Solve Puzzle</button>
-              </details>
+              <h3>Sounds</h3>
+              <div className="ControlBoard-soundboard">
+                <fieldset>
+                  <legend>Wheel</legend>
+                  {[Sounds.BANKRUPT, Sounds.BEN_WEDGE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound) => (
+                    <button onClick={() => setCurrentSound(sound)}>
+                      {Sounds.getSoundName(sound)}
+                    </button>
+                  ))}
+                </fieldset>
+                <fieldset>
+                  <legend>Extra</legend>
+                  {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound) => (
+                    <button onClick={() => setCurrentSound(sound)}>
+                      {Sounds.getSoundName(sound)}
+                    </button>
+                  ))}
+                </fieldset>
+              </div>
             </section>
           </div>
         </Controls>
