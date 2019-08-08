@@ -1,6 +1,7 @@
 import React from 'react'
 // import cx from 'classnames'
 import * as API from 'types'
+import { VOWELS } from 'utils'
 
 import './styles.css'
 
@@ -9,8 +10,6 @@ interface Props {
   onLetterClick: (char: string) => void;
   className?: string;
 }
-
-const VOWELS = 'AEIOU'.split('')
 
 const generateAlphas = () => {
   const start = 'A'.charCodeAt(0)

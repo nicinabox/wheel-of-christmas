@@ -67,7 +67,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     setCurrentSound(Sounds.DING)
 
     if (isLastPuzzleVowelUsed(puzzle, nextUsedChars)) {
-      // setCurrentSound(Sounds.LAST_VOWEL_USED)
+      setCurrentSound(Sounds.NO_VOWELS_LEFT)
     }
   }
 

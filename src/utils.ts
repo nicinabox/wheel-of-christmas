@@ -1,4 +1,7 @@
+import { uniq } from 'lodash'
 import * as API from './types'
+
+export const VOWELS = 'AEIOU'.split('')
 
 export const getRevealedIndexes = (
   chars: API.Char[],
@@ -26,6 +29,6 @@ export const getUnrevealedIndexes = (
 }
 
 export const isLastPuzzleVowelUsed = (puzzle: API.Puzzle, usedChars: API.Char[]): boolean => {
-    const { text } = puzzle
-    return usedChars.every(c => text.includes(c))
+    const puzzleVowels = uniq(puzzle.text.split('').filter((c) => VOWELS.includes(c)))
+    return puzzleVowels.every(c => usedChars.includes(c))
 }
