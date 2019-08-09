@@ -1,5 +1,5 @@
 import React from 'react'
-import $, { ThemeProvider } from 'styled-components'
+import $ from 'styled-components'
 import * as API from 'types'
 import { VOWELS } from 'utils'
 
