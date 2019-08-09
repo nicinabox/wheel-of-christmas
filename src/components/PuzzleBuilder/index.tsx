@@ -13,12 +13,7 @@ const PuzzleBuilder: React.FC<Props> = (props) => {
 
     return (
       <Root>
-        <PuzzleBoard
-          chars={chars}
-          highlightedChars={highlightedChars}
-          revealedIndexes={revealedIndexes}
-          onLetterReveal={() => {}}
-        />
+        <PuzzleBoard />
 
         <Input
           onChange={(e) => setPuzzle(e.target.value.toUpperCase())}

@@ -1,230 +1,177 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import NewWindow from 'react-new-window'
-import ReactSound from 'react-sound'
 import $ from 'styled-components'
 import { darken } from 'polished'
-import * as API from 'types'
-import PuzzleBoard from '../PuzzleBoard'
-import UsedLetterBoard from '../UsedLetterBoard'
-import Category from '../Category'
-import { isLastPuzzleVowelUsed, getUnrevealedIndexes, getRevealedIndexes } from 'utils'
-import * as Sounds from 'sounds'
 
+import * as Sounds from 'sounds'
+import * as API from 'types'
+import { useDeepEqualEffect } from 'hooks'
+import { GameContext } from 'store/reducers'
+import { setGameState, setAttemptedLetters, setVowelsUsed, solvePuzzle, highlightChars, setRevealedIndexes, setPuzzle } from 'store/actions'
+import { getUnrevealedIndexes, getRevealedIndexes, isLastPuzzleVowelUsed  } from 'utils'
 import { ReactComponent as ControlsIcon } from 'images/controls.svg';
+import UsedLetterBoard from '../UsedLetterBoard'
 
 
 interface Props {
-  puzzle: API.Puzzle;
-  puzzleNumber: number;
-  totalPuzzles: number;
-  onPuzzleChange: (direction: number) => void;
 }
 
-const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onPuzzleChange }) => {
-  const { chars } = puzzle
+const ControlBoard: React.FC<Props> = () => {
+  const { state, dispatch, setCurrentSound } = useContext(GameContext)
+  const { puzzle, puzzleIndex,
+    attemptedLetters, usedChars, highlightedChars, revealedIndexes } = state
 
-  const [currentSound, setCurrentSound] = useState(Sounds.PUZZLE_REVEAL)
+  const puzzlesCount = state.puzzles.length
+  const puzzleNumber = puzzleIndex + 1
+
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
-  const [usedChars, setUsedChars] = useState<API.Char[]>([])
-  const [attemptedLetters, setAttemptedLetters] = useState<API.Char>('')
-  const [highlightedChars, setHighlightedChars] = useState<API.Char[]>([])
-  const [revealedIndexes, setRevealedIndexes] = useState<API.Index[]>([])
 
   useEffect(() => {
-    const intitialRevealedIndexes = getRevealedIndexes(puzzle.chars, /[^\w]/g)
-    setRevealedIndexes(intitialRevealedIndexes)
+    const revealedIndexes = getRevealedIndexes(puzzle.chars, /[^\w]/g)
+    dispatch(setGameState({ revealedIndexes }))
 
     setCurrentSound(Sounds.PUZZLE_REVEAL)
-  }, [puzzle])
+  }, [puzzle, dispatch, setCurrentSound])
+
+  useDeepEqualEffect(() => {
+    if (isLastPuzzleVowelUsed(puzzle, usedChars)) {
+      dispatch(setVowelsUsed())
+      setCurrentSound(Sounds.NO_VOWELS_LEFT)
+    }
+  }, [puzzle, usedChars, setCurrentSound])
 
   const handleSolve = () => {
-    const indexes = chars.reduce((acc: API.Index[], char) => {
-      const result = chars.reduce((a: API.Index[], c, i) => (c === char) ? a.concat(i) : a, [])
-      return acc.concat(result)
-    }, [])
-
-    setRevealedIndexes(revealedIndexes.concat(indexes))
-    setUsedChars(usedChars.concat(chars))
-    setHighlightedChars([])
+    solvePuzzle(puzzle, dispatch)
     setCurrentSound(Sounds.PUZZLE_SOLVE)
   }
 
   const handleHighlightChars = (charStr: string) => {
     const chars: API.Char[] = charStr.toUpperCase().split('')
-
-    setAttemptedLetters('')
-    setUsedChars(usedChars.concat(chars))
-    setHighlightedChars(highlightedChars.concat(chars))
-  }
-
-  const handleLetterAttempt = (char: API.Char) => {
-    if (!chars.includes(char)) {
-      setCurrentSound(Sounds.BUZZER)
-      return setUsedChars(usedChars.concat(char))
-    }
-
-    const nextUsedChars = usedChars.concat(char)
-
-    setUsedChars(nextUsedChars)
-    setHighlightedChars(highlightedChars.concat(char))
-    setCurrentSound(Sounds.DING)
-
-    if (isLastPuzzleVowelUsed(puzzle, nextUsedChars)) {
-      setCurrentSound(Sounds.NO_VOWELS_LEFT)
-    }
-  }
-
-  const handleLetterReveal = (index: API.Index) => {
-    setRevealedIndexes(revealedIndexes.concat(index))
-  }
-
-  const handleSetCurrentSound = (sound: string) => {
-    currentSound ? setCurrentSound('') : setCurrentSound(sound)
+    highlightChars(chars, dispatch)
   }
 
   const handlePuzzleChange = (direction: number) => {
-    setUsedChars([])
-    setHighlightedChars([])
-    setRevealedIndexes([])
-    onPuzzleChange(direction)
+    let puzzleIndex = state.puzzleIndex + direction;
+
+
+    if (puzzleIndex < 0) {
+      puzzleIndex = 0
+    }
+
+    if (puzzleIndex > puzzlesCount) {
+      puzzleIndex = puzzlesCount
+    }
+
+    dispatch(setPuzzle(puzzleIndex))
   }
+
+  const PopOutButton = (props: { children: React.ReactNode; onUnload: () => void; title: string; }) => (
+    <OpenControlsButton onClick={() => setShouldPopOut(true)} title="Open Controls">
+      <ControlsIcon width={25} style={{fill: 'white'}} />
+    </OpenControlsButton>
+  )
 
   const Controls = shouldPopOut
     ? NewWindow
-    : (props: { children: React.ReactNode; onUnload: () => void; title: string; }) => (
-      <OpenControlsButton onClick={() => setShouldPopOut(true)} title="Open Controls">
-        <ControlsIcon width={25} style={{fill: 'white'}} />
-      </OpenControlsButton>
-    )
+    : PopOutButton
 
-  const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, chars)
-
-  // @ts-ignore
-  const { PLAYING } = ReactSound.status
+  const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, puzzle.chars)
 
   return (
-      <React.Fragment>
-        {currentSound && (
-          <ReactSound
-            url={require(`sounds/${currentSound}`)}
-            playStatus={PLAYING}
-            onFinishedPlaying={() => setCurrentSound('')}
-          />
-        )}
+      <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
+        <ControlBoardWrapper>
+          <ControlBoardHeader>
+            <strong>Puzzle {puzzleNumber} / {puzzlesCount}</strong>
 
-        <PuzzleBoard
-          chars={chars}
-          attemptedLetters={attemptedLetters}
-          highlightedChars={highlightedChars}
-          revealedIndexes={revealedIndexes}
-          onLetterReveal={handleLetterReveal}
-        />
-
-        <PuzzleBoardFooter>
-          <Category category={puzzle.category} />
-
-          <UsedLetterBoard
-            usedChars={usedChars}
-            onLetterClick={handleLetterAttempt}
-          />
-        </PuzzleBoardFooter>
-
-        <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
-          <ControlBoardWrapper>
-            <ControlBoardHeader>
-              <strong>Puzzle {puzzleNumber} / {totalPuzzles}</strong>
-
-              <div className="ControlBoard-navigation">
-                <Button
-                  disabled={puzzleNumber === 1}
-                  onClick={() => handlePuzzleChange(-1)}>
-                  ←
-                </Button>
-                <Button
-                  disabled={puzzleNumber === totalPuzzles}
-                  onClick={() => handlePuzzleChange(1)}>
-                  →
-                </Button>
-              </div>
-            </ControlBoardHeader>
-
-            <ControlBoardSection>
-              <details>
-                <FieldsetSummary>
-                  Spoiler
-                </FieldsetSummary>
-                <ControlBoardSpoiler>
-                  {puzzle.text}
-                </ControlBoardSpoiler>
-                <Button onClick={handleSolve}>Solve Puzzle</Button>
-              </details>
-            </ControlBoardSection>
-
-            <ControlBoardSection>
-              <ControlBoardSectionTitle>
-                Used Letter Board
-              </ControlBoardSectionTitle>
-              <UsedLetterBoard
-                usedChars={usedChars}
-                onLetterClick={handleLetterAttempt}
-                controlBoard={true}
-              />
-
+            <div className="ControlBoard-navigation">
               <Button
-                onClick={() => {
-                  const index = Math.floor((Math.random() * unrevealed.length))
-                  handleLetterReveal(unrevealed[index])
-                }}
-                disabled={!unrevealed.length}>
-                Reveal Highlighted{unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
+                disabled={puzzleNumber === 1}
+                onClick={() => handlePuzzleChange(-1)}>
+                ←
               </Button>
-            </ControlBoardSection>
+              <Button
+                disabled={puzzleNumber === puzzlesCount}
+                onClick={() => handlePuzzleChange(1)}>
+                →
+              </Button>
+            </div>
+          </ControlBoardHeader>
 
-            <ControlBoardSection>
-              <ControlBoardSectionTitle>
-                Bonus Round
-              </ControlBoardSectionTitle>
-              <Button onClick={() => handleHighlightChars('RSTLNE')}>
-                Highlight RSTLNE
-              </Button>
-              <br/>
-              <Input
-                type="text"
-                value={attemptedLetters}
-                placeholder="Enter attempted letters"
-                onChange={(e) => setAttemptedLetters(e.target.value.substr(0, 4).toUpperCase())}
-              />
-              <Button onClick={() => handleHighlightChars(attemptedLetters)}>
-                Highlight Letters
-              </Button>
-            </ControlBoardSection>
+          <ControlBoardSection>
+            <details>
+              <FieldsetSummary>
+                Spoiler
+              </FieldsetSummary>
+              <ControlBoardSpoiler>
+                {puzzle.text}
+              </ControlBoardSpoiler>
+              <Button onClick={handleSolve}>Solve Puzzle</Button>
+            </details>
+          </ControlBoardSection>
 
-            <ControlBoardSection>
-              <ControlBoardSectionTitle>
-                Sounds
-              </ControlBoardSectionTitle>
-              <SoundboardWrapper>
-                <StyledFieldset>
-                  <legend>Wheel</legend>
-                  {[Sounds.BANKRUPT, Sounds.BEN_WEDGE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound) => (
-                    <SoundboardButton onClick={() => handleSetCurrentSound(sound)}>
-                      {Sounds.getSoundName(sound)}
-                    </SoundboardButton>
-                  ))}
-                </StyledFieldset>
-                <StyledFieldset>
-                  <legend>Extra</legend>
-                  {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound) => (
-                    <SoundboardButton onClick={() => handleSetCurrentSound(sound)}>
-                      {Sounds.getSoundName(sound)}
-                    </SoundboardButton>
-                  ))}
-                </StyledFieldset>
-              </SoundboardWrapper>
-            </ControlBoardSection>
-          </ControlBoardWrapper>
-        </Controls>
-      </React.Fragment>
+          <ControlBoardSection>
+            <ControlBoardSectionTitle>
+              Used Letter Board
+            </ControlBoardSectionTitle>
+            <UsedLetterBoard
+              controlBoard={true}
+            />
+
+            <Button
+              onClick={() => {
+                const index = Math.floor((Math.random() * unrevealed.length))
+                dispatch(setRevealedIndexes(unrevealed[index]))
+              }}
+              disabled={!unrevealed.length}>
+              Reveal Highlighted{unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
+            </Button>
+          </ControlBoardSection>
+
+          <ControlBoardSection>
+            <ControlBoardSectionTitle>
+              Bonus Round
+            </ControlBoardSectionTitle>
+            <Button onClick={() => handleHighlightChars('RSTLNE')}>
+              Highlight RSTLNE
+            </Button>
+            <br/>
+            <Input
+              type="text"
+              value={attemptedLetters}
+              placeholder="Enter attempted letters"
+              onChange={(e) => dispatch(setAttemptedLetters(e.target.value))}
+            />
+            <Button onClick={() => handleHighlightChars(attemptedLetters)}>
+              Highlight Letters
+            </Button>
+          </ControlBoardSection>
+
+          <ControlBoardSection>
+            <ControlBoardSectionTitle>
+              Sounds
+            </ControlBoardSectionTitle>
+            <SoundboardWrapper>
+              <StyledFieldset>
+                <legend>Wheel</legend>
+                {[Sounds.BANKRUPT, Sounds.BEN_WEDGE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound, i) => (
+                  <SoundboardButton key={i} onClick={() => setCurrentSound(sound)}>
+                    {Sounds.getSoundName(sound)}
+                  </SoundboardButton>
+                ))}
+              </StyledFieldset>
+              <StyledFieldset>
+                <legend>Extra</legend>
+                {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound, i) => (
+                  <SoundboardButton
+                     key={i} onClick={() => setCurrentSound(sound)}>
+                    {Sounds.getSoundName(sound)}
+                  </SoundboardButton>
+                ))}
+              </StyledFieldset>
+            </SoundboardWrapper>
+          </ControlBoardSection>
+        </ControlBoardWrapper>
+      </Controls>
   )
 }
 
@@ -293,20 +240,6 @@ const FieldsetSummary = $.summary`
   cursor: pointer;
   outline: none;
   font-weight: bold;
-`
-
-const PuzzleBoardFooter = $.div`
-  background: rgb(255,255,255);
-  background: linear-gradient(180deg,
-    rgba(255,255,255,1) 0%,
-    rgba(252,252,253,1) 24%,
-    rgba(242,244,245,1) 43%,
-    rgba(225,230,232,1) 61%,
-    rgba(202,211,216,1) 77%,
-    rgba(169,183,191,1) 95%);
-  padding-top: 2.6vw;
-  width: 100%;
-  flex: 1;
 `
 
 const OpenControlsButton = $.button`

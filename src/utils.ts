@@ -1,7 +1,23 @@
 import { uniq } from 'lodash'
 import * as API from './types'
+import { GameState } from 'store/reducers'
 
-export const VOWELS = 'AEIOU'.split('')
+export const VOWELS = 'AEIOU'
+
+export const isVowel = (char: string) => {
+  return VOWELS.includes(char.toUpperCase())
+}
+
+export function getPuzzle({ puzzles, puzzleIndex }: GameState) {
+  return puzzles[puzzleIndex]
+}
+
+export const generateAlphas = () => {
+  const start = 'A'.charCodeAt(0)
+  return new Array(26)
+    .fill(1)
+    .map((_, i) => String.fromCharCode(start + i))
+}
 
 export const getRevealedIndexes = (
   chars: API.Char[],
@@ -29,6 +45,6 @@ export const getUnrevealedIndexes = (
 }
 
 export const isLastPuzzleVowelUsed = (puzzle: API.Puzzle, usedChars: API.Char[]): boolean => {
-    const puzzleVowels = uniq(puzzle.text.split('').filter((c) => VOWELS.includes(c)))
-    return puzzleVowels.every(c => usedChars.includes(c))
+    const puzzleVowels = uniq(puzzle.chars.filter(isVowel))
+    return puzzleVowels.length ? puzzleVowels.every(c => usedChars.includes(c)) : false
 }

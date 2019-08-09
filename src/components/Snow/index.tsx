@@ -25,7 +25,7 @@ export const Snow: React.FC<Props> = ({ totalFlakes = 100 }) => {
   return (
     <Root>
       {range(1, totalFlakes + 1).map((n, i) => (
-        <Flake style={generateStyle(i, totalFlakes)} />
+        <Flake key={n} style={generateStyle(i, totalFlakes)} />
       ))}
     </Root>
   )

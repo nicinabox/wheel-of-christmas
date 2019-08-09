@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import $ from 'styled-components'
 import * as API from 'types'
-import { VOWELS } from 'utils'
+import * as Sounds from 'sounds'
+import { isVowel } from 'utils'
+import { GameContext } from 'store/reducers'
+import { setUsedChars, setHighlightedChars } from 'store/actions'
+import { generateAlphas } from 'utils'
 
 interface Props {
-  usedChars: API.Char[];
-  onLetterClick: (char: string) => void;
   controlBoard?: boolean;
 }
 
@@ -13,25 +15,32 @@ interface StyleProps {
   controlBoard: boolean;
 }
 
-const generateAlphas = () => {
-  const start = 'A'.charCodeAt(0)
-  return new Array(26)
-    .fill(1)
-    .map((_, i) => String.fromCharCode(start + i))
-}
+const ALPHAS = generateAlphas()
 
-const UsedLetterBoard: React.FC<Props> = ({ onLetterClick, usedChars, controlBoard = false }) => {
-  const chars = generateAlphas()
+const UsedLetterBoard: React.FC<Props> = ({ controlBoard = false }) => {
+  const { state, dispatch, setCurrentSound } = useContext(GameContext)
+  const { usedChars, puzzle } = state
+
+  const handleLetterAttempt = (char: API.Char) => {
+    if (puzzle.chars.includes(char)) {
+      setCurrentSound(Sounds.DING)
+    } else {
+      setCurrentSound(Sounds.BUZZER)
+    }
+
+    dispatch(setUsedChars(char))
+    dispatch(setHighlightedChars(char))
+  }
 
   return (
     <Root controlBoard={controlBoard}>
       <Background controlBoard={controlBoard}>
-        {chars.map((char) => (
+        {ALPHAS.map((char) => (
           <Button
             key={char}
             disabled={usedChars.includes(char)}
-            isVowel={VOWELS.includes(char)}
-            onClick={() => onLetterClick(char)}>
+            isVowel={isVowel(char)}
+            onClick={() => handleLetterAttempt(char)}>
             {char}
           </Button>
         ))}

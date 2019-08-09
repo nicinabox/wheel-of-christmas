@@ -1,25 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { range } from 'lodash'
-import * as API from 'types'
 import Letter from '../Letter'
 import Tile from '../Tile'
 import $ from 'styled-components'
+import { GameContext } from 'store/reducers'
+import { setRevealedIndexes } from 'store/actions'
+
 interface Props {
-  chars: API.Char[];
-  highlightedChars: API.Char[];
-  revealedIndexes: API.Index[];
-  attemptedLetters?: API.Char;
-  onLetterReveal: (index: number) => void;
 }
 
-const PuzzleBoard: React.FC<Props> = ({ chars, highlightedChars, revealedIndexes, attemptedLetters, onLetterReveal }) => {
+const PuzzleBoard: React.FC<Props> = () => {
+  const { state, dispatch } = useContext(GameContext)
+  const { puzzle, highlightedChars, revealedIndexes, attemptedLetters } = state
 
   return (
     <Root>
       <Bars>
         <Tiles>
           {range(1,53).map((tileId, index) => {
-            const char = chars[index]
+            const char = puzzle.chars[index]
             const isSpace = /[\s]/.test(char)
 
             return (
@@ -29,7 +28,7 @@ const PuzzleBoard: React.FC<Props> = ({ chars, highlightedChars, revealedIndexes
                     char={char}
                     isHighlighted={highlightedChars.includes(char)}
                     isRevealed={revealedIndexes.includes(index)}
-                    onReveal={() => onLetterReveal(index)}
+                    onReveal={() => dispatch(setRevealedIndexes(index))}
                   />
                 )}
               </Tile>
