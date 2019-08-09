@@ -1,6 +1,6 @@
 import React from 'react'
 import { range, random } from 'lodash'
-import './styles.css'
+import $, { keyframes } from 'styled-components'
 
 interface Props {
   totalFlakes?: number;
@@ -23,15 +23,39 @@ const generateStyle = (n: number, total: number) => {
 
 export const Snow: React.FC<Props> = ({ totalFlakes = 100 }) => {
   return (
-    <div className="Snow">
+    <Root>
       {range(1, totalFlakes + 1).map((n, i) => (
-        <i
-          className="Snowflake"
-          style={generateStyle(i, totalFlakes)}
-        />
+        <Flake style={generateStyle(i, totalFlakes)} />
       ))}
-  </div>
+    </Root>
   )
 }
+
+const snowing = keyframes`
+100% {
+  transform: translateY(40vw);
+  opacity: 0;
+}
+`
+
+const Root = $.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: -2%;
+  display: flex;
+  justify-content: space-around;
+`
+
+const Flake = $.i`
+background: white;
+box-shadow: 0 0 0.2vw 0.1vw white;
+width: 0.4vw;
+height: 0.4vw;
+border-radius: 50%;
+animation-name: ${snowing};
+animation-iteration-count: infinite;
+`
 
 export default Snow

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import NewWindow from 'react-new-window'
 import ReactSound from 'react-sound'
 import $ from 'styled-components'
+import { darken } from 'polished'
 import * as API from 'types'
 import PuzzleBoard from '../PuzzleBoard'
 import UsedLetterBoard from '../UsedLetterBoard'
@@ -166,7 +167,7 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
               <UsedLetterBoard
                 usedChars={usedChars}
                 onLetterClick={handleLetterAttempt}
-                className="ControlBoard-UsedLetterBoard"
+                controlBoard={true}
               />
 
               <Button
@@ -248,22 +249,22 @@ const ControlBoardHeader = $(ControlBoardSection)`
 const Button = $.button`
   font-size: 1rem;
   border: none;
-  background: #8c959d;
+  background: #3e51a9;
   color: white;
-  padding: 0.3rem 0.8rem;
+  padding: 0.4rem 0.8rem;
   margin: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
   outline: none;
 
   &:hover {
-    background: #717b84;
+    background: ${darken(0.1, '#3e51a9')};
   }
 
   &[disabled] {
     opacity: 0.4;
 
     &:hover {
-      background: #8c959d;
+      background: #3e51a9;
     }
   }
 `

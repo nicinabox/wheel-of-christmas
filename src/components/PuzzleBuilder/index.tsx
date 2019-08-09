@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './styles.css'
+import $ from 'styled-components'
 
 import PuzzleBoard from '../PuzzleBoard'
 
@@ -12,7 +12,7 @@ const PuzzleBuilder: React.FC<Props> = (props) => {
     const revealedIndexes = chars.map((c, i) => i)
 
     return (
-      <div className="PuzzleBuilder">
+      <Root>
         <PuzzleBoard
           chars={chars}
           highlightedChars={highlightedChars}
@@ -20,13 +20,24 @@ const PuzzleBuilder: React.FC<Props> = (props) => {
           onLetterReveal={() => {}}
         />
 
-        <input
+        <Input
           onChange={(e) => setPuzzle(e.target.value.toUpperCase())}
           value={puzzle}
           autoFocus
         />
-      </div>
+      </Root>
   )
 }
+
+const Root = $.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const Input = $.input`
+  font-family: monospace;
+  font-size: 2rem;
+  padding: 1rem;
+`
 
 export default PuzzleBuilder

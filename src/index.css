@@ -9,6 +9,7 @@ body {
 button {
   font-family: "Avenir Next";
   cursor: pointer;
+  user-select: none;
 }
 
 button[disabled] {

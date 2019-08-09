@@ -31,7 +31,7 @@ const LetterWrapper = $.div`
   height: 100%;
 `
 
-const LetterButton = $.button`
+const LetterButton = $.button<StyleProps>`
   font-family: "Avenir Next Condensed";
   font-size: 6.5vw;
   line-height: 1;
@@ -42,7 +42,7 @@ const LetterButton = $.button`
   color: #222;
   width: 100%;
   height: 100%;
-  background: ${({ isHighlighted, isRevealed }: StyleProps) => {
+  background: ${({ isHighlighted, isRevealed }) => {
     if (isHighlighted && !isRevealed) return '#5c79fe'
     return 'white'
   }};
