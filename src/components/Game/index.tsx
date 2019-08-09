@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
+import $ from 'styled-components'
 import * as API from 'types'
 import ControlBoard from '../ControlBoard'
 import Snow from '../Snow'
-
-import './styles.css'
 
 interface Props {
   puzzles: API.Puzzle[]
@@ -26,7 +25,7 @@ const Game: React.FC<Props> = ({ puzzles }) => {
     }
 
     return (
-      <div className="Game">
+      <GameWrapper>
         <Snow />
         <ControlBoard
           puzzle={currentPuzzle}
@@ -34,8 +33,17 @@ const Game: React.FC<Props> = ({ puzzles }) => {
           totalPuzzles={puzzles.length}
           onPuzzleChange={handleChangePuzzle}
         />
-      </div>
+      </GameWrapper>
   )
 }
+
+const GameWrapper = $.div`
+  background: linear-gradient(#5C79FE, #2E3D7F);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`
 
 export default Game

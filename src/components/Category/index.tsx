@@ -1,6 +1,5 @@
 import React from 'react'
-
-import './styles.css'
+import $ from 'styled-components'
 
 interface Props {
   category: string;
@@ -8,12 +7,33 @@ interface Props {
 
 export const Category: React.FC<Props> = ({ category }) => {
   return (
-    <div className="Category">
-      <div className="Category-background">
+    <CategoryWrapper>
+      <CategoryBackground>
         {category.toUpperCase()}
-      </div>
-    </div>
+      </CategoryBackground>
+    </CategoryWrapper>
   )
 }
+
+const CategoryWrapper = $.div`
+  margin-top: -1vw;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+`
+
+const CategoryBackground = $.div`
+  background: #feb769;
+  border: 0.3vw solid #333333;
+  border-radius: 1.3vw;
+  box-shadow: 0.3vw 0.3vw 0 0 #98754e inset;
+  color: white;
+  text-shadow: 0.2vw 0.2vw black;
+  font-weight: 900;
+  text-align: center;
+  font-size: 2.2vw;
+  padding: 0.8vw 2vw;
+`
 
 export default Category

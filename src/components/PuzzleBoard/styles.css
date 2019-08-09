@@ -16,20 +16,6 @@
   display: flex;
 }
 
-.PuzzleBoard-footer {
-  background: rgb(255,255,255);
-  background: linear-gradient(180deg,
-    rgba(255,255,255,1) 0%,
-    rgba(252,252,253,1) 24%,
-    rgba(242,244,245,1) 43%,
-    rgba(225,230,232,1) 61%,
-    rgba(202,211,216,1) 77%,
-    rgba(169,183,191,1) 95%);
-  padding-top: 2.6vw;
-  width: 100%;
-  flex: 1;
-}
-
 .PuzzleBoard-tiles {
   color: #000;
   display: grid;

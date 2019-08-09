@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NewWindow from 'react-new-window'
 import ReactSound from 'react-sound'
+import $ from 'styled-components'
 import * as API from 'types'
 import PuzzleBoard from '../PuzzleBoard'
 import UsedLetterBoard from '../UsedLetterBoard'
@@ -10,7 +11,6 @@ import * as Sounds from 'sounds'
 
 import { ReactComponent as ControlsIcon } from 'images/controls.svg';
 
-import './styles.css'
 
 interface Props {
   puzzle: API.Puzzle;
@@ -33,9 +33,6 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
     const intitialRevealedIndexes = getRevealedIndexes(puzzle.chars, /[^\w]/g)
     setRevealedIndexes(intitialRevealedIndexes)
 
-    setUsedChars([])
-    setHighlightedChars([])
-    setRevealedIndexes([])
     setCurrentSound(Sounds.PUZZLE_REVEAL)
   }, [puzzle])
 
@@ -85,15 +82,18 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
   }
 
   const handlePuzzleChange = (direction: number) => {
+    setUsedChars([])
+    setHighlightedChars([])
+    setRevealedIndexes([])
     onPuzzleChange(direction)
   }
 
   const Controls = shouldPopOut
     ? NewWindow
     : (props: { children: React.ReactNode; onUnload: () => void; title: string; }) => (
-      <button onClick={() => setShouldPopOut(true)} title="Open Controls" className="ControlsButton">
-        <ControlsIcon width={25} />
-      </button>
+      <OpenControlsButton onClick={() => setShouldPopOut(true)} title="Open Controls">
+        <ControlsIcon width={25} style={{fill: 'white'}} />
+      </OpenControlsButton>
     )
 
   const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, chars)
@@ -119,105 +119,210 @@ const ControlBoard: React.FC<Props> = ({ puzzle, puzzleNumber, totalPuzzles, onP
           onLetterReveal={handleLetterReveal}
         />
 
-        <div className="PuzzleBoard-footer">
+        <PuzzleBoardFooter>
           <Category category={puzzle.category} />
 
           <UsedLetterBoard
             usedChars={usedChars}
             onLetterClick={handleLetterAttempt}
           />
-        </div>
+        </PuzzleBoardFooter>
 
         <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
-          <div className="ControlBoard">
-            <header className="ControlBoard-header ControlBoard-section">
+          <ControlBoardWrapper>
+            <ControlBoardHeader>
               <strong>Puzzle {puzzleNumber} / {totalPuzzles}</strong>
 
               <div className="ControlBoard-navigation">
-                <button
+                <Button
                   disabled={puzzleNumber === 1}
                   onClick={() => handlePuzzleChange(-1)}>
                   ←
-                </button>
-                <button
+                </Button>
+                <Button
                   disabled={puzzleNumber === totalPuzzles}
                   onClick={() => handlePuzzleChange(1)}>
                   →
-                </button>
+                </Button>
               </div>
-            </header>
+            </ControlBoardHeader>
 
-            <section className="ControlBoard-section">
+            <ControlBoardSection>
               <details>
-                <summary>Spoiler</summary>
-                <p className="ControlBoard-spoiler">
+                <FieldsetSummary>
+                  Spoiler
+                </FieldsetSummary>
+                <ControlBoardSpoiler>
                   {puzzle.text}
-                </p>
-                <button onClick={handleSolve}>Solve Puzzle</button>
+                </ControlBoardSpoiler>
+                <Button onClick={handleSolve}>Solve Puzzle</Button>
               </details>
-            </section>
+            </ControlBoardSection>
 
-            <section className="ControlBoard-section">
-              <h3>Used Letter Board</h3>
+            <ControlBoardSection>
+              <ControlBoardSectionTitle>
+                Used Letter Board
+              </ControlBoardSectionTitle>
               <UsedLetterBoard
                 usedChars={usedChars}
                 onLetterClick={handleLetterAttempt}
                 className="ControlBoard-UsedLetterBoard"
               />
 
-              <button
+              <Button
                 onClick={() => {
                   const index = Math.floor((Math.random() * unrevealed.length))
                   handleLetterReveal(unrevealed[index])
                 }}
                 disabled={!unrevealed.length}>
                 Reveal Highlighted{unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
-              </button>
-            </section>
+              </Button>
+            </ControlBoardSection>
 
-            <section className="ControlBoard-section">
-              <h3>Bonus Round</h3>
-              <button onClick={() => handleHighlightChars('RSTLNE')}>
+            <ControlBoardSection>
+              <ControlBoardSectionTitle>
+                Bonus Round
+              </ControlBoardSectionTitle>
+              <Button onClick={() => handleHighlightChars('RSTLNE')}>
                 Highlight RSTLNE
-              </button>
+              </Button>
               <br/>
-
-              <input
+              <Input
                 type="text"
                 value={attemptedLetters}
                 placeholder="Enter attempted letters"
                 onChange={(e) => setAttemptedLetters(e.target.value.substr(0, 4).toUpperCase())}
               />
-              <button onClick={() => handleHighlightChars(attemptedLetters)}>
+              <Button onClick={() => handleHighlightChars(attemptedLetters)}>
                 Highlight Letters
-              </button>
-            </section>
+              </Button>
+            </ControlBoardSection>
 
-            <section className="ControlBoard-section">
-              <h3>Sounds</h3>
-              <div className="ControlBoard-soundboard">
-                <fieldset>
+            <ControlBoardSection>
+              <ControlBoardSectionTitle>
+                Sounds
+              </ControlBoardSectionTitle>
+              <SoundboardWrapper>
+                <StyledFieldset>
                   <legend>Wheel</legend>
                   {[Sounds.BANKRUPT, Sounds.BEN_WEDGE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound) => (
-                    <button onClick={() => handleSetCurrentSound(sound)}>
+                    <SoundboardButton onClick={() => handleSetCurrentSound(sound)}>
                       {Sounds.getSoundName(sound)}
-                    </button>
+                    </SoundboardButton>
                   ))}
-                </fieldset>
-                <fieldset>
+                </StyledFieldset>
+                <StyledFieldset>
                   <legend>Extra</legend>
                   {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound) => (
-                    <button onClick={() => handleSetCurrentSound(sound)}>
+                    <SoundboardButton onClick={() => handleSetCurrentSound(sound)}>
                       {Sounds.getSoundName(sound)}
-                    </button>
+                    </SoundboardButton>
                   ))}
-                </fieldset>
-              </div>
-            </section>
-          </div>
+                </StyledFieldset>
+              </SoundboardWrapper>
+            </ControlBoardSection>
+          </ControlBoardWrapper>
         </Controls>
       </React.Fragment>
   )
 }
+
+const ControlBoardWrapper = $.div`
+  padding: 1rem;
+  font-size: 1rem;
+  user-select: text;
+`
+
+const ControlBoardSection = $.section`
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+`
+
+const ControlBoardHeader = $(ControlBoardSection)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Button = $.button`
+  font-size: 1rem;
+  border: none;
+  background: #8c959d;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  margin: 2px;
+  border-radius: 4px;
+  outline: none;
+
+  &:hover {
+    background: #717b84;
+  }
+
+  &[disabled] {
+    opacity: 0.4;
+
+    &:hover {
+      background: #8c959d;
+    }
+  }
+`
+
+const ControlBoardSpoiler = $.p`
+  font-size: 2rem;
+`
+
+const ControlBoardSectionTitle = $.h3`
+  font-size: 1rem;
+`
+
+const SoundboardWrapper = $.div`
+  display: flex;
+`
+
+const SoundboardButton = $(Button)`
+  width: 100%;
+`
+
+const StyledFieldset = $.fieldset`
+  flex: 1;
+`
+
+const FieldsetSummary = $.summary`
+  cursor: pointer;
+  outline: none;
+  font-weight: bold;
+`
+
+const PuzzleBoardFooter = $.div`
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg,
+    rgba(255,255,255,1) 0%,
+    rgba(252,252,253,1) 24%,
+    rgba(242,244,245,1) 43%,
+    rgba(225,230,232,1) 61%,
+    rgba(202,211,216,1) 77%,
+    rgba(169,183,191,1) 95%);
+  padding-top: 2.6vw;
+  width: 100%;
+  flex: 1;
+`
+
+const OpenControlsButton = $.button`
+  border: none;
+  background: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  outline: none;
+  padding: 10px;
+`
+
+const Input = $.input`
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 2px solid #ddd;
+  padding: 0.3rem 0.8rem;
+`
 
 export default ControlBoard

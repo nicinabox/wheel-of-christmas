@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './styles.css'
+import $ from 'styled-components'
 
 import Game from '../Game'
 import PuzzleBuilder from '../PuzzleBuilder'
@@ -12,7 +12,7 @@ const App: React.FC<Props> = (props) => {
     const [mode, setMode] = useState('play')
 
     return (
-      <div className="App">
+      <AppWrapper>
         {mode === 'play' && (
           <Game puzzles={PUZZLES_FIXTURE} />
         )}
@@ -25,9 +25,10 @@ const App: React.FC<Props> = (props) => {
           {mode === 'build' && <button onClick={() => setMode('play')}>Play</button>}
           {mode === 'play' && <button onClick={() => setMode('build')}>Build</button>}
         </div>
-
-      </div>
+      </AppWrapper>
   )
 }
+
+const AppWrapper = $.div``
 
 export default App
