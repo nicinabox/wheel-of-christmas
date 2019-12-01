@@ -1,30 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import $ from 'styled-components'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import Game from '../Game'
-import PuzzleBuilder from '../PuzzleBuilder'
-
-import PUZZLES_FIXTURE from 'puzzles'
+import Routes from '../Routes'
 
 interface Props {}
 
 const App: React.FC<Props> = (props) => {
-    const [mode, setMode] = useState('play')
-
     return (
       <AppWrapper>
-        {mode === 'play' && (
-          <Game puzzles={PUZZLES_FIXTURE} />
-        )}
-
-        {mode === 'build' && (
-          <PuzzleBuilder />
-        )}
-
-        <div>
-          {mode === 'build' && <button onClick={() => setMode('play')}>Play</button>}
-          {mode === 'play' && <button onClick={() => setMode('build')}>Build</button>}
-        </div>
+        <Router>
+          <Routes />
+        </Router>
       </AppWrapper>
   )
 }
