@@ -6,7 +6,7 @@ interface Props {
   totalFlakes?: number;
 }
 
-const generateStyle = (n: number, total: number) => {
+const generateStyle = () => {
   const size = random(0.1, 0.5)
   const opacity = random(0.3, 0.9)
   const animationDuration = random(8, 40)
@@ -21,15 +21,15 @@ const generateStyle = (n: number, total: number) => {
   })
 }
 
-export const Snow: React.FC<Props> = ({ totalFlakes = 100 }) => {
+export const Snow: React.FC<Props> = React.memo(({ totalFlakes = 100 }) => {
   return (
     <Root>
       {range(1, totalFlakes + 1).map((n, i) => (
-        <Flake key={n} style={generateStyle(i, totalFlakes)} />
+        <Flake key={n} style={generateStyle()} />
       ))}
     </Root>
   )
-}
+})
 
 const snowing = keyframes`
 100% {
