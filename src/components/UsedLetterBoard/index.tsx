@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import $ from 'styled-components'
-import * as API from 'types'
+import * as API from 'interfaces/types'
 import * as Sounds from 'sounds'
 import { isVowel } from 'utils'
 import { GameContext } from 'store/reducers'

@@ -1,6 +1,6 @@
 import React from 'react'
 import $ from 'styled-components'
-import * as API from 'types'
+import * as API from 'interfaces/types'
 
 interface Props {
   char: API.Char;

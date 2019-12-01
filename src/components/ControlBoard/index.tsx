@@ -4,7 +4,7 @@ import $ from 'styled-components'
 import { darken } from 'polished'
 
 import * as Sounds from 'sounds'
-import * as API from 'types'
+import * as API from 'interfaces/types'
 import { useDeepEqualEffect } from 'hooks'
 import { GameContext } from 'store/reducers'
 import { setGameState, setAttemptedLetters, setVowelsUsed, solvePuzzle, highlightChars, setRevealedIndexes, setPuzzle } from 'store/actions'
@@ -52,7 +52,6 @@ const ControlBoard: React.FC<Props> = () => {
 
   const handlePuzzleChange = (direction: number) => {
     let puzzleIndex = state.puzzleIndex + direction;
-
 
     if (puzzleIndex < 0) {
       puzzleIndex = 0

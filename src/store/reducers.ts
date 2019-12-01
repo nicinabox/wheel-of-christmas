@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import { uniq } from 'lodash'
-import * as API from 'types'
+import * as API from 'interfaces/types'
 import {
   Action,
   SET_GAME_STATE,

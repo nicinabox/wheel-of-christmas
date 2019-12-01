@@ -1,7 +1,7 @@
 import React from 'react'
 import $ from 'styled-components'
 import { Link } from 'react-router-dom';
-import * as API from 'types'
+import * as API from 'interfaces/types'
 
 interface Props {
 }

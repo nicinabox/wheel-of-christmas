@@ -3,7 +3,7 @@ import $ from 'styled-components'
 import ReactSound from 'react-sound'
 
 import * as Sounds from 'sounds'
-import * as API from 'types'
+import * as API from 'interfaces/types'
 import { getPuzzle } from 'utils'
 import ControlBoard from '../ControlBoard'
 import Snow from '../Snow'

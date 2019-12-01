@@ -1,4 +1,4 @@
-import * as API from 'types'
+import * as API from 'interfaces/types'
 import { VOWELS } from 'utils'
 
 export interface Payload {

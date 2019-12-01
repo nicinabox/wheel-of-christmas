@@ -1,5 +1,5 @@
 import { uniq } from 'lodash'
-import * as API from './types'
+import * as API from 'interfaces/types'
 import { GameState } from 'store/reducers'
 
 export const VOWELS = 'AEIOU'
