@@ -6,18 +6,23 @@ import $ from 'styled-components'
 import { GameContext } from 'store/reducers'
 import { setRevealedIndexes } from 'store/actions'
 
+import backgroundSvg from 'images/background.svg'
+
 interface Props {
+  width?: string;
 }
 
-const PuzzleBoard: React.FC<Props> = () => {
+const TILES = range(1, 53)
+
+const PuzzleBoard: React.FC<Props> = ({ width = '90vw' }) => {
   const { state, dispatch } = useContext(GameContext)
   const { puzzle, highlightedChars, revealedIndexes, attemptedLetters } = state
 
   return (
-    <Root>
+    <Root width={width}>
       <Bars>
         <Tiles>
-          {range(1,53).map((tileId, index) => {
+          {TILES.map((tileId, index) => {
             const char = puzzle.chars[index]
             const isSpace = /[\s]/.test(char)
 
@@ -46,22 +51,38 @@ const PuzzleBoard: React.FC<Props> = () => {
   )
 }
 
-const Root = $.div`
+
+const Root = $.div<{ width: string }>`
   margin: 4vw auto -3.6vw auto;
   display: flex;
-  width: 90vw;
-  height: calc(90vw * 0.44566777);
+  width: ${({ width }) => width};
+  ${({ width }) => {
+    const height = `calc(${width} * 0.44566777)`
+    if (/%$/.test(width)) {
+      return `
+        height: 0;
+        padding-top: ${height};
+      `
+    }
+    return `height: ${height};`
+  }}
   position: relative;
   z-index: 1;
 `
 
 const Bars = $.div`
-  padding: 4.1vw;
-  background-image: url(${require('images/background.svg')});
+  background-image: url(${backgroundSvg});
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   display: flex;
+  flex: 1;
+  position: absolute;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 `
 
 const Tiles = $.div`
@@ -70,6 +91,8 @@ const Tiles = $.div`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-gap: 0.14vw;
+  width: 90.8%;
+  height: 79.6%;
 `
 
 const OverlayLetters = $.div`
