@@ -3,7 +3,7 @@ export interface Grid {
 }
 
 const createRow = (rowStart: number, colStart: number, rowEnd: number, colEnd: number, cols: number) => {
-  let rows = []
+  let rows: string[] = []
   for (let i = 0; i < cols; i++) {
     rows.push(`${rowStart} / ${colStart + i} / ${rowEnd} / ${colEnd + i}`)
   }

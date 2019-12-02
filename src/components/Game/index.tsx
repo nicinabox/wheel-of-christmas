@@ -1,10 +1,9 @@
-import React, { useState, useReducer } from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
 import $ from 'styled-components'
-import ReactSound from 'react-sound'
+import Sound from 'react-sound'
 
 import * as Sounds from 'sounds'
-import * as API from 'interfaces/types'
-import { getPuzzle } from 'utils'
+import API from 'interfaces/api'
 import ControlBoard from '../ControlBoard'
 import Snow from '../Snow'
 import PuzzleBoard from '../PuzzleBoard'
@@ -48,9 +47,9 @@ const Game: React.FC<Props> = ({ puzzles }) => {
         <ControlBoard />
 
         {currentSound && (
-          <ReactSound
+          <Sound
             url={require(`sounds/${currentSound}`)}
-            playStatus={PLAYING}
+            playStatus="PLAYING"
             onFinishedPlaying={() => setCurrentSound('')}
           />
         )}

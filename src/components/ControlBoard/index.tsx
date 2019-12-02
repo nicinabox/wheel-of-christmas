@@ -31,7 +31,7 @@ const ControlBoard: React.FC<Props> = () => {
     dispatch(setGameState({ revealedIndexes }))
 
     setCurrentSound(Sounds.PUZZLE_REVEAL)
-  }, [puzzle, dispatch, setCurrentSound])
+  }, [puzzle, setCurrentSound])
 
   useDeepEqualEffect(() => {
     if (isLastPuzzleVowelUsed(puzzle, usedChars)) {
