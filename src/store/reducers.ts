@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import { uniq } from 'lodash'
-import * as API from 'interfaces/types'
+import API from 'interfaces/api'
 import {
   Action,
   SET_GAME_STATE,
@@ -16,9 +16,9 @@ export interface GameState {
   puzzles: API.Puzzle[]
   puzzleIndex: number
   attemptedLetters: string
-  usedChars: API.Char[]
-  highlightedChars: API.Char[]
-  revealedIndexes: API.Index[]
+  usedChars: string[]
+  highlightedChars: string[]
+  revealedIndexes: number[]
 }
 
 export const initialGameState: GameState = {

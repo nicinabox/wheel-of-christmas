@@ -1,5 +1,6 @@
-export module API {
+declare namespace API {
   export interface Game {
+    id: number
     puzzles: Puzzle[]
   }
 
@@ -8,3 +9,5 @@ export module API {
     category: string
   }
 }
+
+export default API
