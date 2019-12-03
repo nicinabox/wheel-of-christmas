@@ -3,26 +3,13 @@ import $ from 'styled-components'
 import { Link } from 'react-router-dom'
 import useAPI from 'hooks/useAPI'
 import { useDispatch, useSelector } from 'react-redux';
-import { receiveGames, receiveGame } from 'store/actions/gamesActions';
+import { receiveGame } from 'store/actions/gamesActions';
 import { RootState } from 'store/reducers';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch()
   const games = useSelector((state: RootState) => state.games)
-  const { get, post } = useAPI()
-
-  useEffect(() => {
-    async function getGames() {
-      try {
-        const games = await get('/games')
-        dispatch(receiveGames(games))
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
-    getGames()
-  }, [])
+  const { post } = useAPI()
 
   async function handleNewGameClick(e) {
     e.preventDefault()

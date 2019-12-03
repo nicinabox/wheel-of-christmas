@@ -36,9 +36,15 @@ const Game: React.FC<GameProps> = ({ match }) => {
   }, [gameId, roundIndex])
 
   useEffect(() => {
+    if (!game) return
+
     dispatch(setCurrentRound(game.puzzles[roundIndex]))
     dispatch(setCurrentSound(Sounds.PUZZLE_REVEAL))
-  }, [roundIndex])
+  }, [game, roundIndex])
+
+  if (!game) {
+    return null
+  }
 
   return (
     <Root>
