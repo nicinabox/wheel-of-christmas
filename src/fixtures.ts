@@ -5,23 +5,23 @@ export const GAME_FIXTURE: API.Game[] = [
     id: 1,
     puzzles: [
       {
-        category: 'Fictional Character',
+        category: 'fictional_character',
         phrase: "  DR.       FRANKENSTEIN'S ASSISTANT          IGOR"
       },
       {
-        category: 'Classic Movie',
+        category: 'classic_movie',
         phrase: '             CITIZEN KANE'
       },
       {
-        category: 'Song Artist',
+        category: 'song_artist',
         phrase: '               AFRICA         BY TOTO',
       },
       {
-        category: 'Movie Quotes',
+        category: 'movie_quotes',
         phrase: '             YOU SHALL       NOT PASS!',
       },
       {
-        category: "The 90's",
+        category: "the_90_s",
         phrase: '               BEEPERS'
       },
     ]

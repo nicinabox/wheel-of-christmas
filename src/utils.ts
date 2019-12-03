@@ -1,6 +1,5 @@
 import { uniq } from 'lodash'
 import * as API from 'interfaces/types'
-import { GameState } from 'store/reducers'
 
 export const VOWELS = 'AEIOU'
 
@@ -8,7 +7,8 @@ export const isVowel = (char: string) => {
   return VOWELS.includes(char.toUpperCase())
 }
 
-export function getPuzzle({ puzzles, puzzleIndex }: GameState) {
+// @ts-ignore
+export function getPuzzle({ puzzles, puzzleIndex }) {
   return puzzles[puzzleIndex]
 }
 
@@ -44,7 +44,7 @@ export const getUnrevealedIndexes = (
   }, [])
 }
 
-export const isLastPuzzleVowelUsed = (puzzle: API.Puzzle, usedChars: API.Char[]): boolean => {
-    const puzzleVowels = uniq(puzzle.chars.filter(isVowel))
+export const isLastPuzzleVowelUsed = (phraseChars: string[], usedChars: API.Char[]): boolean => {
+    const puzzleVowels = uniq(phraseChars.filter(isVowel))
     return puzzleVowels.length ? puzzleVowels.every(c => usedChars.includes(c)) : false
 }

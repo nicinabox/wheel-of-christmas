@@ -1,11 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import $ from 'styled-components'
 import * as API from 'interfaces/types'
 import * as Sounds from 'sounds'
 import { isVowel } from 'utils'
-import { GameContext } from 'store/reducers'
-import { setUsedChars, setHighlightedChars } from 'store/actions'
+import { setUsedChars, setHighlightedChars } from 'store/actions/roundActions'
 import { generateAlphas } from 'utils'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
+import { setCurrentSound } from 'store/actions/soundsActions';
 
 interface Props {
   controlBoard?: boolean;
@@ -18,14 +20,15 @@ interface StyleProps {
 const ALPHAS = generateAlphas()
 
 const UsedLetterBoard: React.FC<Props> = ({ controlBoard = false }) => {
-  const { state, dispatch, setCurrentSound } = useContext(GameContext)
-  const { usedChars, puzzle } = state
+  const dispatch = useDispatch()
+  const state = useSelector((state: RootState) => state.currentRound)
+  const { usedChars, phraseChars } = state
 
   const handleLetterAttempt = (char: API.Char) => {
-    if (puzzle.chars.includes(char)) {
-      setCurrentSound(Sounds.DING)
+    if (phraseChars.includes(char)) {
+      dispatch(setCurrentSound(Sounds.DING))
     } else {
-      setCurrentSound(Sounds.BUZZER)
+      dispatch(setCurrentSound(Sounds.BUZZER))
     }
 
     dispatch(setUsedChars(char))

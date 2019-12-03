@@ -1,14 +1,14 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect } from 'react'
 import $ from 'styled-components'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import useAPI from 'hooks/useAPI'
-import { gamesReducer, initialGamesState, receiveGames, receiveGame } from 'store/games'
+import { useDispatch, useSelector } from 'react-redux';
+import { receiveGames, receiveGame } from 'store/actions/gamesActions';
+import { RootState } from 'store/reducers';
 
-interface HomeProps {}
-
-const Home: React.FC<HomeProps> = () => {
-  const history = useHistory()
-  const [state, dispatch] = useReducer(gamesReducer, initialGamesState)
+const Home: React.FC = () => {
+  const dispatch = useDispatch()
+  const games = useSelector((state: RootState) => state.games)
   const { get, post } = useAPI()
 
   useEffect(() => {
@@ -35,8 +35,12 @@ const Home: React.FC<HomeProps> = () => {
   }
 
   function getGamesIds() {
-    return Object.keys(state)
+    return Object.keys(games)
       .sort((a, b) => Number(a) - Number(b))
+  }
+
+  function hasPuzzles(gameId: string) {
+    return games[gameId].puzzles.length > 0
   }
 
   return (
@@ -46,10 +50,23 @@ const Home: React.FC<HomeProps> = () => {
         </button>
 
         <ul>
-          {getGamesIds().map((id) => {
+          {getGamesIds().map((gameId) => {
             return (
               <li>
-                <Link to={`/games/${id}`}>Game {id}</Link> <small>(<Link to={`/games/${id}/edit`}>edit</Link>)</small>
+                Game {gameId}
+                {' '}
+
+                {hasPuzzles(gameId) && (
+                  <>
+                    <Link to={`/games/${gameId}/round/0`}>
+                      Play
+                    </Link>
+                    {' | '}
+                  </>
+                )}
+                <Link to={`/games/${gameId}/edit`}>
+                  Edit
+                </Link>
               </li>
             )
           })}

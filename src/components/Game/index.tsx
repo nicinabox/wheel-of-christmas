@@ -3,58 +3,64 @@ import $ from 'styled-components'
 import Sound from 'react-sound'
 
 import * as Sounds from 'sounds'
-import API from 'interfaces/api'
 import ControlBoard from '../ControlBoard'
 import Snow from '../Snow'
 import PuzzleBoard from '../PuzzleBoard'
 import Category from '../Category'
 import UsedLetterBoard from '../UsedLetterBoard'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
+import { setCurrentRound } from 'store/actions/roundActions';
+import { setGameState } from 'store/actions/gameActions';
+import { setCurrentSound } from 'store/actions/soundsActions';
 
-import gameReducer, { GameContext, initialGameState } from 'store/reducers'
-
-interface Props {
-  puzzles: API.Puzzle[]
+interface GameProps {
+  match: {
+    params: {
+      gameId: string
+      roundIndex: string
+    }
+  }
 }
 
-// @ts-ignore
-const { PLAYING } = ReactSound.status
+const Game: React.FC<GameProps> = ({ match }) => {
+  const { gameId, roundIndex } = match.params
+  const dispatch = useDispatch()
 
-const Game: React.FC<Props> = ({ puzzles }) => {
-  const [state, dispatch] = useReducer(gameReducer, {
-    ...initialGameState,
-    puzzles,
-  })
+  const game = useSelector((state: RootState) => state.games[gameId])
+  const { category } = useSelector((state: RootState) => state.currentRound)
+  const currentSound = useSelector((state: RootState) => state.currentSound)
 
-  const [currentSound, setCurrentSound] = useState(Sounds.PUZZLE_REVEAL)
-  const puzzle = getPuzzle(state)
+  useEffect(() => {
+    dispatch(setGameState(Number(gameId), Number(roundIndex)))
+  }, [gameId, roundIndex])
+
+  useEffect(() => {
+    dispatch(setCurrentRound(game.puzzles[roundIndex]))
+    dispatch(setCurrentSound(Sounds.PUZZLE_REVEAL))
+  }, [roundIndex])
 
   return (
-    <GameContext.Provider value={{
-      state: { ...state, puzzle },
-      dispatch,
-      setCurrentSound
-    }}>
-      <Root>
-        <Snow />
+    <Root>
+      <Snow />
 
-        <PuzzleBoard />
+      <PuzzleBoard />
 
-        <PuzzleBoardFooter>
-          <Category category={puzzle.category} />
-          <UsedLetterBoard />
-        </PuzzleBoardFooter>
+      <PuzzleBoardFooter>
+        <Category category={category} />
+        <UsedLetterBoard />
+      </PuzzleBoardFooter>
 
-        <ControlBoard />
+      <ControlBoard puzzlesCount={game.puzzles.length} />
 
-        {currentSound && (
-          <Sound
-            url={require(`sounds/${currentSound}`)}
-            playStatus="PLAYING"
-            onFinishedPlaying={() => setCurrentSound('')}
-          />
-        )}
-      </Root>
-    </GameContext.Provider>
+      {currentSound && (
+        <Sound
+          url={require(`sounds/${currentSound}`)}
+          playStatus="PLAYING"
+          onFinishedPlaying={() => dispatch(setCurrentSound(''))}
+        />
+      )}
+    </Root>
   )
 }
 

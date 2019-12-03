@@ -1,18 +1,20 @@
 import React from 'react'
 import $ from 'styled-components'
 import { BrowserRouter as Router } from 'react-router-dom'
+import store from 'store'
 
 import Routes from '../Routes'
+import { Provider } from 'react-redux';
 
-interface Props {}
-
-const App: React.FC<Props> = (props) => {
+const App: React.FC = () => {
     return (
-      <AppWrapper>
-        <Router>
-          <Routes />
-        </Router>
-      </AppWrapper>
+      <Provider store={store}>
+        <AppWrapper>
+          <Router>
+            <Routes />
+          </Router>
+        </AppWrapper>
+      </Provider>
   )
 }
 

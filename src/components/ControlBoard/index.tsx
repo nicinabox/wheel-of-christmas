@@ -6,43 +6,45 @@ import { darken } from 'polished'
 import * as Sounds from 'sounds'
 import * as API from 'interfaces/types'
 import { useDeepEqualEffect } from 'hooks'
-import { GameContext } from 'store/reducers'
-import { setGameState, setAttemptedLetters, setVowelsUsed, solvePuzzle, highlightChars, setRevealedIndexes, setPuzzle } from 'store/actions'
 import { getUnrevealedIndexes, getRevealedIndexes, isLastPuzzleVowelUsed  } from 'utils'
 import { ReactComponent as ControlsIcon } from 'images/controls.svg';
 import UsedLetterBoard from '../UsedLetterBoard'
+import { useDispatch, useSelector } from 'react-redux';
+import { setRevealedIndexes, setVowelsUsed, solvePuzzle, highlightChars, setAttemptedLetters } from 'store/actions/roundActions';
+import { RootState } from 'store/reducers';
+import { useHistory } from 'react-router-dom';
+import { setCurrentSound } from 'store/actions/soundsActions';
 
-
-interface Props {
+interface ControlBoardProps {
+  puzzlesCount: number
 }
 
-const ControlBoard: React.FC<Props> = () => {
-  const { state, dispatch, setCurrentSound } = useContext(GameContext)
-  const { puzzle, puzzleIndex,
-    attemptedLetters, usedChars, highlightedChars, revealedIndexes } = state
+const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const { currentGame, currentRound } = useSelector((state: RootState) => state)
 
-  const puzzlesCount = state.puzzles.length
-  const puzzleNumber = puzzleIndex + 1
+  const { phrase, phraseChars, usedChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
+  const puzzleNumber = currentGame.roundIndex! + 1
 
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
 
   useEffect(() => {
-    const revealedIndexes = getRevealedIndexes(puzzle.chars, /[^\w]/g)
-    dispatch(setGameState({ revealedIndexes }))
-
-    setCurrentSound(Sounds.PUZZLE_REVEAL)
-  }, [puzzle, setCurrentSound])
+    const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w]/g)
+    dispatch(setRevealedIndexes(revealedIndexes))
+  }, [phraseChars])
 
   useDeepEqualEffect(() => {
-    if (isLastPuzzleVowelUsed(puzzle, usedChars)) {
+    // FIXME: Plays on solve
+    if (isLastPuzzleVowelUsed(phraseChars, usedChars)) {
       dispatch(setVowelsUsed())
-      setCurrentSound(Sounds.NO_VOWELS_LEFT)
+      dispatch(setCurrentSound(Sounds.NO_VOWELS_LEFT))
     }
-  }, [puzzle, usedChars, setCurrentSound])
+  }, [phraseChars, usedChars])
 
   const handleSolve = () => {
-    solvePuzzle(puzzle, dispatch)
-    setCurrentSound(Sounds.PUZZLE_SOLVE)
+    solvePuzzle(phraseChars, dispatch)
+    dispatch(setCurrentSound(Sounds.PUZZLE_SOLVE))
   }
 
   const handleHighlightChars = (charStr: string) => {
@@ -51,17 +53,17 @@ const ControlBoard: React.FC<Props> = () => {
   }
 
   const handlePuzzleChange = (direction: number) => {
-    let puzzleIndex = state.puzzleIndex + direction;
+    let roundIndex = currentGame.roundIndex! + direction;
 
-    if (puzzleIndex < 0) {
-      puzzleIndex = 0
+    if (roundIndex < 0) {
+      roundIndex = 0
     }
 
-    if (puzzleIndex > puzzlesCount) {
-      puzzleIndex = puzzlesCount
+    if (roundIndex > puzzlesCount) {
+      roundIndex = puzzlesCount
     }
 
-    dispatch(setPuzzle(puzzleIndex))
+    history.push(`/games/${currentGame.gameId}/round/${roundIndex}`)
   }
 
   const PopOutButton = (props: { children: React.ReactNode; onUnload: () => void; title: string; }) => (
@@ -74,7 +76,7 @@ const ControlBoard: React.FC<Props> = () => {
     ? NewWindow
     : PopOutButton
 
-  const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, puzzle.chars)
+  const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, phraseChars)
 
   return (
       <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
@@ -102,7 +104,7 @@ const ControlBoard: React.FC<Props> = () => {
                 Spoiler
               </FieldsetSummary>
               <ControlBoardSpoiler>
-                {puzzle.text}
+                {phrase}
               </ControlBoardSpoiler>
               <Button onClick={handleSolve}>Solve Puzzle</Button>
             </details>

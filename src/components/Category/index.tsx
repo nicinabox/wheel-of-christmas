@@ -9,7 +9,7 @@ export const Category: React.FC<Props> = ({ category }) => {
   return (
     <CategoryWrapper>
       <CategoryBackground>
-        {category.toUpperCase()}
+        {category.replace(/_/g, ' ').toUpperCase()}
       </CategoryBackground>
     </CategoryWrapper>
   )

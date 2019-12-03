@@ -3,10 +3,11 @@ import { range } from 'lodash'
 import Letter from '../Letter'
 import Tile from '../Tile'
 import $ from 'styled-components'
-import { GameContext } from 'store/reducers'
-import { setRevealedIndexes } from 'store/actions'
+import { setRevealedIndexes } from 'store/actions/roundActions'
 
 import backgroundSvg from 'images/background.svg'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
 
 interface Props {
   width?: string;
@@ -15,15 +16,16 @@ interface Props {
 const TILES = range(1, 53)
 
 const PuzzleBoard: React.FC<Props> = ({ width = '90vw' }) => {
-  const { state, dispatch } = useContext(GameContext)
-  const { puzzle, highlightedChars, revealedIndexes, attemptedLetters } = state
+  const dispatch = useDispatch()
+  const state = useSelector((state: RootState) => state.currentRound)
+  const { phraseChars, highlightedChars, revealedIndexes, attemptedLetters } = state
 
   return (
     <Root width={width}>
       <Bars>
         <Tiles>
           {TILES.map((tileId, index) => {
-            const char = puzzle.chars[index]
+            const char = phraseChars[index]
             const isSpace = /[\s]/.test(char)
 
             return (
