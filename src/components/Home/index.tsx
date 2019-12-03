@@ -3,13 +3,13 @@ import $ from 'styled-components'
 import { Link } from 'react-router-dom'
 import useAPI from 'hooks/useAPI'
 import { useDispatch, useSelector } from 'react-redux';
-import { receiveGame } from 'store/actions/gamesActions';
+import { receiveGame, removeGame } from 'store/actions/gamesActions';
 import { RootState } from 'store/reducers';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch()
   const games = useSelector((state: RootState) => state.games)
-  const { post } = useAPI()
+  const { post, destroy } = useAPI()
 
   async function handleNewGameClick(e) {
     e.preventDefault()
@@ -18,6 +18,22 @@ const Home: React.FC = () => {
       dispatch(receiveGame(game))
     } catch (e) {
       console.error(e)
+    }
+  }
+
+  async function handleDelete(gameId) {
+    const confirmed = window.confirm(`Delete Game ${gameId}?`)
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      await destroy(`/games/${gameId}`)
+      dispatch(removeGame(gameId))
+    } catch (e) {
+      alert('There was a problem deleting game id: ' + gameId)
+      console.warn(e)
     }
   }
 
@@ -39,7 +55,7 @@ const Home: React.FC = () => {
         <ul>
           {getGamesIds().map((gameId) => {
             return (
-              <li>
+              <li key={gameId}>
                 Game {gameId}
                 {' '}
 
@@ -51,9 +67,14 @@ const Home: React.FC = () => {
                     {' | '}
                   </>
                 )}
+
                 <Link to={`/games/${gameId}/edit`}>
                   Edit
                 </Link>
+                {' | '}
+                <button onClick={() => handleDelete(gameId)}>
+                  Delete
+                </button>
               </li>
             )
           })}

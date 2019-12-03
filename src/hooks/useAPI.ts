@@ -11,8 +11,12 @@ export default () => {
       return axios.get(`${url}${path}`, { params }).then(({ data }) => data)
     },
 
-    post(path, data?: object) {
+    post(path: string, data?: object) {
       return axios.post(`${url}${path}`, { data }).then(({ data }) => data)
-    }
+    },
+
+    destroy(path: string) {
+      return axios.delete(`${url}${path}`).then(({ data }) => data)
+    },
   }
 }

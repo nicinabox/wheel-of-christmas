@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
 import API from 'interfaces/api'
-import { RECEIVE_GAMES, RECEIVE_GAME } from 'store/actions/gamesActions';
+import { RECEIVE_GAMES, RECEIVE_GAME, REMOVE_GAME } from 'store/actions/gamesActions';
 
 export interface GamesState {
   [id: string]: API.Game
@@ -28,6 +28,10 @@ export default function games(state = intitialState, action: AnyAction): GamesSt
         ...state,
         [action.game.id]: action.game,
       }
+
+    case REMOVE_GAME:
+      const { [action.gameId]: omittedGame, ...nextState } = state
+      return nextState
 
     default:
       return state
