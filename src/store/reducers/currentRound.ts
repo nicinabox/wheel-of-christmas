@@ -3,6 +3,7 @@ import { AnyAction } from 'redux'
 import { SET_ATTEMPTED_LETTERS, SET_USED_CHARS, SET_HIGHLIGHTED_CHARS, SET_REVEALED_INDEXES, RESET_PUZZLE, SET_CURRENT_ROUND } from 'store/actions/roundActions';
 
 export interface CurrentRoundState {
+  name: string | null
   category: string
   phrase: string
   phraseChars: string[]
@@ -13,6 +14,7 @@ export interface CurrentRoundState {
 }
 
 export const intitialState: CurrentRoundState = {
+  name: '',
   category: '',
   phrase: '',
   phraseChars: [],
