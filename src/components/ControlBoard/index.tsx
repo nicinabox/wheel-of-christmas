@@ -130,25 +130,6 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
 
           <ControlBoardSection>
             <ControlBoardSectionTitle>
-              Bonus Round
-            </ControlBoardSectionTitle>
-            <Button onClick={() => handleHighlightChars('RSTLNE')}>
-              Highlight RSTLNE
-            </Button>
-            <br/>
-            <Input
-              type="text"
-              value={attemptedLetters}
-              placeholder="Enter attempted letters"
-              onChange={(e) => dispatch(setAttemptedLetters(e.target.value))}
-            />
-            <Button onClick={() => handleHighlightChars(attemptedLetters)}>
-              Highlight Letters
-            </Button>
-          </ControlBoardSection>
-
-          <ControlBoardSection>
-            <ControlBoardSectionTitle>
               Sounds
 
               <div>
@@ -185,6 +166,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
                 />
               </div>
             </ControlBoardSectionTitle>
+
             <SoundboardWrapper>
               <StyledFieldset>
                 <legend>Wheel</legend>
@@ -204,6 +186,25 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
                 ))}
               </StyledFieldset>
             </SoundboardWrapper>
+          </ControlBoardSection>
+
+          <ControlBoardSection>
+            <ControlBoardSectionTitle>
+              Bonus Round
+            </ControlBoardSectionTitle>
+            <Button onClick={() => handleHighlightChars('RSTLNE')}>
+              Highlight RSTLNE
+            </Button>
+            <br/>
+            <Input
+              type="text"
+              value={attemptedLetters}
+              placeholder="Enter attempted letters"
+              onChange={(e) => dispatch(setAttemptedLetters(e.target.value))}
+            />
+            <Button onClick={() => handleHighlightChars(attemptedLetters)}>
+              Highlight Letters
+            </Button>
           </ControlBoardSection>
         </ControlBoardWrapper>
       </Controls>
