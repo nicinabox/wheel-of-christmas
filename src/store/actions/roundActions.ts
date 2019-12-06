@@ -19,7 +19,7 @@ export function setAttemptedLetters(value: string) {
   return {
     type: SET_ATTEMPTED_LETTERS,
     payload: {
-      value: value.substr(0, 4).toUpperCase()
+      value: value.toUpperCase()
     }
   }
 }

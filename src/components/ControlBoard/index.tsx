@@ -175,7 +175,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
                   Stop
                 </Button>
 
-                <Input
+                <RangeInput
                   type="range"
                   min={0}
                   max={100}
@@ -295,6 +295,9 @@ const Input = $.input`
   border-radius: 4px;
   border: 2px solid #ddd;
   padding: 0.3rem 0.8rem;
+`
+
+const RangeInput = $.input`
 `
 
 export default ControlBoard
