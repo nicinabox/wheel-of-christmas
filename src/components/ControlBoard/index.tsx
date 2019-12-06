@@ -6,7 +6,7 @@ import { darken } from 'polished'
 import * as Sounds from 'sounds'
 import * as API from 'interfaces/types'
 import { useDeepEqualEffect } from 'hooks'
-import { getUnrevealedIndexes, getRevealedIndexes, isLastPuzzleVowelUsed  } from 'utils'
+import { getUnrevealedIndexes, getRevealedIndexes, isLastPuzzleVowelUsed, isPuzzleSolved  } from 'utils'
 import { ReactComponent as ControlsIcon } from 'images/controls.svg';
 import UsedLetterBoard from '../UsedLetterBoard'
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,12 +35,11 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
   }, [phraseChars])
 
   useDeepEqualEffect(() => {
-    // FIXME: Plays on solve
-    if (isLastPuzzleVowelUsed(phraseChars, usedChars)) {
+    if (!isPuzzleSolved(phrase, usedChars) && isLastPuzzleVowelUsed(phraseChars, usedChars)) {
       dispatch(setVowelsUsed())
       dispatch(setCurrentSound(Sounds.NO_VOWELS_LEFT))
     }
-  }, [phraseChars, usedChars])
+  }, [phrase, phraseChars, usedChars])
 
   const handleSolve = () => {
     solvePuzzle(phraseChars, dispatch)

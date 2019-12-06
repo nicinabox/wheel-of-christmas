@@ -1,5 +1,4 @@
-import { uniq } from 'lodash'
-import * as API from 'interfaces/types'
+import { uniq, isEqual } from 'lodash'
 
 export const VOWELS = 'AEIOU'
 
@@ -20,10 +19,10 @@ export const generateAlphas = () => {
 }
 
 export const getRevealedIndexes = (
-  chars: API.Char[],
+  chars: string[],
   pattern: RegExp
-): API.Index[] => {
-  return chars.reduce((acc: API.Index[], c: string, i) => {
+): number[] => {
+  return chars.reduce((acc: number[], c: string, i) => {
     if (pattern.test(c)) {
       return acc.concat(i)
     }
@@ -32,11 +31,11 @@ export const getRevealedIndexes = (
 }
 
 export const getUnrevealedIndexes = (
-  unrevealedChars: API.Char[],
-  revealedIndexes: API.Index[],
-  chars: API.Char[]
-): API.Index[] => {
-  return chars.reduce((acc: API.Index[], c: API.Char, i: number) => {
+  unrevealedChars: string[],
+  revealedIndexes: number[],
+  chars: string[]
+): number[] => {
+  return chars.reduce((acc: number[], c: string, i: number) => {
     if (!revealedIndexes.includes(i) && unrevealedChars.includes(c)) {
       return acc.concat(i)
     }
@@ -44,7 +43,12 @@ export const getUnrevealedIndexes = (
   }, [])
 }
 
-export const isLastPuzzleVowelUsed = (phraseChars: string[], usedChars: API.Char[]): boolean => {
+export const isLastPuzzleVowelUsed = (phraseChars: string[], usedChars: string[]): boolean => {
     const puzzleVowels = uniq(phraseChars.filter(isVowel))
     return puzzleVowels.length ? puzzleVowels.every(c => usedChars.includes(c)) : false
+}
+
+export const isPuzzleSolved = (phrase: string, usedChars: string[]) => {
+  const uniqChars = uniq(phrase.split(''))
+  return isEqual(uniqChars, usedChars)
 }
