@@ -59,10 +59,11 @@ const Game: React.FC<GameProps> = ({ match }) => {
 
       <ControlBoard puzzlesCount={game.puzzles.length} />
 
-      {currentSound && (
+      {currentSound.sound && (
         <Sound
-          url={require(`sounds/${currentSound}`)}
-          playStatus="PLAYING"
+          url={require(`sounds/${currentSound.sound}`)}
+          playStatus={currentSound.status}
+          volume={currentSound.volume}
           onFinishedPlaying={() => dispatch(setCurrentSound(''))}
         />
       )}

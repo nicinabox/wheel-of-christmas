@@ -13,7 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRevealedIndexes, setVowelsUsed, solvePuzzle, highlightChars, setAttemptedLetters } from 'store/actions/roundActions';
 import { RootState } from 'store/reducers';
 import { useHistory } from 'react-router-dom';
-import { setCurrentSound } from 'store/actions/soundsActions';
+import { setCurrentSound, setSoundStatus, setSoundVolume } from 'store/actions/soundsActions';
+import { isStopped, isPaused, isPlaying } from 'sounds'
 
 interface ControlBoardProps {
   puzzlesCount: number
@@ -22,7 +23,7 @@ interface ControlBoardProps {
 const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const { currentGame, currentRound } = useSelector((state: RootState) => state)
+  const { currentGame, currentRound, currentSound } = useSelector((state: RootState) => state)
 
   const { phrase, phraseChars, usedChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
   const puzzleNumber = currentGame.roundIndex! + 1
@@ -149,6 +150,40 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
           <ControlBoardSection>
             <ControlBoardSectionTitle>
               Sounds
+
+              <div>
+                {!isStopped(currentSound.status) && (
+                  <span>{Sounds.getSoundName(currentSound.sound)}</span>
+                )}
+
+                {isPlaying(currentSound.status) && (
+                  <Button
+                    onClick={() => dispatch(setSoundStatus('PAUSED'))}
+                    disabled={currentSound.status !== 'PLAYING'}>
+                    Pause
+                  </Button>
+                )}
+                {isPaused(currentSound.status) && (
+                  <Button
+                    onClick={() => dispatch(setSoundStatus('PLAYING'))}>
+                    Play
+                  </Button>
+                )}
+                <Button
+                  onClick={() => dispatch(setSoundStatus('STOPPED'))}
+                  disabled={isStopped(currentSound.status)}>
+                  Stop
+                </Button>
+
+                <Input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={10}
+                  value={currentSound.volume}
+                  onChange={(e) => dispatch(setSoundVolume(Number(e.target.value)))}
+                />
+              </div>
             </ControlBoardSectionTitle>
             <SoundboardWrapper>
               <StyledFieldset>
@@ -222,6 +257,9 @@ const ControlBoardSpoiler = $.p`
 
 const ControlBoardSectionTitle = $.h3`
   font-size: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `
 
 const SoundboardWrapper = $.div`

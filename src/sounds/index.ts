@@ -24,3 +24,7 @@ export const TOSS_UP_THEME = 'Toss Up Theme.wav'
 export const getSoundName = (sound: string) => {
   return sound.replace(/\.\w{3}$/, '')
 }
+
+export const isPlaying = (status: string) => status === 'PLAYING'
+export const isPaused = (status: string) => status === 'PAUSED'
+export const isStopped = (status: string) => status === 'STOPPED'
