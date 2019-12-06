@@ -1,15 +1,20 @@
 import React from 'react'
 import $ from 'styled-components'
+import { getFormattedCategory } from 'categories';
 
 interface Props {
   category: string;
 }
 
 export const Category: React.FC<Props> = ({ category }) => {
+  if (!category) {
+    return null
+  }
+
   return (
     <CategoryWrapper>
       <CategoryBackground>
-        {category.replace(/_/g, ' ').toUpperCase()}
+        {getFormattedCategory(category)}
       </CategoryBackground>
     </CategoryWrapper>
   )

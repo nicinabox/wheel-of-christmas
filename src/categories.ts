@@ -1,4 +1,4 @@
-export default [
+const categories = [
   'around_the_house',
   'before_after',
   'character',
@@ -45,3 +45,9 @@ export default [
   'tv_quote',
   'what_are_you_doing',
 ]
+
+export const getFormattedCategory = (category): string => {
+  return category.toUpperCase().replace(/_/g, ' ')
+}
+
+export default categories
