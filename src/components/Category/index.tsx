@@ -1,9 +1,9 @@
 import React from 'react'
 import $ from 'styled-components'
-import { getFormattedCategory } from 'categories';
+import { getFormattedCategory } from 'categories'
 
 interface Props {
-  category: string;
+  category: string
 }
 
 export const Category: React.FC<Props> = ({ category }) => {

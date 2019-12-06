@@ -8,6 +8,7 @@ import { setRevealedIndexes } from 'store/actions/roundActions'
 import backgroundSvg from 'images/background.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/reducers';
+import { GameStatus } from 'store/reducers/currentGame'
 
 interface Props {
   width?: string;
@@ -17,6 +18,7 @@ const TILES = range(1, 53)
 
 const PuzzleBoard: React.FC<Props> = ({ width = '90vw' }) => {
   const dispatch = useDispatch()
+  const { status: gameStatus } = useSelector((state: RootState) => state.currentGame)
   const state = useSelector((state: RootState) => state.currentRound)
   const { phraseChars, highlightedChars, revealedIndexes, attemptedLetters } = state
 
@@ -30,7 +32,7 @@ const PuzzleBoard: React.FC<Props> = ({ width = '90vw' }) => {
 
             return (
               <Tile key={index} tileId={tileId}>
-                {char && !isSpace && (
+                {gameStatus !== GameStatus.Paused && char && !isSpace && (
                   <Letter
                     char={char}
                     isHighlighted={highlightedChars.includes(char)}

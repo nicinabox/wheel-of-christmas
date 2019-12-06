@@ -11,8 +11,9 @@ import UsedLetterBoard from '../UsedLetterBoard'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/reducers';
 import { setCurrentRound } from 'store/actions/roundActions';
-import { setGameState } from 'store/actions/gameActions';
+import { setGameState, setGameStatus } from 'store/actions/gameActions';
 import { setCurrentSound } from 'store/actions/soundsActions';
+import { GameStatus } from 'store/reducers/currentGame'
 
 interface GameProps {
   match: {
@@ -28,11 +29,11 @@ const Game: React.FC<GameProps> = ({ match }) => {
   const dispatch = useDispatch()
 
   const game = useSelector((state: RootState) => state.games[gameId])
-  const { category } = useSelector((state: RootState) => state.currentRound)
-  const currentSound = useSelector((state: RootState) => state.currentSound)
+  const { currentRound, currentSound, currentGame } = useSelector((state: RootState) => state)
 
   useEffect(() => {
     dispatch(setGameState(Number(gameId), Number(roundIndex)))
+    dispatch(setGameStatus(GameStatus.Active))
   }, [gameId, roundIndex])
 
   useEffect(() => {
@@ -53,8 +54,12 @@ const Game: React.FC<GameProps> = ({ match }) => {
       <PuzzleBoard />
 
       <PuzzleBoardFooter>
-        <Category category={category} />
-        <UsedLetterBoard />
+        {currentGame.status === GameStatus.Active && (
+          <>
+            <Category category={currentRound.category} />
+            <UsedLetterBoard />
+          </>
+        )}
       </PuzzleBoardFooter>
 
       <ControlBoard puzzlesCount={game.puzzles.length} />

@@ -15,6 +15,8 @@ import { RootState } from 'store/reducers';
 import { useHistory } from 'react-router-dom';
 import { setCurrentSound, setSoundStatus, setSoundVolume } from 'store/actions/soundsActions';
 import { isStopped, isPaused, isPlaying } from 'sounds'
+import { setGameStatus } from 'store/actions/gameActions'
+import { GameStatus } from 'store/reducers/currentGame'
 
 interface ControlBoardProps {
   puzzlesCount: number
@@ -25,7 +27,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
   const dispatch = useDispatch()
   const { currentGame, currentRound, currentSound } = useSelector((state: RootState) => state)
 
-  const { phrase, phraseChars, usedChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
+  const { name: roundName, phrase, phraseChars, usedChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
   const puzzleNumber = currentGame.roundIndex! + 1
 
   const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
@@ -66,6 +68,11 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
     history.push(`/games/${currentGame.gameId}/round/${roundIndex}`)
   }
 
+  function handleEndGame() {
+    dispatch(setGameStatus(GameStatus.Played))
+    history.push('/')
+  }
+
   const PopOutButton = (props: { children: React.ReactNode; onUnload: () => void; title: string; }) => (
     <OpenControlsButton onClick={() => setShouldPopOut(true)} title="Open Controls">
       <ControlsIcon width={25} style={{fill: 'white'}} />
@@ -82,9 +89,28 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
       <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
         <ControlBoardWrapper>
           <ControlBoardHeader>
-            <strong>Puzzle {puzzleNumber} / {puzzlesCount}</strong>
+            <strong>Round {puzzleNumber} / {puzzlesCount}</strong>
+            {roundName ? `(${roundName})` : null}
 
-            <div className="ControlBoard-navigation">
+            <div>
+              {currentGame.status === GameStatus.Active && (
+                <Button onClick={() => dispatch(setGameStatus(GameStatus.Paused))}>
+                  Pause game
+                </Button>
+              )}
+              {currentGame.status === GameStatus.Paused && (
+                <Button onClick={() => dispatch(setGameStatus(GameStatus.Active))}>
+                  Resume game
+                </Button>
+              )}
+              {currentGame.status !== GameStatus.Played && (
+                <Button onClick={handleEndGame}>
+                  End game
+                </Button>
+              )}
+            </div>
+
+            <div>
               <Button
                 disabled={puzzleNumber === 1}
                 onClick={() => handlePuzzleChange(-1)}>
