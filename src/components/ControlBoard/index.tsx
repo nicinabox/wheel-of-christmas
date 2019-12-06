@@ -155,7 +155,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
               <StyledFieldset>
                 <legend>Wheel</legend>
                 {[Sounds.BANKRUPT, Sounds.BEN_WEDGE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound, i) => (
-                  <SoundboardButton key={i} onClick={() => setCurrentSound(sound)}>
+                  <SoundboardButton key={i} onClick={() => dispatch(setCurrentSound(sound))}>
                     {Sounds.getSoundName(sound)}
                   </SoundboardButton>
                 ))}
@@ -164,7 +164,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
                 <legend>Extra</legend>
                 {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound, i) => (
                   <SoundboardButton
-                     key={i} onClick={() => setCurrentSound(sound)}>
+                     key={i} onClick={() => dispatch(setCurrentSound(sound))}>
                     {Sounds.getSoundName(sound)}
                   </SoundboardButton>
                 ))}
