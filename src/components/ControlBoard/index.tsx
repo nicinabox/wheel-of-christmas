@@ -65,7 +65,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
       roundIndex = puzzlesCount
     }
 
-    history.push(`/games/${currentGame.gameId}/round/${roundIndex}`)
+    history.push(`/play/${currentGame.gameId}/round/${roundIndex}`)
   }
 
   function handleEndGame() {

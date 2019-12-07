@@ -61,14 +61,14 @@ const Home: React.FC = () => {
 
                 {hasPuzzles(gameId) && (
                   <>
-                    <Link to={`/games/${gameId}/round/0`}>
+                    <Link to={`/play/${gameId}/round/0`}>
                       Play
                     </Link>
                     {' | '}
                   </>
                 )}
 
-                <Link to={`/games/${gameId}/edit`}>
+                <Link to={`/edit/${gameId}`}>
                   Edit
                 </Link>
                 {' | '}
