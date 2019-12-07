@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import $ from 'styled-components'
 import { Link } from 'react-router-dom'
-import useAPI from 'hooks/useAPI'
 import { useDispatch, useSelector } from 'react-redux';
 import { receiveGame, removeGame } from 'store/actions/gamesActions';
 import { RootState } from 'store/reducers';
+import { createGame, deleteGame } from 'wheelAPI';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch()
   const games = useSelector((state: RootState) => state.games)
-  const { post, destroy } = useAPI()
+
 
   async function handleNewGameClick(e) {
     e.preventDefault()
     try {
-      const game = await post('/games')
-      dispatch(receiveGame(game))
+      const { data } = await createGame()
+      dispatch(receiveGame(data))
     } catch (e) {
       console.error(e)
     }
   }
 
-  async function handleDelete(gameId) {
+  async function handleDelete(gameId: number) {
     const confirmed = window.confirm(`Delete Game ${gameId}?`)
 
     if (!confirmed) {
@@ -29,7 +29,7 @@ const Home: React.FC = () => {
     }
 
     try {
-      await destroy(`/games/${gameId}`)
+      await deleteGame(gameId)
       dispatch(removeGame(gameId))
     } catch (e) {
       alert('There was a problem deleting game id: ' + gameId)
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
                   Edit
                 </Link>
                 {' | '}
-                <button onClick={() => handleDelete(gameId)}>
+                <button onClick={() => handleDelete(Number(gameId))}>
                   Delete
                 </button>
               </li>
