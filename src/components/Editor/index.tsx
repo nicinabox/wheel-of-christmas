@@ -37,7 +37,9 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
         <RoundLink to={`${url}/round/new`}>
           + New Round
         </RoundLink>
-        <hr/>
+
+        <Divider/>
+
         <RoundsList>
           {game.puzzles.map((puzzle, i) => (
               <RoundItem key={puzzle.id}>
@@ -84,13 +86,17 @@ const Header = $.header`
 const Heading3 = $.h3`
 `
 
+const Divider = $.hr`
+  opacity: 0.5;
+`
+
 const NavLink = $(Link)`
   padding: 0.3rem;
   margin: 0 1rem;
   text-decoration: none;
 
   &:hover {
-    background: #fafafa;
+    background: #eee;
   }
 `
 
@@ -112,7 +118,7 @@ const RoundLink = $(Link)`
   text-decoration: none;
 
   &:hover {
-    background: #fafafa;
+    background: #eee;
   }
 `
 
