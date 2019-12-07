@@ -3,7 +3,7 @@ import $ from 'styled-components'
 import { getFormattedCategory } from 'categories'
 
 interface Props {
-  category: string
+  category: string | undefined
 }
 
 export const Category: React.FC<Props> = ({ category }) => {
