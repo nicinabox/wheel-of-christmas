@@ -1,22 +1,22 @@
-import React, { useContext, useState, useEffect } from 'react'
-import NewWindow from 'react-new-window'
-import $ from 'styled-components'
-import { darken } from 'polished'
-
-import * as Sounds from 'sounds'
-import * as API from 'interfaces/types'
 import { useDeepEqualEffect } from 'hooks'
-import { getUnrevealedIndexes, getRevealedIndexes, isLastPuzzleVowelUsed, isPuzzleSolved  } from 'utils'
-import { ReactComponent as ControlsIcon } from 'images/controls.svg';
-import UsedLetterBoard from '../UsedLetterBoard'
-import { useDispatch, useSelector } from 'react-redux';
-import { setRevealedIndexes, setVowelsUsed, solvePuzzle, highlightChars, setAttemptedLetters } from 'store/actions/roundActions';
-import { RootState } from 'store/reducers';
-import { useHistory } from 'react-router-dom';
-import { setCurrentSound, setSoundStatus, setSoundVolume } from 'store/actions/soundsActions';
-import { isStopped, isPaused, isPlaying } from 'sounds'
+import { ReactComponent as ControlsIcon } from 'images/controls.svg'
+import * as API from 'interfaces/types'
+import { darken } from 'polished'
+import React, { useEffect, useState } from 'react'
+import NewWindow from 'react-new-window'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import * as Sounds from 'sounds'
+import { isPaused, isPlaying, isStopped } from 'sounds'
 import { setGameStatus } from 'store/actions/gameActions'
+import { highlightChars, setAttemptedLetters, setRevealedIndexes, setVowelsUsed, solvePuzzle } from 'store/actions/roundActions'
+import { setCurrentSound, setSoundStatus, setSoundVolume } from 'store/actions/soundsActions'
+import { RootState } from 'store/reducers'
 import { GameStatus } from 'store/reducers/currentGame'
+import $ from 'styled-components'
+import { getRevealedIndexes, getUnrevealedIndexes, isLastPuzzleVowelUsed, isPuzzleSolved } from 'utils'
+import UsedLetterBoard from '../UsedLetterBoard'
+
 
 interface ControlBoardProps {
   puzzlesCount: number
@@ -35,14 +35,14 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
   useEffect(() => {
     const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w]/g)
     dispatch(setRevealedIndexes(revealedIndexes))
-  }, [phraseChars])
+  }, [dispatch, phraseChars])
 
   useDeepEqualEffect(() => {
     if (!isPuzzleSolved(phrase, usedChars) && isLastPuzzleVowelUsed(phraseChars, usedChars)) {
       dispatch(setVowelsUsed())
       dispatch(setCurrentSound(Sounds.NO_VOWELS_LEFT))
     }
-  }, [phrase, phraseChars, usedChars])
+  }, [dispatch, phrase, phraseChars, usedChars])
 
   const handleSolve = () => {
     solvePuzzle(phraseChars, dispatch)

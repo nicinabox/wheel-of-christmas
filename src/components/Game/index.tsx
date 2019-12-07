@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useReducer } from 'react'
-import $ from 'styled-components'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Sound from 'react-sound'
-
 import * as Sounds from 'sounds'
-import ControlBoard from '../ControlBoard'
-import Snow from '../Snow'
-import PuzzleBoard from '../PuzzleBoard'
-import Category from '../Category'
-import UsedLetterBoard from '../UsedLetterBoard'
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store/reducers';
-import { setCurrentRound } from 'store/actions/roundActions';
-import { setGameState, setGameStatus } from 'store/actions/gameActions';
-import { setCurrentSound } from 'store/actions/soundsActions';
+import { setGameState, setGameStatus } from 'store/actions/gameActions'
+import { setCurrentRound } from 'store/actions/roundActions'
+import { setCurrentSound } from 'store/actions/soundsActions'
+import { RootState } from 'store/reducers'
 import { GameStatus } from 'store/reducers/currentGame'
+import $ from 'styled-components'
+import Category from '../Category'
+import ControlBoard from '../ControlBoard'
+import PuzzleBoard from '../PuzzleBoard'
+import Snow from '../Snow'
+import UsedLetterBoard from '../UsedLetterBoard'
+
 
 interface GameProps {
   match: {
@@ -34,14 +34,14 @@ const Game: React.FC<GameProps> = ({ match }) => {
   useEffect(() => {
     dispatch(setGameState(Number(gameId), Number(roundIndex)))
     dispatch(setGameStatus(GameStatus.Active))
-  }, [gameId, roundIndex])
+  }, [dispatch, gameId, roundIndex])
 
   useEffect(() => {
     if (!game) return
 
     dispatch(setCurrentRound(game.puzzles[roundIndex]))
     dispatch(setCurrentSound(Sounds.PUZZLE_REVEAL))
-  }, [game, roundIndex])
+  }, [dispatch, game, roundIndex])
 
   if (!game) {
     return null

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { range } from 'lodash'
 import Letter from '../Letter'
 import Tile from '../Tile'
