@@ -1,32 +1,25 @@
 import React, { useEffect } from 'react'
-import { Switch, Route } from 'react-router-dom'
-
-import Home from '../Home'
+import { useDispatch } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
+import { receiveGames } from 'store/actions/gamesActions'
 import Game from '../Game'
-import { receiveGames } from 'store/actions/gamesActions';
-import { useDispatch } from 'react-redux';
-import useAPI from 'hooks/useAPI';
+import Home from '../Home'
 // import PuzzleBuilder from '../PuzzleBuilder'
+import { fetchGames } from 'wheelAPI'
 
 export default () => {
   const dispatch = useDispatch()
-  const { get } = useAPI()
+
+  async function fetchData() {
+    const { data } = await fetchGames()
+    dispatch(receiveGames(data))
+  }
 
   useEffect(() => {
-    async function getGames() {
-      try {
-        const games = await get('/games')
-        dispatch(receiveGames(games))
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
-    getGames()
+    fetchData()
   }, [])
 
   return (
-
     <Switch>
       <Route path="/" exact component={Home} />
       {/* <Route path="/games/new" exact component={PuzzleBuilder} /> */}
