@@ -45,7 +45,7 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
 
     dispatch(setCurrentRound(formValues))
     dispatch(setRevealedIndexes(revealedIndexes))
-  }, [formValues])
+  }, [dispatch, formValues])
 
   async function createNewRound() {
     const { data } = await createGameRound(game.id, formValues)

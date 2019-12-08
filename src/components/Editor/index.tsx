@@ -66,7 +66,9 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
         </Route>
 
         <Route exact path={path}>
-          <h3>Please select a puzzle</h3>
+          <EmptyState>
+            <h3>Please select a puzzle</h3>
+          </EmptyState>
         </Route>
       </Switch>
     </Root>
@@ -139,5 +141,11 @@ const RoundLinkSubtitle = $.small`
 const RoundItem = $.li`
 `
 
+const EmptyState = $.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`
 
 export default Editor

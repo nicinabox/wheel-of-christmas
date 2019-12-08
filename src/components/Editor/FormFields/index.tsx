@@ -20,16 +20,17 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
 
   function handleChange({ target }) {
     const { name, value, type, checked } = target
+    let nextValue = value
 
     if (type === 'checkbox') {
-      return onChange(name, checked)
+      nextValue = checked
     }
 
     if (name === 'phrase') {
-      return onChange(name, value.toUpperCase())
+      nextValue = value.toUpperCase()
     }
 
-    onChange(name, value)
+    onChange(name, nextValue)
   }
 
   return (
@@ -39,7 +40,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
           <LabelText>
             Round Name
           </LabelText>
-          <Input type="text" name="name" value={values.name} onChange={handleChange}
+          <Input type="text" name="name" value={values.name || ''} onChange={handleChange}
             placeholder="Optional"
           />
         </Label>
@@ -50,7 +51,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
           <LabelText>
             Phrase
           </LabelText>
-          <Input required type="text" name="phrase" value={values.phrase} onChange={handleChange} />
+          <Input required type="text" name="phrase" value={values.phrase || ''} onChange={handleChange} />
         </Label>
       </InputGroup>
 
