@@ -18,6 +18,7 @@ const initialFormValues = {
   name: '',
   phrase: '',
   category: '',
+  position: 0,
   bonus_round: false,
 }
 
@@ -43,7 +44,7 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
     const phraseChars = formValues.phrase.split('')
     const revealedIndexes = phraseChars.map((_, i) => i)
 
-    dispatch(setCurrentRound(formValues))
+    dispatch(setCurrentRound(formValues, 0))
     dispatch(setRevealedIndexes(revealedIndexes))
   }, [dispatch, formValues])
 

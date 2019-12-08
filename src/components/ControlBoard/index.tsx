@@ -1,6 +1,5 @@
 import { useDeepEqualEffect } from 'hooks'
 import { ReactComponent as ControlsIcon } from 'images/controls.svg'
-import * as API from 'interfaces/types'
 import { darken } from 'polished'
 import React, { useEffect, useState } from 'react'
 import NewWindow from 'react-new-window'
@@ -16,21 +15,56 @@ import { GameStatus } from 'store/reducers/currentGame'
 import $ from 'styled-components'
 import { getRevealedIndexes, getUnrevealedIndexes, isLastPuzzleVowelUsed, isPuzzleSolved } from 'utils'
 import UsedLetterBoard from '../UsedLetterBoard'
+import API from 'interfaces/api'
 
 
 interface ControlBoardProps {
-  puzzlesCount: number
 }
 
-const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
+function getRound(puzzles: API.Puzzle[], index: number): API.Puzzle | undefined  {
+  return puzzles[index]
+}
+
+function getRoundName(puzzle: API.Puzzle | undefined) {
+  if (!puzzle) {
+    return ''
+  }
+
+  return puzzle.name || `Round ${puzzle.position}`
+}
+
+function getPuzzles(puzzles: API.Puzzle[], roundIndex: number) {
+  const nextPuzzle = getRound(puzzles, roundIndex + 1)
+  const previousPuzzle = getRound(puzzles, roundIndex - 1)
+  const currentPuzzle = getRound(puzzles, roundIndex)
+
+  return {
+    currentPuzzle,
+    nextPuzzle,
+    previousPuzzle,
+  }
+}
+
+const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const { currentGame, currentRound, currentSound } = useSelector((state: RootState) => state)
 
-  const { name: roundName, phrase, phraseChars, usedChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
-  const puzzleNumber = currentGame.roundIndex! + 1
+  const { phrase, phraseChars, usedChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
+  const puzzleNumber = currentRound.position
 
-  const [shouldPopOut, setShouldPopOut] = useState<boolean>(false)
+  const {
+    currentPuzzle,
+    previousPuzzle,
+    nextPuzzle
+  } = getPuzzles(currentGame.puzzles, currentRound.roundIndex)
+  const puzzlesCount = currentGame.puzzles.length
+
+  const nextRoundName = `→ ${getRoundName(nextPuzzle)}`
+  const previousRoundName = `← ${getRoundName(previousPuzzle)}`
+  const currentRoundName = getRoundName(currentPuzzle)
+
+  const [shouldPopOut, setShouldPopOut] = useState(false)
 
   useEffect(() => {
     const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w]/g)
@@ -50,12 +84,12 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
   }
 
   const handleHighlightChars = (charStr: string) => {
-    const chars: API.Char[] = charStr.toUpperCase().split('')
+    const chars: string[] = charStr.toUpperCase().split('')
     highlightChars(chars, dispatch)
   }
 
   const handlePuzzleChange = (direction: number) => {
-    let roundIndex = currentGame.roundIndex! + direction;
+    let roundIndex = currentRound.roundIndex + direction;
 
     if (roundIndex < 0) {
       roundIndex = 0
@@ -65,7 +99,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
       roundIndex = puzzlesCount
     }
 
-    history.push(`/play/${currentGame.gameId}/round/${roundIndex}`)
+    history.push(`/play/${currentGame.id}/round/${roundIndex}`)
   }
 
   function handleEndGame() {
@@ -89,9 +123,6 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
       <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
         <ControlBoardWrapper>
           <ControlBoardHeader>
-            <strong>Round {puzzleNumber} / {puzzlesCount}</strong>
-            {roundName ? `(${roundName})` : null}
-
             <div>
               {currentGame.status === GameStatus.Active && (
                 <Button onClick={() => dispatch(setGameStatus(GameStatus.Paused))}>
@@ -111,15 +142,21 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ puzzlesCount }) => {
             </div>
 
             <div>
+              <strong>Game {currentGame.id} - {currentRoundName}</strong>
+              <br/>
+              <span>Round {puzzleNumber} / {puzzlesCount}</span>
+            </div>
+
+            <div>
               <Button
-                disabled={puzzleNumber === 1}
+                disabled={!previousPuzzle}
                 onClick={() => handlePuzzleChange(-1)}>
-                ←
+                {previousRoundName}
               </Button>
               <Button
-                disabled={puzzleNumber === puzzlesCount}
+                disabled={!nextPuzzle}
                 onClick={() => handlePuzzleChange(1)}>
-                →
+                {nextRoundName}
               </Button>
             </div>
           </ControlBoardHeader>

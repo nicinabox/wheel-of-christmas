@@ -7,6 +7,7 @@ export interface FormValues {
   name: string
   phrase: string
   category: string
+  position: number
   bonus_round: boolean
 }
 

@@ -8,10 +8,11 @@ export const SET_HIGHLIGHTED_CHARS = 'SET_HIGHLIGHTED_CHARS'
 export const SET_REVEALED_INDEXES = 'SET_REVEALED_INDEXES'
 export const RESET_PUZZLE = 'RESET_PUZZLE'
 
-export function setCurrentRound(puzzle: API.Puzzle) {
+export function setCurrentRound(puzzle: API.Puzzle, roundIndex: number) {
   return {
     type: SET_CURRENT_ROUND,
-    puzzle
+    puzzle,
+    roundIndex,
   }
 }
 

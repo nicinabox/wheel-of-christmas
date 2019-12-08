@@ -1,6 +1,5 @@
 import React from 'react'
 import $ from 'styled-components'
-import * as API from 'interfaces/types'
 import * as Sounds from 'sounds'
 import { isVowel } from 'utils'
 import { setUsedChars, setHighlightedChars } from 'store/actions/roundActions'
@@ -24,7 +23,7 @@ const UsedLetterBoard: React.FC<Props> = ({ controlBoard = false }) => {
   const state = useSelector((state: RootState) => state.currentRound)
   const { usedChars, phraseChars } = state
 
-  const handleLetterAttempt = (char: API.Char) => {
+  const handleLetterAttempt = (char: string) => {
     if (phraseChars.includes(char)) {
       dispatch(setCurrentSound(Sounds.DING))
     } else {

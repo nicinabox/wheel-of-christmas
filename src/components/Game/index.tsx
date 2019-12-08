@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Sound from 'react-sound'
 import * as Sounds from 'sounds'
-import { setGameState, setGameStatus } from 'store/actions/gameActions'
+import { setCurrentGame, setGameStatus } from 'store/actions/gameActions'
 import { setCurrentRound } from 'store/actions/roundActions'
 import { setCurrentSound } from 'store/actions/soundsActions'
 import { RootState } from 'store/reducers'
@@ -32,14 +32,14 @@ const Game: React.FC<GameProps> = ({ match }) => {
   const { currentRound, currentSound, currentGame } = useSelector((state: RootState) => state)
 
   useEffect(() => {
-    dispatch(setGameState(Number(gameId), Number(roundIndex)))
+    dispatch(setCurrentGame(game))
     dispatch(setGameStatus(GameStatus.Active))
   }, [dispatch, gameId, roundIndex])
 
   useEffect(() => {
     if (!game) return
 
-    dispatch(setCurrentRound(game.puzzles[roundIndex]))
+    dispatch(setCurrentRound(game.puzzles[roundIndex], Number(roundIndex)))
     dispatch(setCurrentSound(Sounds.PUZZLE_REVEAL))
   }, [dispatch, game, roundIndex])
 
@@ -62,7 +62,7 @@ const Game: React.FC<GameProps> = ({ match }) => {
         )}
       </PuzzleBoardFooter>
 
-      <ControlBoard puzzlesCount={game.puzzles.length} />
+      <ControlBoard />
 
       {currentSound.sound && (
         <Sound

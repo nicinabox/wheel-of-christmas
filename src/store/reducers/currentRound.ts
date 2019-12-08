@@ -1,11 +1,11 @@
 import { uniq } from 'lodash';
 import { AnyAction } from 'redux'
 import { SET_ATTEMPTED_LETTERS, SET_USED_CHARS, SET_HIGHLIGHTED_CHARS, SET_REVEALED_INDEXES, RESET_PUZZLE, SET_CURRENT_ROUND } from 'store/actions/roundActions';
+import API from 'interfaces/api';
 
-export interface CurrentRoundState {
-  name: string | null
-  category: string
-  phrase: string
+export interface CurrentRoundState extends API.Puzzle {
+  name: string
+  roundIndex: number
   phraseChars: string[]
   attemptedLetters: string
   usedChars: string[]
@@ -14,9 +14,12 @@ export interface CurrentRoundState {
 }
 
 export const intitialState: CurrentRoundState = {
+  roundIndex: 0,
+  position: 0,
   name: '',
   category: '',
   phrase: '',
+  bonus_round: false,
   phraseChars: [],
   attemptedLetters: '',
   usedChars: [],
@@ -32,6 +35,7 @@ export default function currentRound(state = intitialState, action: AnyAction): 
       return {
         ...intitialState,
         ...action.puzzle,
+        roundIndex: action.roundIndex,
         phraseChars: action.puzzle.phrase.split('')
       }
 

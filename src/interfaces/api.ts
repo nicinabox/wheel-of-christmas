@@ -8,7 +8,8 @@ declare namespace API {
     id?: number
     phrase: string
     category: string
-    name: string | null
+    name: string
+    position: number
     bonus_round: boolean
   }
 }

@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
-import { SET_GAME_STATE, SET_GAME_STATUS } from "store/actions/gameActions";
+import { SET_GAME_STATUS, SET_CURRENT_GAME } from "store/actions/gameActions";
+import API from "interfaces/api";
 
 export enum GameStatus {
   Played = 'played',
@@ -7,25 +8,22 @@ export enum GameStatus {
   Active = 'active',
 }
 
-export interface CurrentGameState {
-  gameId: number | null
-  roundIndex: number | null
+export interface CurrentGameState extends API.Game {
   status: GameStatus
 }
 
 export const intitialState: CurrentGameState = {
-  gameId: null,
-  roundIndex: null,
-  status: GameStatus.Active,
+  id: 0,
+  puzzles: [],
+  status: GameStatus.Active
 }
 
 export default function currentGame(state = intitialState, action: AnyAction) {
   switch(action.type) {
-    case SET_GAME_STATE:
+    case SET_CURRENT_GAME:
       return {
         ...state,
-        gameId: action.gameId,
-        roundIndex: action.roundIndex,
+        ...action.game
       }
 
     case SET_GAME_STATUS:
