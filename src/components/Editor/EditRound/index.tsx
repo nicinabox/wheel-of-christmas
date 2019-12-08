@@ -37,7 +37,7 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
     } else {
       setFormValues(initialFormValues)
     }
-  }, [roundIndex])
+  }, [game.puzzles, roundIndex])
 
   useEffect(() => {
     const phraseChars = formValues.phrase.split('')
