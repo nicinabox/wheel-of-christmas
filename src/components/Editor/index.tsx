@@ -4,6 +4,7 @@ import { Route, Switch, Link } from 'react-router-dom'
 import { RootState } from 'store/reducers'
 import { useSelector } from 'react-redux'
 import EditRound from './EditRound'
+import { getFormattedCategory } from 'categories'
 
 interface EditorProps {
   match: {
@@ -33,9 +34,9 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
           </NavLink>
         </Header>
 
-        <RoundLink to={`${url}/round/new`}>
+        <ActionLink to={`${url}/round/new`}>
           + New Round
-        </RoundLink>
+        </ActionLink>
 
         <Divider/>
 
@@ -43,7 +44,12 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
           {game.puzzles.map((puzzle, i) => (
               <RoundItem key={puzzle.id}>
                 <RoundLink to={`${url}/round/${i}`}>
-                  {puzzle.phrase}
+                  <div>
+                    {puzzle.name || puzzle.phrase}
+                  </div>
+                  <RoundLinkSubtitle>
+                    {getFormattedCategory(puzzle.category)}
+                  </RoundLinkSubtitle>
                 </RoundLink>
             </RoundItem>
           ))}
@@ -115,10 +121,19 @@ const RoundLink = $(Link)`
   display: block;
   padding: 0.5rem 1rem;
   text-decoration: none;
+  color: #111;
 
   &:hover {
     background: #eee;
   }
+`
+
+const ActionLink = $(RoundLink)`
+  color: #455bbc;
+`
+
+const RoundLinkSubtitle = $.small`
+  color: #666;
 `
 
 const RoundItem = $.li`
