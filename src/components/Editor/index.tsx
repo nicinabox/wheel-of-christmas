@@ -3,7 +3,6 @@ import $ from 'styled-components'
 import { Route, Switch, Link } from 'react-router-dom'
 import { RootState } from 'store/reducers'
 import { useSelector } from 'react-redux'
-import NewRound from './NewRound'
 import EditRound from './EditRound'
 
 interface EditorProps {
@@ -53,7 +52,7 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
 
       <Switch>
         <Route exact path={`${path}/round/new`}>
-          <NewRound game={game} />
+          <EditRound game={game} />
         </Route>
 
         <Route exact path={`${path}/round/:roundIndex`}>

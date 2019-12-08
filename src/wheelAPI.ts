@@ -20,3 +20,7 @@ export async function getGamePuzzles(gameId: number) {
 export async function createGameRound(gameId: number, data: FormValues) {
   return await axios.post(`/api/games/${gameId}/puzzles`, data)
 }
+
+export async function updateGameRound(gameId: number, puzzleId: number, data: FormValues) {
+  return await axios.put(`/api/games/${gameId}/puzzles/${puzzleId}`, data)
+}

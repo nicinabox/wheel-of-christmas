@@ -3,6 +3,7 @@ import $ from 'styled-components'
 import CATEGORIES, { getFormattedCategory } from 'categories'
 
 export interface FormValues {
+  id?: number
   name: string
   phrase: string
   category: string

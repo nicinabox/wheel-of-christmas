@@ -5,7 +5,7 @@ declare namespace API {
   }
 
   export interface Puzzle {
-    id: number
+    id?: number
     phrase: string
     category: string
     name: string | null
