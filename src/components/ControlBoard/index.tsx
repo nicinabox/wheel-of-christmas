@@ -76,8 +76,8 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
   }, [dispatch, phraseChars, phraseVowels])
 
   const handleSolve = () => {
+    dispatch(setPuzzleSolved())
     dispatch(setCurrentSound(Sounds.PUZZLE_SOLVE))
-    setPuzzleSolved()
   }
 
   const handleHighlightChars = (charStr: string) => {
@@ -170,7 +170,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
                 {phrase}
               </ControlBoardSpoiler>
 
-              <Button onClick={handleSolve}>Solve Puzzle</Button>
+              <Button onClick={handleSolve}>Reveal Puzzle</Button>
               <Button onClick={() => dispatch(setCurrentSound(Sounds.BUZZER))}>
                 {Sounds.getSoundName(Sounds.BUZZER)}
               </Button>
