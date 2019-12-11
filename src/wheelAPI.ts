@@ -10,11 +10,11 @@ export async function createGame() {
 }
 
 export async function deleteGame(gameId: number) {
-  return await axios.post(`/api/games/${gameId}`)
+  return await axios.delete(`/api/games/${gameId}`)
 }
 
 export async function getGamePuzzles(gameId: number) {
-  return await axios(`/api/games/${gameId}/puzzles`)
+  return await axios.get(`/api/games/${gameId}/puzzles`)
 }
 
 export async function createGameRound(gameId: number, data: FormValues) {
