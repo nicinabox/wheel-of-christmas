@@ -14,7 +14,6 @@ import PuzzleBoard from '../PuzzleBoard'
 import Snow from '../Snow'
 import UsedLetterBoard from '../UsedLetterBoard'
 
-
 interface GameProps {
   match: {
     params: {
@@ -33,14 +32,18 @@ const Game: React.FC<GameProps> = ({ match }) => {
 
   useEffect(() => {
     dispatch(setCurrentGame(game))
-    dispatch(setGameStatus(GameStatus.Active))
+    dispatch(setGameStatus(GameStatus.Paused))
   }, [dispatch, gameId, roundIndex])
 
   useEffect(() => {
-    if (!game) return
+    if (currentGame.status === GameStatus.Active) {
+      dispatch(setCurrentSound(Sounds.PUZZLE_REVEAL))
+    }
+  }, [currentGame.status])
 
+  useEffect(() => {
+    if (!currentGame) return
     dispatch(setCurrentRound(game.puzzles[roundIndex], Number(roundIndex)))
-    dispatch(setCurrentSound(Sounds.PUZZLE_REVEAL))
   }, [dispatch, game, roundIndex])
 
   if (!game) {
