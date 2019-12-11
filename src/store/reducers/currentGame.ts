@@ -14,6 +14,7 @@ export interface CurrentGameState extends API.Game {
 
 export const intitialState: CurrentGameState = {
   id: 0,
+  name: '',
   puzzles: [],
   status: GameStatus.Paused
 }

@@ -1,6 +1,7 @@
 declare namespace API {
   export interface Game {
     id: number
+    name: string | null
     puzzles: Puzzle[]
   }
 

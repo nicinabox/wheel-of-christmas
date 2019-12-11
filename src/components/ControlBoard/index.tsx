@@ -140,7 +140,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
             </div>
 
             <div>
-              <strong>Game {currentGame.id} - {currentRoundName}</strong>
+              <strong>{currentGame.name} - {currentRoundName}</strong>
               <br/>
               <span>Round {puzzleNumber} / {puzzlesCount}</span>
               {currentRound.bonus_round && (

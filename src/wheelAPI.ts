@@ -9,6 +9,10 @@ export async function createGame() {
   return await axios.post('/api/games')
 }
 
+export async function updateGame(gameId: number, data) {
+  return await axios.put(`/api/games/${gameId}`, data)
+}
+
 export async function deleteGame(gameId: number) {
   return await axios.delete(`/api/games/${gameId}`)
 }

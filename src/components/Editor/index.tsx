@@ -5,6 +5,7 @@ import { RootState } from 'store/reducers'
 import { useSelector } from 'react-redux'
 import EditRound from './EditRound'
 import { getFormattedCategory } from 'categories'
+import EditGame from './EditGame'
 
 interface EditorProps {
   match: {
@@ -26,7 +27,7 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
       <Sidebar>
         <Header>
           <Heading3>
-            Game {gameId}
+            {game.name || `Game ${game.id}`}
           </Heading3>
 
           <TopNavLink to="/">
@@ -56,8 +57,11 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
         </RoundsList>
       </Sidebar>
 
-      <Switch>
-        <Route exact path={`${path}/round/new`}>
+      <Main>
+        <EditGame game={game} />
+
+        <Switch>
+          <Route exact path={`${path}/round/new`}>
           <EditRound game={game} />
         </Route>
 
@@ -71,6 +75,7 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
           </EmptyState>
         </Route>
       </Switch>
+    </Main>
     </Root>
   )
 }
@@ -80,6 +85,12 @@ const Root = $.div`
   flex-direction: row;
   min-height: 100vh;
   background: #fafafa;
+`
+
+const Main = $.main`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 `
 
 const Header = $.header`

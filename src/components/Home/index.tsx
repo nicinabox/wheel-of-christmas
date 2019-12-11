@@ -1,10 +1,11 @@
-import React from 'react'
-import $ from 'styled-components'
-import { Link } from 'react-router-dom'
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { receiveGame, removeGame } from 'store/actions/gamesActions';
+import { Link } from 'react-router-dom';
+import { receiveGame } from 'store/actions/gamesActions';
 import { RootState } from 'store/reducers';
-import { createGame, deleteGame } from 'wheelAPI';
+import $ from 'styled-components';
+import { Button } from 'styled/buttons';
+import { createGame } from 'wheelAPI';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch()
@@ -21,22 +22,6 @@ const Home: React.FC = () => {
     }
   }
 
-  async function handleDelete(gameId: number) {
-    const confirmed = window.confirm(`Delete Game ${gameId}?`)
-
-    if (!confirmed) {
-      return
-    }
-
-    try {
-      await deleteGame(gameId)
-      dispatch(removeGame(gameId))
-    } catch (e) {
-      alert('There was a problem deleting game id: ' + gameId)
-      console.warn(e)
-    }
-  }
-
   function getGamesIds() {
     return Object.keys(games)
       .sort((a, b) => Number(a) - Number(b))
@@ -48,37 +33,34 @@ const Home: React.FC = () => {
 
   return (
       <Wrapper>
-        <button onClick={handleNewGameClick}>
+        <Button onClick={handleNewGameClick}>
           New Game
-        </button>
+        </Button>
 
-        <ul>
+        <OrderedList>
           {getGamesIds().map((gameId) => {
             return (
-              <li key={gameId}>
-                Game {gameId}
-                {' '}
+              <ListItem key={gameId}>
+                {games[gameId].name}
 
-                {hasPuzzles(gameId) && (
-                  <>
-                    <Link to={`/play/${gameId}/round/0`}>
-                      Play
+                <Actions>
+                    {hasPuzzles(gameId) && (
+                      <React.Fragment>
+                        <Link to={`/play/${gameId}/round/0`}>
+                        Play
+                      </Link>
+                      {' | '}
+                    </React.Fragment>
+                    )}
+
+                    <Link to={`/edit/${gameId}`}>
+                      Edit
                     </Link>
-                    {' | '}
-                  </>
-                )}
-
-                <Link to={`/edit/${gameId}`}>
-                  Edit
-                </Link>
-                {' | '}
-                <button onClick={() => handleDelete(Number(gameId))}>
-                  Delete
-                </button>
-              </li>
+                </Actions>
+              </ListItem>
             )
           })}
-        </ul>
+        </OrderedList>
       </Wrapper>
   )
 }
@@ -87,6 +69,24 @@ const Wrapper = $.div`
   margin: 0 auto;
   padding: 30px;
   width: 600px;
+`
+
+const OrderedList = $.ol`
+  padding: 0;
+  margin: 0;
+  margin-top: 1rem;
+  list-style: none;
+`
+
+const ListItem = $.li`
+  padding: 0.8rem 0;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Actions = $.div`
 `
 
 export default Home
