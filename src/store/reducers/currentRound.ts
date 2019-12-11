@@ -2,11 +2,13 @@ import { uniq } from 'lodash';
 import { AnyAction } from 'redux'
 import { SET_ATTEMPTED_LETTERS, SET_USED_CHARS, SET_HIGHLIGHTED_CHARS, SET_REVEALED_INDEXES, RESET_PUZZLE, SET_CURRENT_ROUND, SET_PUZZLE_SOLVED } from 'store/actions/roundActions';
 import API from 'interfaces/api';
+import { isVowel } from 'utils';
 
 export interface CurrentRoundState extends API.Puzzle {
   name: string
   roundIndex: number
   phraseChars: string[]
+  phraseVowels: string[]
   attemptedLetters: string
   usedChars: string[]
   highlightedChars: string[]
@@ -21,6 +23,7 @@ export const intitialState: CurrentRoundState = {
   phrase: '',
   bonus_round: false,
   phraseChars: [],
+  phraseVowels: [],
   attemptedLetters: '',
   usedChars: [],
   highlightedChars: [],
@@ -32,11 +35,13 @@ export default function currentRound(state = intitialState, action: AnyAction): 
 
   switch (type) {
     case SET_CURRENT_ROUND:
+      const phraseChars = action.puzzle.phrase.split('')
       return {
         ...intitialState,
         ...action.puzzle,
         roundIndex: action.roundIndex,
-        phraseChars: action.puzzle.phrase.split('')
+        phraseVowels: uniq(phraseChars.filter(isVowel)),
+        phraseChars,
       }
 
     case SET_ATTEMPTED_LETTERS:
@@ -48,7 +53,8 @@ export default function currentRound(state = intitialState, action: AnyAction): 
     case SET_USED_CHARS:
       return {
         ...state,
-        usedChars: uniq(state.usedChars.concat(payload.chars))
+        usedChars: uniq(state.usedChars.concat(payload.chars)),
+        phraseVowels: state.phraseVowels.filter(v => !payload.chars.includes(v)),
       }
 
     case SET_HIGHLIGHTED_CHARS:

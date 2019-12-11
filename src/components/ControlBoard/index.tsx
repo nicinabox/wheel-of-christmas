@@ -48,7 +48,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
   const dispatch = useDispatch()
   const { currentGame, currentRound, currentSound } = useSelector((state: RootState) => state)
 
-  const { phrase, phraseChars, usedChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
+  const { phrase, phraseChars, phraseVowels, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
   const puzzleNumber = currentRound.position
 
   const {
@@ -70,10 +70,10 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
   }, [dispatch, phraseChars])
 
   useDeepEqualEffect(() => {
-    if (!isPuzzleSolved(phrase, usedChars) && isLastPuzzleVowelUsed(phraseChars, usedChars)) {
+    if (phraseChars.length && !phraseVowels.length) {
       dispatch(setCurrentSound(Sounds.NO_VOWELS_LEFT))
     }
-  }, [dispatch, phrase, phraseChars, usedChars])
+  }, [dispatch, phraseChars, phraseVowels])
 
   const handleSolve = () => {
     dispatch(setCurrentSound(Sounds.PUZZLE_SOLVE))
