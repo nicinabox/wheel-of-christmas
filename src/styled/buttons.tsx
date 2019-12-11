@@ -1,10 +1,10 @@
 import $ from 'styled-components'
-import { darken } from 'polished'
+import { lighten } from 'polished'
 
 export const Button = $.button`
   font-size: 1rem;
   border: none;
-  background: #3e51a9;
+  background: #1a4048;
   color: white;
   padding: 0.4rem 0.8rem;
   margin: 2px;
@@ -12,14 +12,14 @@ export const Button = $.button`
   outline: none;
 
   &:hover {
-    background: ${darken(0.1, '#3e51a9')};
+    background: ${lighten(0.1, '#1a4048')};
   }
 
   &[disabled] {
     opacity: 0.4;
 
     &:hover {
-      background: #3e51a9;
+      background: #1a4048;
     }
   }
 `
@@ -30,7 +30,7 @@ export const DestructiveButton = $(Button)`
   color: black;
 
   &:hover {
-    background: red;
+    background: #a42d2d;
     color: white;
   }
 `

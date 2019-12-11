@@ -1,6 +1,6 @@
 import { useDeepEqualEffect } from 'hooks'
 import { ReactComponent as ControlsIcon } from 'images/controls.svg'
-import { darken } from 'polished'
+import API from 'interfaces/api'
 import React, { useEffect, useState } from 'react'
 import NewWindow from 'react-new-window'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,15 +8,15 @@ import { useHistory } from 'react-router-dom'
 import * as Sounds from 'sounds'
 import { isPaused, isPlaying, isStopped } from 'sounds'
 import { setGameStatus } from 'store/actions/gameActions'
-import { highlightChars, setAttemptedLetters, setRevealedIndexes, setVowelsUsed, setPuzzleSolved } from 'store/actions/roundActions'
+import { highlightChars, setAttemptedLetters, setPuzzleSolved, setRevealedIndexes } from 'store/actions/roundActions'
 import { setCurrentSound, setSoundStatus, setSoundVolume } from 'store/actions/soundsActions'
 import { RootState } from 'store/reducers'
 import { GameStatus } from 'store/reducers/currentGame'
 import $ from 'styled-components'
-import { getRevealedIndexes, getUnrevealedIndexes, isLastPuzzleVowelUsed, isPuzzleSolved } from 'utils'
-import UsedLetterBoard from '../UsedLetterBoard'
-import API from 'interfaces/api'
 import { Button } from 'styled/buttons'
+import { getRevealedIndexes, getUnrevealedIndexes } from 'utils'
+import UsedLetterBoard from '../UsedLetterBoard'
+import { lighten } from 'polished'
 
 interface ControlBoardProps {}
 
@@ -239,7 +239,10 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
               <StyledFieldset>
                 <legend>Wheel</legend>
                 {[Sounds.BANKRUPT, Sounds.PRIZE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound, i) => (
-                  <SoundboardButton key={i} onClick={() => dispatch(setCurrentSound(sound))}>
+                  <SoundboardButton
+                    key={i}
+                    sound={sound}
+                    onClick={() => dispatch(setCurrentSound(sound))}>
                     {Sounds.getSoundName(sound)}
                   </SoundboardButton>
                 ))}
@@ -248,7 +251,9 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
                 <legend>Extra</legend>
                 {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound, i) => (
                   <SoundboardButton
-                     key={i} onClick={() => dispatch(setCurrentSound(sound))}>
+                     key={i}
+                     sound={sound}
+                     onClick={() => dispatch(setCurrentSound(sound))}>
                     {Sounds.getSoundName(sound)}
                   </SoundboardButton>
                 ))}
@@ -312,8 +317,13 @@ const SoundboardWrapper = $.div`
   display: flex;
 `
 
-const SoundboardButton = $(Button)`
+const SoundboardButton = $(Button)<{ sound: string }>`
   width: 100%;
+  background: ${props => Sounds.WedgeColors[props.sound] || '#1a4048'}
+
+  &:hover {
+    background: ${props => lighten(0.1, Sounds.WedgeColors[props.sound] || '#1a4048')};
+  }
 `
 
 const StyledFieldset = $.fieldset`
