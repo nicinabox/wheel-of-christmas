@@ -1,6 +1,6 @@
 import React from 'react'
 import $ from 'styled-components'
-import { Route, Switch, Link } from 'react-router-dom'
+import { Route, Switch, NavLink } from 'react-router-dom'
 import { RootState } from 'store/reducers'
 import { useSelector } from 'react-redux'
 import EditRound from './EditRound'
@@ -29,9 +29,9 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
             Game {gameId}
           </Heading3>
 
-          <NavLink to="/">
+          <TopNavLink to="/">
             All Games
-          </NavLink>
+          </TopNavLink>
         </Header>
 
         <ActionLink to={`${url}/round/new`}>
@@ -43,7 +43,7 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
         <RoundsList>
           {game.puzzles.map((puzzle, i) => (
               <RoundItem key={puzzle.id}>
-                <RoundLink to={`${url}/round/${i}`}>
+                <RoundLink to={`${url}/round/${i}`} activeStyle={{background:'#eee'}}>
                   <div>
                     {puzzle.name || puzzle.phrase}
                   </div>
@@ -96,7 +96,7 @@ const Divider = $.hr`
   opacity: 0.5;
 `
 
-const NavLink = $(Link)`
+const TopNavLink = $(NavLink)`
   padding: 0.3rem;
   margin: 0 1rem;
   text-decoration: none;
@@ -118,7 +118,7 @@ const RoundsList = $.ol`
   white-space: no-wrap;
 `
 
-const RoundLink = $(Link)`
+const RoundLink = $(NavLink)`
   display: block;
   padding: 0.5rem 1rem;
   text-decoration: none;
