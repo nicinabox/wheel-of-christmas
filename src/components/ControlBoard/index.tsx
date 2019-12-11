@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import * as Sounds from 'sounds'
 import { isPaused, isPlaying, isStopped } from 'sounds'
 import { setGameStatus } from 'store/actions/gameActions'
-import { highlightChars, setAttemptedLetters, setRevealedIndexes, setVowelsUsed, solvePuzzle } from 'store/actions/roundActions'
+import { highlightChars, setAttemptedLetters, setRevealedIndexes, setVowelsUsed, setPuzzleSolved } from 'store/actions/roundActions'
 import { setCurrentSound, setSoundStatus, setSoundVolume } from 'store/actions/soundsActions'
 import { RootState } from 'store/reducers'
 import { GameStatus } from 'store/reducers/currentGame'
@@ -18,8 +18,7 @@ import UsedLetterBoard from '../UsedLetterBoard'
 import API from 'interfaces/api'
 
 
-interface ControlBoardProps {
-}
+interface ControlBoardProps {}
 
 function getRound(puzzles: API.Puzzle[], index: number): API.Puzzle | undefined  {
   return puzzles[index]
@@ -73,14 +72,13 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
 
   useDeepEqualEffect(() => {
     if (!isPuzzleSolved(phrase, usedChars) && isLastPuzzleVowelUsed(phraseChars, usedChars)) {
-      dispatch(setVowelsUsed())
       dispatch(setCurrentSound(Sounds.NO_VOWELS_LEFT))
     }
   }, [dispatch, phrase, phraseChars, usedChars])
 
   const handleSolve = () => {
-    solvePuzzle(phraseChars, dispatch)
     dispatch(setCurrentSound(Sounds.PUZZLE_SOLVE))
+    setPuzzleSolved()
   }
 
   const handleHighlightChars = (charStr: string) => {
