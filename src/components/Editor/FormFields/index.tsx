@@ -15,9 +15,10 @@ interface FormFieldsProps {
   values: FormValues,
   onChange: (name: string, value: any) => void
   onSubmit: () => void
+  onDelete?: () => void
 }
 
-export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubmit }) => {
+export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubmit, onDelete }) => {
 
   function handleChange({ target }) {
     const { name, value, type, checked } = target
@@ -80,9 +81,17 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
         </Label>
       </InputGroup>
 
-      <Button type="submit" onClick={onSubmit}>
-        Save
-      </Button>
+      <Actions>
+        <Button type="submit" onClick={onSubmit}>
+          Save
+        </Button>
+
+        {onDelete ? (
+          <DestructiveButton type="submit" onClick={onDelete}>
+            Delete
+          </DestructiveButton>
+        ) : null}
+      </Actions>
     </Form>
   )
 }
@@ -116,12 +125,28 @@ const Input = $.input`
 const Select = $.select`
 `
 
+const Actions = $.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 const Button = $.button`
   color: #fff;
   font-weight: bold;
   border: none;
   background: #445abb;
   padding: 10px;
+`
+
+const DestructiveButton = $.button`
+  border: none;
+  background: transparent;
+  padding: 10px;
+  color: black;
+
+  &:hover {
+    color: red;
+  }
 `
 
 export default FormFields

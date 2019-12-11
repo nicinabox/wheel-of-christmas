@@ -7,7 +7,7 @@ import Category from 'components/Category'
 import { setRevealedIndexes, setCurrentRound } from 'store/actions/roundActions'
 import { useDispatch } from 'react-redux'
 import FormFields, { FormValues } from '../FormFields'
-import { createGameRound, updateGameRound } from 'wheelAPI'
+import { createGameRound, updateGameRound, deleteGameRound } from 'wheelAPI'
 import { receiveGamePuzzles } from 'store/actions/gamesActions'
 
 interface EditRoundProps {
@@ -77,6 +77,20 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
     await createNewRound()
   }
 
+  async function handleDelete() {
+    await deleteGameRound(game.id, formValues.id!)
+
+    const nextPuzzles = game.puzzles.reduce((acc: API.Puzzle[], puzzle) => {
+      if (puzzle.id === formValues.id) {
+        return acc
+      }
+      return acc.concat(puzzle)
+    }, [])
+
+    dispatch(receiveGamePuzzles(game.id, nextPuzzles))
+    history.replace(`/edit/${game.id}`)
+  }
+
   function handleChange(name: string, value: any) {
     setFormValues({
       ...formValues,
@@ -96,6 +110,7 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
         values={formValues}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        onDelete={formValues.id ? handleDelete : undefined}
       />
     </Root>
   )

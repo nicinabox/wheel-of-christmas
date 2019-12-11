@@ -24,3 +24,7 @@ export async function createGameRound(gameId: number, data: FormValues) {
 export async function updateGameRound(gameId: number, puzzleId: number, data: FormValues) {
   return await axios.put(`/api/games/${gameId}/puzzles/${puzzleId}`, data)
 }
+
+export async function deleteGameRound(gameId: number, puzzleId: number) {
+  return await axios.delete(`/api/games/${gameId}/puzzles/${puzzleId}`)
+}
