@@ -17,7 +17,6 @@ import { getRevealedIndexes, getUnrevealedIndexes, isLastPuzzleVowelUsed, isPuzz
 import UsedLetterBoard from '../UsedLetterBoard'
 import API from 'interfaces/api'
 
-
 interface ControlBoardProps {}
 
 function getRound(puzzles: API.Puzzle[], index: number): API.Puzzle | undefined  {
@@ -170,7 +169,11 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
               <ControlBoardSpoiler>
                 {phrase}
               </ControlBoardSpoiler>
+
               <Button onClick={handleSolve}>Solve Puzzle</Button>
+              <Button onClick={() => dispatch(setCurrentSound(Sounds.BUZZER))}>
+                {Sounds.getSoundName(Sounds.BUZZER)}
+              </Button>
             </details>
           </ControlBoardSection>
 
@@ -234,7 +237,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
             <SoundboardWrapper>
               <StyledFieldset>
                 <legend>Wheel</legend>
-                {[Sounds.BANKRUPT, Sounds.BEN_WEDGE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound, i) => (
+                {[Sounds.BANKRUPT, Sounds.PRIZE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound, i) => (
                   <SoundboardButton key={i} onClick={() => dispatch(setCurrentSound(sound))}>
                     {Sounds.getSoundName(sound)}
                   </SoundboardButton>

@@ -7,12 +7,12 @@ export const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
 export const PUZZLE_SOLVE = 'Puzzle Solve.wav'
 
 // Wheel sounds
-export const BANKRUPT = 'Bankrupt.wav'
-export const BEN_WEDGE = 'Ben Wedge.wav'
-export const EXPRESS = 'Express.wav'
-export const HALF_CARD = 'Half Card.wav'
-export const MYSTERY = 'Mystery.wav'
-export const WILD_CARD = 'Wild Card.wav'
+export const BANKRUPT = 'Bankrupt.wav' // black
+export const PRIZE = 'Prize.wav' // prize - green
+export const EXPRESS = 'Express.wav' // light blue
+export const HALF_CARD = 'Half Card.wav' // red
+export const MYSTERY = 'Mystery.wav' // purple
+export const WILD_CARD = 'Wild Card.wav' // hot pink
 
 // Manual
 export const BONUS_ROUND_SOLVE = 'Bonus Round Solve.wav'
