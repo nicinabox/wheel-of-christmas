@@ -38,13 +38,13 @@ const UsedLetterBoard: React.FC<Props> = ({ controlBoard = false }) => {
     <Root controlBoard={controlBoard}>
       <Background controlBoard={controlBoard}>
         {ALPHAS.map((char) => (
-          <Button
+          <LetterButton
             key={char}
             disabled={usedChars.includes(char)}
             isVowel={isVowel(char)}
             onClick={() => handleLetterAttempt(char)}>
             {char}
-          </Button>
+          </LetterButton>
         ))}
       </Background>
     </Root>
@@ -72,7 +72,7 @@ const Background = $.div<StyleProps>`
   flex: ${p => p.controlBoard ? 1 : 0};
 `
 
-const Button = $.button<{ isVowel: boolean; }>`
+const LetterButton = $.button<{ isVowel: boolean; }>`
   background: none;
   border: none;
   font-weight: 900;

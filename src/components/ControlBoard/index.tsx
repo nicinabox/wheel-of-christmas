@@ -16,6 +16,7 @@ import $ from 'styled-components'
 import { getRevealedIndexes, getUnrevealedIndexes, isLastPuzzleVowelUsed, isPuzzleSolved } from 'utils'
 import UsedLetterBoard from '../UsedLetterBoard'
 import API from 'interfaces/api'
+import { Button } from 'styled/buttons'
 
 interface ControlBoardProps {}
 
@@ -294,29 +295,6 @@ const ControlBoardHeader = $(ControlBoardSection)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
-
-const Button = $.button`
-  font-size: 1rem;
-  border: none;
-  background: #3e51a9;
-  color: white;
-  padding: 0.4rem 0.8rem;
-  margin: 2px;
-  border-radius: 6px;
-  outline: none;
-
-  &:hover {
-    background: ${darken(0.1, '#3e51a9')};
-  }
-
-  &[disabled] {
-    opacity: 0.4;
-
-    &:hover {
-      background: #3e51a9;
-    }
-  }
 `
 
 const ControlBoardSpoiler = $.p`

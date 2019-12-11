@@ -1,6 +1,8 @@
+import CATEGORIES, { getFormattedCategory } from 'categories'
 import React from 'react'
 import $ from 'styled-components'
-import CATEGORIES, { getFormattedCategory } from 'categories'
+import { InputGroup, Label, LabelText, Input, Select, Actions } from 'styled/forms'
+import { Button, DestructiveButton } from 'styled/buttons'
 
 export interface FormValues {
   id?: number
@@ -99,54 +101,6 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
 const Form = $.div`
   width: 800px;
   margin: 0 auto;
-`
-
-const InputGroup = $.div`
-  margin-bottom: 20px;
-`
-
-const Label = $.label`
-  font-size: 1rem;
-`
-
-const LabelText = $.span`
-  margin-right: 15px;
-  margin-bottom: 4px;
-  font-weight: 500;
-  display: block;
-`
-
-const Input = $.input`
-  padding: 5px;
-  font-size: 1.2rem;
-  width: 100%;
-`
-
-const Select = $.select`
-`
-
-const Actions = $.div`
-  display: flex;
-  justify-content: space-between;
-`
-
-const Button = $.button`
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  background: #445abb;
-  padding: 10px;
-`
-
-const DestructiveButton = $.button`
-  border: none;
-  background: transparent;
-  padding: 10px;
-  color: black;
-
-  &:hover {
-    color: red;
-  }
 `
 
 export default FormFields
