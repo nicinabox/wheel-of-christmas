@@ -4,11 +4,13 @@ import API from 'interfaces/api'
 import { useParams, useHistory } from 'react-router-dom'
 import PuzzleBoard from 'components/PuzzleBoard'
 import Category from 'components/Category'
-import { setRevealedIndexes, setCurrentRound } from 'store/actions/roundActions'
+import { setPuzzleSolved, setCurrentRound } from 'store/actions/roundActions'
 import { useDispatch } from 'react-redux'
 import FormFields, { FormValues } from '../FormFields'
 import { createGameRound, updateGameRound, deleteGameRound } from 'wheelAPI'
 import { receiveGamePuzzles } from 'store/actions/gamesActions'
+import { GameStatus } from 'store/reducers/currentGame'
+import { setGameStatus } from 'store/actions/gameActions'
 
 interface EditRoundProps {
   game: API.Game
@@ -35,17 +37,15 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
   useEffect(() => {
     if (roundIndex) {
       setFormValues(game.puzzles[roundIndex])
+      dispatch(setGameStatus(GameStatus.Active))
     } else {
       setFormValues(initialFormValues)
     }
   }, [game.puzzles, roundIndex])
 
   useEffect(() => {
-    const phraseChars = formValues.phrase.split('')
-    const revealedIndexes = phraseChars.map((_, i) => i)
-
     dispatch(setCurrentRound(formValues, 0))
-    dispatch(setRevealedIndexes(revealedIndexes))
+    dispatch(setPuzzleSolved())
   }, [dispatch, formValues])
 
   async function createNewRound() {
