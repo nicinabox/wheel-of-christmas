@@ -70,7 +70,7 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound }) => {
         </StyledFieldset>
         <StyledFieldset>
           <legend>Extra</legend>
-          {[Sounds.THEME, Sounds.BONUS_ROUND_TIMER, Sounds.BONUS_ROUND_SOLVE, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound, i) => (
+          {[Sounds.THEME, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound, i) => (
             <SoundboardButton
                key={i}
                sound={sound}

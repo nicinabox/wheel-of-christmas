@@ -7,9 +7,9 @@ import { setGameStatus } from 'store/actions/gameActions'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { CurrentRoundState } from 'store/reducers/currentRound'
-import { setPuzzleSolved } from 'store/actions/roundActions'
+import { setPuzzleSolved, resetPuzzle } from 'store/actions/roundActions'
 import API from 'interfaces/api'
-import { setCurrentSound } from 'store/actions/soundsActions'
+import { setCurrentSound, setSoundStatus } from 'store/actions/soundsActions'
 import * as Sounds from 'sounds'
 import { lighten } from 'polished'
 
@@ -60,6 +60,8 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
 
   function handleEndGame() {
     dispatch(setGameStatus(GameStatus.Played))
+    dispatch(setSoundStatus('STOPPED'))
+    dispatch(resetPuzzle())
     history.push('/')
   }
 

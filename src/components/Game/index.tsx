@@ -31,8 +31,8 @@ const Game: React.FC<GameProps> = ({ match }) => {
   const { currentRound, currentSound, currentGame } = useSelector((state: RootState) => state)
 
   useEffect(() => {
-    dispatch(setCurrentGame(game))
     dispatch(setGameStatus(GameStatus.Paused))
+    dispatch(setCurrentGame(game))
   }, [dispatch, gameId, roundIndex])
 
   useEffect(() => {

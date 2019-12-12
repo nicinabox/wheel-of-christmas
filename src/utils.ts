@@ -18,10 +18,7 @@ export const generateAlphas = () => {
     .map((_, i) => String.fromCharCode(start + i))
 }
 
-export const getRevealedIndexes = (
-  chars: string[],
-  pattern: RegExp
-): number[] => {
+export const getRevealedIndexes = (chars: string[], pattern: RegExp): number[] => {
   return chars.reduce((acc: number[], c: string, i) => {
     if (pattern.test(c)) {
       return acc.concat(i)

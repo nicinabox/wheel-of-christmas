@@ -14,7 +14,6 @@ import LetterBoard from './LetterBoard'
 import Spoiler from './Spoiler'
 import Soundboard from './Soundboard'
 import BonusRound from './BonusRound'
-import { GameStatus } from 'store/reducers/currentGame'
 
 interface ControlBoardProps {}
 
@@ -26,7 +25,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
   const { phrase, phraseChars, phraseVowels } = currentRound
 
   useEffect(() => {
-    const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w]/g)
+    const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w\s]/g)
     dispatch(setRevealedIndexes(revealedIndexes))
   }, [dispatch, phraseChars])
 
@@ -54,7 +53,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
           <Spoiler phrase={phrase} />
           <LetterBoard currentRound={currentRound} />
           <Soundboard currentSound={currentSound} />
-          <BonusRound currentRound={currentRound} />
+          <BonusRound currentRound={currentRound} currentSound={currentSound} />
         </ControlBoardWrapper>
       </Controls>
   )
