@@ -14,6 +14,7 @@ import LetterBoard from './LetterBoard'
 import Spoiler from './Spoiler'
 import Soundboard from './Soundboard'
 import BonusRound from './BonusRound'
+import TossUpRound from './TossUpRound'
 
 interface ControlBoardProps {}
 
@@ -52,6 +53,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
           />
           <Spoiler phrase={phrase} />
           <BonusRound currentRound={currentRound} currentSound={currentSound} />
+          <TossUpRound currentRound={currentRound} currentSound={currentSound} />
           <LetterBoard currentRound={currentRound} />
           <Soundboard currentSound={currentSound} />
         </ControlBoardWrapper>

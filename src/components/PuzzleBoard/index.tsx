@@ -19,8 +19,8 @@ const TILES = range(1, 53)
 const PuzzleBoard: React.FC<Props> = ({ width = '90vw' }) => {
   const dispatch = useDispatch()
   const { status: gameStatus } = useSelector((state: RootState) => state.currentGame)
-  const state = useSelector((state: RootState) => state.currentRound)
-  const { phraseChars, highlightedChars, revealedIndexes, attemptedLetters } = state
+  const currentRound = useSelector((state: RootState) => state.currentRound)
+  const { phraseChars, highlightedChars, revealedIndexes, attemptedLetters } = currentRound
 
   return (
     <Root width={width}>
