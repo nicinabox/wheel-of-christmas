@@ -59,7 +59,7 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
   const puzzlesCount = currentGame.puzzles.length
 
   function handleEndGame() {
-    dispatch(setGameStatus(GameStatus.Played))
+    dispatch(setGameStatus(GameStatus.Paused))
     dispatch(setSoundStatus('STOPPED'))
     dispatch(resetPuzzle())
     history.push('/')
