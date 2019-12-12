@@ -107,8 +107,11 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
         <strong>{currentGame.name} - {currentRoundName}</strong>
         <br/>
         <span>Round {puzzleNumber} / {puzzlesCount}</span>
-        {currentRound.bonus_round && (
+        {currentRound.round_type === 'bonus' && (
           <strong> Bonus Round</strong>
+        )}
+        {currentRound.round_type === 'toss_up' && (
+          <strong> Toss-up Round</strong>
         )}
       </div>
 

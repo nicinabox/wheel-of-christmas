@@ -18,31 +18,36 @@ const initialFormValues = {
   name: '',
   phrase: '',
   category: '',
-  position: 0,
-  bonus_round: false,
+  round_type: undefined,
+  toss_up_reveal_order: [],
+}
+
+const toFormValues = (resource, initialValues) => {
+  return Object.keys(initialValues).reduce((acc, key) => {
+    return { ...acc, [key]: resource[key] || initialValues[key] }
+  }, initialValues)
 }
 
 export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { roundIndex } = useParams()
+  const puzzle = roundIndex ? game.puzzles[roundIndex] : {}
 
-  const [formValues, setFormValues] = useState<FormValues>({
-    ...initialFormValues,
-    ...(roundIndex ? game.puzzles[roundIndex] : {}),
-  })
+  const [formValues, setFormValues] = useState<FormValues>(
+    toFormValues(puzzle, initialFormValues)
+  )
 
   useEffect(() => {
     if (roundIndex) {
-      setFormValues(game.puzzles[roundIndex])
-      dispatch(setGameStatus(GameStatus.Active))
+      setFormValues(toFormValues(puzzle, game.puzzles[roundIndex]))
     } else {
       setFormValues(initialFormValues)
     }
   }, [game.puzzles, roundIndex])
 
   useEffect(() => {
-    dispatch(setCurrentRound(formValues, 0))
+    dispatch(setCurrentRound(formValues as API.Puzzle, 0))
     dispatch(setPuzzleSolved())
   }, [dispatch, formValues])
 
@@ -56,7 +61,7 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
   }
 
   async function updateRound() {
-    const { data } = await updateGameRound(game.id, formValues.id!, formValues)
+    const { data } = await updateGameRound(game.id, puzzle.id, formValues)
     const nextPuzzles = game.puzzles.map((puzzle) => {
       if (puzzle.id === data.id) {
         return data
@@ -76,13 +81,13 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
   }
 
   async function handleDelete() {
-    await deleteGameRound(game.id, formValues.id!)
+    await deleteGameRound(game.id, puzzle.id)
 
-    const nextPuzzles = game.puzzles.reduce((acc: API.Puzzle[], puzzle) => {
-      if (puzzle.id === formValues.id) {
+    const nextPuzzles = game.puzzles.reduce((acc: API.Puzzle[], p) => {
+      if (p.id === puzzle.id) {
         return acc
       }
-      return acc.concat(puzzle)
+      return acc.concat(p)
     }, [])
 
     dispatch(receiveGamePuzzles(game.id, nextPuzzles))
@@ -108,7 +113,7 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
         values={formValues}
         onChange={handleChange}
         onSubmit={handleSubmit}
-        onDelete={formValues.id ? handleDelete : undefined}
+        onDelete={puzzle.id ? handleDelete : undefined}
       />
     </Root>
   )

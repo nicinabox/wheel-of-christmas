@@ -5,13 +5,16 @@ declare namespace API {
     puzzles: Puzzle[]
   }
 
+  export type RoundType = 'toss_up' | 'bonus'
+
   export interface Puzzle {
     id?: number
     phrase: string
     category: string
     name: string
     position: number
-    bonus_round: boolean
+    round_type: RoundType | undefined
+    toss_up_reveal_order: number[]
   }
 }
 
