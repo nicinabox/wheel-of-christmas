@@ -9,7 +9,7 @@ interface TossUpRevealOrderProps {
 }
 
 export const TossUpRevealOrder: React.FC<TossUpRevealOrderProps> = ({ phrase, value, onChange }) => {
-  const phraseChars = phrase.split('').filter(c => /\w/.test(c))
+  const phraseChars = phrase.split('')
 
   function handleSelect(charIndex: number) {
     const selectedCharIndex = value.indexOf(charIndex)
@@ -28,10 +28,14 @@ export const TossUpRevealOrder: React.FC<TossUpRevealOrderProps> = ({ phrase, va
   return (
     <Container>
       {phraseChars.map((char, i) => {
+        if (/\s/.test(char)) {
+          return null
+        }
+
         const isSelected = value.indexOf(i) > -1
         return (
           <Char key={`${char}.${i}`}>
-            <Button onClick={() => handleSelect(i)}>
+            <Button onClick={() => handleSelect(i)} disabled={/[^\w]/.test(char)}>
               {char}
             </Button>
             {isSelected && (
