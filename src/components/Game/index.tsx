@@ -60,7 +60,9 @@ const Game: React.FC<GameProps> = ({ match }) => {
         {currentGame.status === GameStatus.Active && (
           <>
             <Category category={currentRound.category} />
-            <UsedLetterBoard />
+            {currentRound.round_type !== 'toss_up' && (
+              <UsedLetterBoard />
+            )}
           </>
         )}
       </PuzzleBoardFooter>

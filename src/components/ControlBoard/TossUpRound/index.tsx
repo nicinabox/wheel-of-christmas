@@ -74,16 +74,16 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
 
         { status !== 'active' && (
           <Button onClick={handleStart}>
-            Start
+            Start Timer
           </Button>
         )}
         {status === 'active' && (
           <Button onClick={handlePause}>
-            Pause
+            Pause Timer
           </Button>
         )}
-        <Button onClick={handleSolve} disabled={status === 'stopped'}>
-          Solve
+        <Button onClick={handleSolve} disabled={status !== 'paused'}>
+          Solve Puzzle
         </Button>
       </details>
     </ControlBoardSection>
