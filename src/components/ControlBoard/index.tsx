@@ -14,6 +14,7 @@ import LetterBoard from './LetterBoard'
 import Spoiler from './Spoiler'
 import Soundboard from './Soundboard'
 import BonusRound from './BonusRound'
+import { GameStatus } from 'store/reducers/currentGame'
 
 interface ControlBoardProps {}
 

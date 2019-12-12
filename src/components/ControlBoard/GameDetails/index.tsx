@@ -1,4 +1,5 @@
 import React from 'react'
+import $ from 'styled-components'
 import { ControlBoardHeader } from '../styled'
 import { Button } from 'styled/buttons'
 import { GameStatus, CurrentGameState } from 'store/reducers/currentGame'
@@ -10,6 +11,7 @@ import { setPuzzleSolved } from 'store/actions/roundActions'
 import API from 'interfaces/api'
 import { setCurrentSound } from 'store/actions/soundsActions'
 import * as Sounds from 'sounds'
+import { lighten } from 'polished'
 
 interface GameDetailsProps {
   currentGame: CurrentGameState
@@ -79,20 +81,24 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
     <ControlBoardHeader>
       <div>
         {currentGame.status === GameStatus.Active && (
-          <Button onClick={() => dispatch(setGameStatus(GameStatus.Paused))}>
+          <StatusButton
+            nextStatus={GameStatus.Paused}
+            onClick={() => dispatch(setGameStatus(GameStatus.Paused))}>
             Pause game
-          </Button>
+          </StatusButton>
         )}
         {currentGame.status === GameStatus.Paused && (
-          <Button onClick={() => dispatch(setGameStatus(GameStatus.Active))}>
+          <StatusButton
+            nextStatus={GameStatus.Active}
+            onClick={() => dispatch(setGameStatus(GameStatus.Active))}>
             Resume game
-          </Button>
+          </StatusButton>
         )}
-        {currentGame.status !== GameStatus.Played && (
-          <Button onClick={handleEndGame}>
-            End game
-          </Button>
-        )}
+        <StatusButton
+          nextStatus={GameStatus.Played}
+          onClick={handleEndGame}>
+          End game
+        </StatusButton>
       </div>
 
       <div>
@@ -119,5 +125,26 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
     </ControlBoardHeader>
   )
 }
+
+const getStatusColor = (status: GameStatus) => {
+  switch(status) {
+    case GameStatus.Active:
+      return 'orange'
+    case GameStatus.Paused:
+      return 'green'
+    case GameStatus.Played:
+      return 'black'
+    default:
+      return '#1a4048'
+  }
+}
+
+const StatusButton = $(Button)<{ nextStatus: GameStatus }>`
+  background: ${props => getStatusColor(props.nextStatus)};
+
+  &:hover {
+    background: ${props => lighten(0.1, getStatusColor(props.nextStatus))};
+  }
+`
 
 export default GameDetails
