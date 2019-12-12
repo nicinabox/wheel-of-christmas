@@ -18,3 +18,9 @@ export const ControlBoardSectionTitle = $.h3`
   flex-direction: row;
   justify-content: space-between;
 `
+
+export const Summary = $.summary`
+  cursor: pointer;
+  outline: none;
+  font-weight: bold;
+`

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import $ from 'styled-components'
 import * as Sounds from 'sounds'
-import { ControlBoardSection, ControlBoardSectionTitle } from '../styled'
+import { ControlBoardSection, ControlBoardSectionTitle, Summary } from '../styled'
 import { Button } from 'styled/buttons'
 import { useDispatch } from 'react-redux'
 import { highlightChars, setAttemptedLetters, setPuzzleSolved } from 'store/actions/roundActions'
@@ -47,37 +47,38 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
 
   return (
     <ControlBoardSection>
-      <ControlBoardSectionTitle>
-        Bonus Round
-      </ControlBoardSectionTitle>
+      <details>
+        <Summary>
+          Bonus Round
+        </Summary>
 
-      <ol>
-        <li>
-          <Button onClick={() => handleHighlightChars('RSTLNE')}>
-            Highlight RSTLNE
-          </Button>
-        </li>
-        <li>
-          <Input
-            type="text"
-            value={attemptedLetters}
-            placeholder="Enter attempted letters"
-            onChange={(e) => dispatch(setAttemptedLetters(e.target.value))}
-          />
-          <Button onClick={() => handleHighlightChars(attemptedLetters)}>
-            Highlight Letters
-          </Button>
-        </li>
-        <li>
-          <Button onClick={handleStartTimer} disabled={timerStatus === 'active'}>
-            Start Timer
-          </Button>
-          <Button onClick={handleSolve} disabled={timerStatus === 'stopped'}>
-            Solve Puzzle
-          </Button>
-        </li>
-      </ol>
-
+        <ol>
+          <li>
+            <Button onClick={() => handleHighlightChars('RSTLNE')}>
+              Highlight RSTLNE
+            </Button>
+          </li>
+          <li>
+            <Input
+              type="text"
+              value={attemptedLetters}
+              placeholder="Enter attempted letters"
+              onChange={(e) => dispatch(setAttemptedLetters(e.target.value))}
+            />
+            <Button onClick={() => handleHighlightChars(attemptedLetters)}>
+              Highlight Letters
+            </Button>
+          </li>
+          <li>
+            <Button onClick={handleStartTimer} disabled={timerStatus === 'active'}>
+              Start Timer
+            </Button>
+            <Button onClick={handleSolve} disabled={timerStatus === 'stopped'}>
+              Solve Puzzle
+            </Button>
+          </li>
+        </ol>
+      </details>
     </ControlBoardSection>
   )
 }

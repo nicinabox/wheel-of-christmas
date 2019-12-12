@@ -1,6 +1,6 @@
 import React from 'react'
 import $ from 'styled-components'
-import { ControlBoardSection } from '../styled'
+import { ControlBoardSection, Summary } from '../styled'
 import { setCurrentSound } from 'store/actions/soundsActions'
 import * as Sounds from 'sounds'
 import { Button } from 'styled/buttons'
@@ -41,12 +41,6 @@ export const Spoiler: React.FC<SpoilerProps> = ({ phrase }) => {
 
 const ControlBoardSpoiler = $.p`
   font-size: 2rem;
-`
-
-const Summary = $.summary`
-  cursor: pointer;
-  outline: none;
-  font-weight: bold;
 `
 
 export default Spoiler

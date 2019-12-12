@@ -51,9 +51,9 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
             currentRound={currentRound}
           />
           <Spoiler phrase={phrase} />
+          <BonusRound currentRound={currentRound} currentSound={currentSound} />
           <LetterBoard currentRound={currentRound} />
           <Soundboard currentSound={currentSound} />
-          <BonusRound currentRound={currentRound} currentSound={currentSound} />
         </ControlBoardWrapper>
       </Controls>
   )
