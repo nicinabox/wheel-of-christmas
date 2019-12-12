@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import $ from 'styled-components'
-import { Label, Input } from 'styled/forms'
+import { Label, TextInput } from 'styled/forms'
 import API from 'interfaces/api'
 import { useDispatch } from 'react-redux'
 import { updateGame, deleteGame } from 'wheelAPI'
@@ -47,7 +47,7 @@ export const EditGame: React.FC<EditGameProps> = ({ game }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Label>
-        <Input type="text" name="name" value={formValues.name} onChange={handleChange}
+        <TextInput type="text" name="name" value={formValues.name} onChange={handleChange}
           placeholder="Game name"
         />
       </Label>

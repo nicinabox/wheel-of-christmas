@@ -1,7 +1,7 @@
 import CATEGORIES, { getFormattedCategory } from 'categories'
 import React from 'react'
 import $ from 'styled-components'
-import { InputGroup, Label, LabelText, Input, Select, Actions } from 'styled/forms'
+import { InputGroup, Label, LabelText, Input, Select, Actions, RadioLabel, TextInput } from 'styled/forms'
 import { Button, DestructiveButton } from 'styled/buttons'
 
 export interface FormValues {
@@ -21,7 +21,6 @@ interface FormFieldsProps {
 }
 
 export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubmit, onDelete }) => {
-
   function handleChange({ target }) {
     const { name, value, type, checked } = target
     let nextValue = value
@@ -44,7 +43,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
           <LabelText>
             Round Name
           </LabelText>
-          <Input type="text" name="name" value={values.name || ''} onChange={handleChange}
+          <TextInput type="text" name="name" value={values.name || ''} onChange={handleChange}
             placeholder="Optional"
           />
         </Label>
@@ -55,7 +54,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
           <LabelText>
             Phrase
           </LabelText>
-          <Input required type="text" name="phrase" value={values.phrase || ''} onChange={handleChange} />
+          <TextInput required type="text" name="phrase" value={values.phrase || ''} onChange={handleChange} />
         </Label>
       </InputGroup>
 
