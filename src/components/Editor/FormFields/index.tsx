@@ -104,12 +104,6 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
               value={values.toss_up_reveal_order}
               onChange={(nextValue) => onChange('toss_up_reveal_order', nextValue)}
             />
-
-            <TextInput
-              name="toss_up_reveal_order"
-              value={JSON.stringify(values.toss_up_reveal_order)}
-              readOnly
-            />
           </Label>
         </InputGroup>
       )}
