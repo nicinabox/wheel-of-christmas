@@ -9,8 +9,6 @@ import { useDispatch } from 'react-redux'
 import FormFields, { FormValues } from '../FormFields'
 import { createGameRound, updateGameRound, deleteGameRound } from 'wheelAPI'
 import { receiveGamePuzzles } from 'store/actions/gamesActions'
-import { GameStatus } from 'store/reducers/currentGame'
-import { setGameStatus } from 'store/actions/gameActions'
 
 interface EditRoundProps {
   game: API.Game

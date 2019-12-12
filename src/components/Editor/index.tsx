@@ -2,10 +2,12 @@ import React from 'react'
 import $ from 'styled-components'
 import { Route, Switch, NavLink } from 'react-router-dom'
 import { RootState } from 'store/reducers'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import EditRound from './EditRound'
 import { getFormattedCategory } from 'categories'
 import EditGame from './EditGame'
+import { GameStatus } from 'store/reducers/currentGame'
+import { setGameStatus } from 'store/actions/gameActions'
 
 interface EditorProps {
   match: {
@@ -18,9 +20,12 @@ interface EditorProps {
 }
 
 export const Editor: React.FC<EditorProps> = ({ match }) => {
+  const dispatch = useDispatch()
   const { url, path, params } = match
   const { gameId } = params
   const game = useSelector((state: RootState) => state.games[gameId])
+
+  dispatch(setGameStatus(GameStatus.Active))
 
   return (
     <Root>
