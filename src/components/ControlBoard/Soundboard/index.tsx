@@ -19,7 +19,7 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound }) => {
   return (
     <ControlBoardSection>
       <ControlBoardSectionTitle>
-        Sounds
+        SOUNDS
 
         <div>
           {!isStopped(currentSound.status) && (

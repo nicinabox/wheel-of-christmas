@@ -49,7 +49,7 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
     <ControlBoardSection>
       <details>
         <Summary>
-          Bonus Round
+          BONUS ROUND
         </Summary>
 
         <ol>

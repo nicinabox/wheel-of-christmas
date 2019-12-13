@@ -23,7 +23,7 @@ export const Spoiler: React.FC<SpoilerProps> = ({ phrase }) => {
     <ControlBoardSection>
       <details>
         <Summary>
-          Spoiler
+          SPOILER
         </Summary>
 
         <ControlBoardSpoiler>

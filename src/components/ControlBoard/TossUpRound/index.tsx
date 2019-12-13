@@ -69,7 +69,7 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
     <ControlBoardSection>
       <details>
         <Summary>
-          Toss-Up Round
+          TOSS-UP ROUND
         </Summary>
 
         { status !== 'active' && (

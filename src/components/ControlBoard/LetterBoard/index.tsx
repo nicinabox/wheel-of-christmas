@@ -25,7 +25,7 @@ export const LetterBoard: React.FC<LetterBoardProps> = ({ currentRound }) => {
   return (
     <ControlBoardSection>
       <ControlBoardSectionTitle>
-        Used Letter Board
+        USED LETTER BOARD
       </ControlBoardSectionTitle>
       <UsedLetterBoard controlBoard={true} />
 
