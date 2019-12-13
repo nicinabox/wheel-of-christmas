@@ -111,7 +111,7 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
           <strong> Bonus Round</strong>
         )}
         {currentRound.round_type === 'toss_up' && (
-          <strong> Toss-up Round</strong>
+          <strong> Toss-Up Round</strong>
         )}
       </div>
 

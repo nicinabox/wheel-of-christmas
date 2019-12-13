@@ -85,7 +85,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
 
           <RadioLabel>
             <Input type="radio" name="round_type" value="toss_up" checked={values.round_type === 'toss_up'} onChange={handleChange} />
-            Toss-up
+            Toss-Up
           </RadioLabel>
 
           <RadioLabel>
