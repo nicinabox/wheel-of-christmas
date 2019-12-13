@@ -38,6 +38,9 @@ export const TextInput = $(Input)`
   vertical-align: middle;
 `
 
+export const RangeInput = $.input`
+`
+
 export const Select = $.select`
 `
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ControlBoardSection, Summary } from '../styled'
+import { Section, Summary, Details, DetailsSection } from '../styled'
 import UsedLetterBoard from 'components/UsedLetterBoard'
 import { Button } from 'styled/buttons'
 import { setRevealedIndexes } from 'store/actions/roundActions'
@@ -23,22 +23,23 @@ export const LetterBoard: React.FC<LetterBoardProps> = ({ currentRound }) => {
   }
 
   return (
-    <ControlBoardSection>
-      <details open={round_type !== 'toss_up'}>
+    <Section>
+      <Details open={round_type !== 'toss_up'}>
         <Summary>
           USED LETTER BOARD
         </Summary>
+        <DetailsSection>
+          <UsedLetterBoard controlBoard={true} />
 
-        <UsedLetterBoard controlBoard={true} />
-
-        <Button
-          onClick={handleReveal}
-          disabled={!unrevealed.length}>
-          Reveal Highlighted
-          {unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
-        </Button>
-      </details>
-    </ControlBoardSection>
+          <Button
+            onClick={handleReveal}
+            disabled={!unrevealed.length}>
+            Reveal Highlighted
+            {unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
+          </Button>
+        </DetailsSection>
+      </Details>
+    </Section>
   )
 }
 

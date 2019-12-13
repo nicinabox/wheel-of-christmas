@@ -1,17 +1,16 @@
+import API from 'interfaces/api'
+import { lighten } from 'polished'
 import React from 'react'
-import $ from 'styled-components'
-import { ControlBoardHeader } from '../styled'
-import { Button } from 'styled/buttons'
-import { GameStatus, CurrentGameState } from 'store/reducers/currentGame'
-import { setGameStatus } from 'store/actions/gameActions'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { setGameStatus } from 'store/actions/gameActions'
+import { resetPuzzle } from 'store/actions/roundActions'
+import { setSoundStatus } from 'store/actions/soundsActions'
+import { CurrentGameState, GameStatus } from 'store/reducers/currentGame'
 import { CurrentRoundState } from 'store/reducers/currentRound'
-import { setPuzzleSolved, resetPuzzle } from 'store/actions/roundActions'
-import API from 'interfaces/api'
-import { setCurrentSound, setSoundStatus } from 'store/actions/soundsActions'
-import * as Sounds from 'sounds'
-import { lighten } from 'polished'
+import $ from 'styled-components'
+import { Button } from 'styled/buttons'
+import { DetailsSection, Section as ControlSection } from '../styled'
 
 interface GameDetailsProps {
   currentGame: CurrentGameState
@@ -80,54 +79,56 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
   }
 
   return (
-    <ControlBoardHeader>
-      <div>
-        {currentGame.status === GameStatus.Active && (
+    <Section>
+      <Header>
+        <div>
+          {currentGame.status === GameStatus.Active && (
+            <StatusButton
+              nextStatus={GameStatus.Paused}
+              onClick={() => dispatch(setGameStatus(GameStatus.Paused))}>
+              Pause game
+            </StatusButton>
+          )}
+          {currentGame.status === GameStatus.Paused && (
+            <StatusButton
+              nextStatus={GameStatus.Active}
+              onClick={() => dispatch(setGameStatus(GameStatus.Active))}>
+              Resume game
+            </StatusButton>
+          )}
           <StatusButton
-            nextStatus={GameStatus.Paused}
-            onClick={() => dispatch(setGameStatus(GameStatus.Paused))}>
-            Pause game
+            nextStatus={GameStatus.Played}
+            onClick={handleEndGame}>
+            End game
           </StatusButton>
-        )}
-        {currentGame.status === GameStatus.Paused && (
-          <StatusButton
-            nextStatus={GameStatus.Active}
-            onClick={() => dispatch(setGameStatus(GameStatus.Active))}>
-            Resume game
-          </StatusButton>
-        )}
-        <StatusButton
-          nextStatus={GameStatus.Played}
-          onClick={handleEndGame}>
-          End game
-        </StatusButton>
-      </div>
+        </div>
 
-      <div>
-        <strong>{currentGame.name} - {currentRoundName}</strong>
-        <br/>
-        <span>Round {puzzleNumber} / {puzzlesCount}</span>
-        {currentRound.round_type === 'bonus' && (
-          <strong> Bonus Round</strong>
-        )}
-        {currentRound.round_type === 'toss_up' && (
-          <strong> Toss-Up Round</strong>
-        )}
-      </div>
+        <div>
+          <strong>{currentGame.name} - {currentRoundName}</strong>
+          <br/>
+          <span>Round {puzzleNumber} / {puzzlesCount}</span>
+          {currentRound.round_type === 'bonus' && (
+            <strong> Bonus Round</strong>
+          )}
+          {currentRound.round_type === 'toss_up' && (
+            <strong> Toss-Up Round</strong>
+          )}
+        </div>
 
-      <div>
-        <Button
-          disabled={!previousPuzzle}
-          onClick={() => handlePuzzleChange(-1)}>
-          {previousRoundName}
-        </Button>
-        <Button
-          disabled={!nextPuzzle}
-          onClick={() => handlePuzzleChange(1)}>
-          {nextRoundName}
-        </Button>
-      </div>
-    </ControlBoardHeader>
+        <div>
+          <Button
+            disabled={!previousPuzzle}
+            onClick={() => handlePuzzleChange(-1)}>
+            {previousRoundName}
+          </Button>
+          <Button
+            disabled={!nextPuzzle}
+            onClick={() => handlePuzzleChange(1)}>
+            {nextRoundName}
+          </Button>
+        </div>
+      </Header>
+    </Section>
   )
 }
 
@@ -143,6 +144,16 @@ const getStatusColor = (status: GameStatus) => {
       return '#1a4048'
   }
 }
+
+export const Header = $.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Section = $(ControlSection)`
+  padding: 1rem;
+`
 
 const StatusButton = $(Button)<{ nextStatus: GameStatus }>`
   background: ${props => getStatusColor(props.nextStatus)};

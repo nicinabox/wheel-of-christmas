@@ -17,10 +17,7 @@ export const Button = $.button`
 
   &[disabled] {
     opacity: 0.4;
-
-    &:hover {
-      background: #1a4048;
-    }
+    pointer-events: none;
   }
 `
 

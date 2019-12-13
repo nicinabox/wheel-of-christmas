@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import $ from 'styled-components'
 import * as Sounds from 'sounds'
-import { ControlBoardSection, ControlBoardSectionTitle, Summary } from '../styled'
+import { Section, Details, Summary, DetailsSection, SolvePuzzleButton } from '../styled'
 import { Button } from 'styled/buttons'
 import { useDispatch } from 'react-redux'
 import { highlightChars, setAttemptedLetters, setPuzzleSolved } from 'store/actions/roundActions'
@@ -46,40 +46,42 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
   }
 
   return (
-    <ControlBoardSection>
-      <details open={round_type === 'bonus'}>
+    <Section>
+      <Details open={round_type === 'bonus'}>
         <Summary>
           BONUS ROUND
         </Summary>
 
-        <ol>
-          <li>
-            <Button onClick={() => handleHighlightChars('RSTLNE')}>
-              Highlight RSTLNE
-            </Button>
-          </li>
-          <li>
-            <Input
-              type="text"
-              value={attemptedLetters}
-              placeholder="Enter attempted letters"
-              onChange={(e) => dispatch(setAttemptedLetters(e.target.value))}
-            />
-            <Button onClick={() => handleHighlightChars(attemptedLetters)}>
-              Highlight Letters
-            </Button>
-          </li>
-          <li>
-            <Button onClick={handleStartTimer} disabled={timerStatus === 'active'}>
-              Start Timer
-            </Button>
-            <Button onClick={handleSolve} disabled={timerStatus === 'stopped'}>
-              Solve Puzzle
-            </Button>
-          </li>
-        </ol>
-      </details>
-    </ControlBoardSection>
+        <DetailsSection>
+          <Ol>
+            <li>
+              <Button onClick={() => handleHighlightChars('RSTLNE')}>
+                Highlight RSTLNE
+              </Button>
+            </li>
+            <li>
+              <Input
+                type="text"
+                value={attemptedLetters}
+                placeholder="Enter attempted letters"
+                onChange={(e) => dispatch(setAttemptedLetters(e.target.value))}
+              />
+              <Button onClick={() => handleHighlightChars(attemptedLetters)}>
+                Highlight Letters
+              </Button>
+            </li>
+            <li>
+              <Button onClick={handleStartTimer} disabled={timerStatus === 'active'}>
+                Start Timer
+              </Button>
+              <SolvePuzzleButton onClick={handleSolve} disabled={timerStatus === 'stopped'}>
+                Solve Puzzle
+              </SolvePuzzleButton>
+            </li>
+          </Ol>
+        </DetailsSection>
+      </Details>
+    </Section>
   )
 }
 
@@ -88,6 +90,10 @@ const Input = $.input`
   border-radius: 4px;
   border: 2px solid #ddd;
   padding: 0.3rem 0.8rem;
+`
+
+const Ol = $.ol`
+  margin: 0;
 `
 
 export default BonusRound

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import * as Sounds from 'sounds'
-import { ControlBoardSection, Summary } from '../styled'
+import { Section, Summary, Details, DetailsSection, SolvePuzzleButton } from '../styled'
 import { CurrentRoundState } from 'store/reducers/currentRound'
 import { Button } from 'styled/buttons'
 import { setPuzzleSolved, setRevealedIndexes } from 'store/actions/roundActions'
@@ -37,7 +37,7 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
   }, [revealPuzzleIndex])
 
   useEffect(() => {
-    let timer
+    let timer: number
 
     if (status === 'active' && revealPuzzleIndex !== undefined) {
       timer = setTimeout(() => {
@@ -71,27 +71,29 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
   }
 
   return (
-    <ControlBoardSection>
-      <details open={round_type === 'toss_up'}>
+    <Section>
+      <Details open={round_type === 'toss_up'}>
         <Summary>
           TOSS-UP ROUND
         </Summary>
 
-        { status !== 'active' && (
-          <Button onClick={handleStart}>
-            Start Timer
-          </Button>
-        )}
-        {status === 'active' && (
-          <Button onClick={handlePause}>
-            Pause Timer
-          </Button>
-        )}
-        <Button onClick={handleSolve} disabled={status !== 'paused'}>
-          Solve Puzzle
-        </Button>
-      </details>
-    </ControlBoardSection>
+        <DetailsSection>
+          { status !== 'active' && (
+            <Button onClick={handleStart}>
+              Start Timer
+            </Button>
+          )}
+          {status === 'active' && (
+            <Button onClick={handlePause}>
+              Pause Timer
+            </Button>
+          )}
+          <SolvePuzzleButton onClick={handleSolve} disabled={status !== 'paused'}>
+            Solve Puzzle
+          </SolvePuzzleButton>
+        </DetailsSection>
+      </Details>
+    </Section>
   )
 }
 

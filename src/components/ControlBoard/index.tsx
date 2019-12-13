@@ -23,7 +23,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
   const { currentGame, currentRound, currentSound } = useSelector((state: RootState) => state)
   const [shouldPopOut, setShouldPopOut] = useState(false)
 
-  const { phrase, phraseChars, phraseVowels } = currentRound
+  const { phraseChars, phraseVowels } = currentRound
 
   useEffect(() => {
     const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w\s]/g)
@@ -51,7 +51,7 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
             currentGame={currentGame}
             currentRound={currentRound}
           />
-          <Soundboard currentSound={currentSound} />
+          <Soundboard currentSound={currentSound} currentRound={currentRound} />
           <LetterBoard currentRound={currentRound} />
           <Spoiler currentRound={currentRound} />
           <BonusRound currentRound={currentRound} currentSound={currentSound} />
@@ -62,7 +62,6 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
 }
 
 const ControlBoardWrapper = $.div`
-  padding: 1rem;
   font-size: 1rem;
   user-select: text;
 `

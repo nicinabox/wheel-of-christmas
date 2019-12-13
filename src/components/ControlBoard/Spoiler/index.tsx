@@ -1,6 +1,6 @@
 import React from 'react'
 import $ from 'styled-components'
-import { ControlBoardSection, Summary } from '../styled'
+import { Section, Summary, Details, DetailsSection, SolvePuzzleButton } from '../styled'
 import { setCurrentSound } from 'store/actions/soundsActions'
 import * as Sounds from 'sounds'
 import { Button } from 'styled/buttons'
@@ -23,26 +23,30 @@ export const Spoiler: React.FC<SpoilerProps> = ({ currentRound }) => {
   }
 
   return (
-    <ControlBoardSection>
-      <details>
+    <Section>
+      <Details>
         <Summary>
           SPOILER
         </Summary>
 
-        <ControlBoardSpoiler>
-          {phrase}
-        </ControlBoardSpoiler>
+        <DetailsSection>
+          <Phrase>
+            {phrase}
+          </Phrase>
 
-        <Button onClick={handleSolve} disabled={Boolean(round_type)}>
-          Reveal Puzzle
-        </Button>
-      </details>
-    </ControlBoardSection>
+          <SolvePuzzleButton onClick={handleSolve} disabled={Boolean(round_type)}>
+            Solve Puzzle
+          </SolvePuzzleButton>
+        </DetailsSection>
+      </Details>
+    </Section>
   )
 }
 
-const ControlBoardSpoiler = $.p`
+const Phrase = $.p`
   font-size: 2rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
 `
 
 export default Spoiler
