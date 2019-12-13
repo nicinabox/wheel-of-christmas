@@ -1,6 +1,5 @@
 import React from 'react'
 import $ from 'styled-components'
-import { getFormattedCategory } from 'categories'
 
 interface Props {
   category: string | undefined
@@ -14,7 +13,7 @@ export const Category: React.FC<Props> = ({ category }) => {
   return (
     <CategoryWrapper>
       <CategoryBackground>
-        {getFormattedCategory(category)}
+        {category}
       </CategoryBackground>
     </CategoryWrapper>
   )

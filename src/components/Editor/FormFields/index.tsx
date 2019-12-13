@@ -1,9 +1,8 @@
-import CATEGORIES, { getFormattedCategory } from 'categories'
+import API from 'interfaces/api'
 import React from 'react'
 import $ from 'styled-components'
-import { InputGroup, Label, LabelText, Input, Select, Actions, RadioLabel, TextInput } from 'styled/forms'
 import { Button, DestructiveButton } from 'styled/buttons'
-import API from 'interfaces/api'
+import { Actions, Input, InputGroup, Label, LabelText, RadioLabel, TextInput } from 'styled/forms'
 import TossUpRevealOrder from './TossUpRevealOrder'
 
 export interface FormValues {
@@ -30,7 +29,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
       nextValue = checked
     }
 
-    if (name === 'phrase') {
+    if (name === 'phrase' || name === 'category') {
       nextValue = value.toUpperCase()
     }
 
@@ -64,13 +63,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
           <LabelText>
             Category
           </LabelText>
-          <Select required name="category" value={values.category} onChange={handleChange}>
-            <option value="">Select category...</option>
-
-            {CATEGORIES.map((text: string) => (
-              <option key={text} value={text}>{getFormattedCategory(text)}</option>
-            ))}
-          </Select>
+          <TextInput type="text" name="category" value={values.category} onChange={handleChange} />
         </Label>
       </InputGroup>
 
