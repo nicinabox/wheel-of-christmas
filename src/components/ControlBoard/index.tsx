@@ -51,11 +51,11 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
             currentGame={currentGame}
             currentRound={currentRound}
           />
+          <Soundboard currentSound={currentSound} />
+          <LetterBoard currentRound={currentRound} />
           <Spoiler phrase={phrase} />
           <BonusRound currentRound={currentRound} currentSound={currentSound} />
           <TossUpRound currentRound={currentRound} currentSound={currentSound} />
-          <LetterBoard currentRound={currentRound} />
-          <Soundboard currentSound={currentSound} />
         </ControlBoardWrapper>
       </Controls>
   )
