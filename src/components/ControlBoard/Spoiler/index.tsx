@@ -6,13 +6,16 @@ import * as Sounds from 'sounds'
 import { Button } from 'styled/buttons'
 import { setPuzzleSolved } from 'store/actions/roundActions'
 import { useDispatch } from 'react-redux'
+import { CurrentRoundState } from 'store/reducers/currentRound'
 
 interface SpoilerProps {
-  phrase: string
+  currentRound: CurrentRoundState
 }
 
-export const Spoiler: React.FC<SpoilerProps> = ({ phrase }) => {
+export const Spoiler: React.FC<SpoilerProps> = ({ currentRound }) => {
   const dispatch = useDispatch()
+
+  const { phrase, round_type } = currentRound
 
   const handleSolve = () => {
     dispatch(setPuzzleSolved())
@@ -30,7 +33,9 @@ export const Spoiler: React.FC<SpoilerProps> = ({ phrase }) => {
           {phrase}
         </ControlBoardSpoiler>
 
-        <Button onClick={handleSolve}>Reveal Puzzle</Button>
+        <Button onClick={handleSolve} disabled={Boolean(round_type)}>
+          Reveal Puzzle
+        </Button>
       </details>
     </ControlBoardSection>
   )
