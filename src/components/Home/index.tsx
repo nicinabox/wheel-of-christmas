@@ -11,7 +11,6 @@ const Home: React.FC = () => {
   const dispatch = useDispatch()
   const games = useSelector((state: RootState) => state.games)
 
-
   async function handleNewGameClick(e) {
     e.preventDefault()
     try {

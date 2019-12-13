@@ -79,13 +79,7 @@ export default function currentRound(state = intitialState, action: AnyAction): 
       }
 
     case RESET_PUZZLE:
-      return {
-        ...state,
-        attemptedLetters: '',
-        usedChars: [],
-        highlightedChars: [],
-        revealedIndexes: [],
-      }
+      return intitialState
 
     default:
       return state
