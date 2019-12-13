@@ -57,9 +57,15 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound }) => {
       </ControlBoardSectionTitle>
 
       <SoundboardWrapper>
-        <StyledFieldset>
-          <legend>Wheel</legend>
-          {[Sounds.BANKRUPT, Sounds.PRIZE, Sounds.EXPRESS, Sounds.HALF_CARD, Sounds.MYSTERY, Sounds.WILD_CARD].map((sound, i) => (
+          {[
+            Sounds.BANKRUPT,
+            Sounds.PRIZE,
+            Sounds.MYSTERY,
+            Sounds.EXPRESS,
+            Sounds.HALF_CARD,
+            Sounds.WILD_CARD,
+            Sounds.THEME,
+          ].map((sound, i) => (
             <SoundboardButton
               key={i}
               sound={sound}
@@ -67,18 +73,6 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound }) => {
               {Sounds.getSoundName(sound)}
             </SoundboardButton>
           ))}
-        </StyledFieldset>
-        <StyledFieldset>
-          <legend>Extra</legend>
-          {[Sounds.THEME, Sounds.TOSS_UP_THEME, Sounds.TOSS_UP_SOLVE].map((sound, i) => (
-            <SoundboardButton
-               key={i}
-               sound={sound}
-               onClick={() => dispatch(setCurrentSound(sound))}>
-              {Sounds.getSoundName(sound)}
-            </SoundboardButton>
-          ))}
-        </StyledFieldset>
       </SoundboardWrapper>
     </ControlBoardSection>
   )
