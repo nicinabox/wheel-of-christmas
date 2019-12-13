@@ -10,7 +10,7 @@ import { CurrentGameState, GameStatus } from 'store/reducers/currentGame'
 import { CurrentRoundState } from 'store/reducers/currentRound'
 import $ from 'styled-components'
 import { Button } from 'styled/buttons'
-import { DetailsSection, Section as ControlSection } from '../styled'
+import { Section as ControlSection } from '../styled'
 
 interface GameDetailsProps {
   currentGame: CurrentGameState

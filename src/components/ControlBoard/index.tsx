@@ -1,6 +1,6 @@
 import { useDeepEqualEffect } from 'hooks'
 import { ReactComponent as ControlsIcon } from 'images/controls.svg'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import NewWindow from 'react-new-window'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Sounds from 'sounds'
@@ -15,13 +15,27 @@ import Spoiler from './Spoiler'
 import Soundboard from './Soundboard'
 import BonusRound from './BonusRound'
 import TossUpRound from './TossUpRound'
+import { GameStatus } from 'store/reducers/currentGame'
 
 interface ControlBoardProps {}
 
 const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
+  const PopOutButton = () => (
+    <OpenControlsButton onClick={() => setShouldPopOut(true)} title="Open Controls">
+      <ControlsIcon width={25} style={{fill: 'white'}} />
+    </OpenControlsButton>
+  )
+
+  const PopOutWindow = ({ children }) => (
+    <NewWindow onUnload={() => setShouldPopOut(false)} title="Controls">
+      {children}
+    </NewWindow>
+  )
+
   const dispatch = useDispatch()
   const { currentGame, currentRound, currentSound } = useSelector((state: RootState) => state)
   const [shouldPopOut, setShouldPopOut] = useState(false)
+  const Controls = useMemo(() => shouldPopOut ? PopOutWindow : PopOutButton, [shouldPopOut])
 
   const { phraseChars, phraseVowels } = currentRound
 
@@ -36,17 +50,15 @@ const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
     }
   }, [dispatch, phraseChars, phraseVowels])
 
-  const PopOutButton = (props: { children: React.ReactNode; onUnload: () => void; title: string; }) => (
-    <OpenControlsButton onClick={() => setShouldPopOut(true)} title="Open Controls">
-      <ControlsIcon width={25} style={{fill: 'white'}} />
-    </OpenControlsButton>
-  )
-
-  const Controls = shouldPopOut ? NewWindow : PopOutButton
-
   return (
-      <Controls onUnload={() => setShouldPopOut(false)} title="Controls">
+      <Controls>
         <ControlBoardWrapper>
+          {currentGame.status === GameStatus.Paused && (
+            <GameStatusBanner status={currentGame.status}>
+              {currentGame.status.toUpperCase()}
+            </GameStatusBanner>
+          )}
+
           <GameDetails
             currentGame={currentGame}
             currentRound={currentRound}
@@ -74,6 +86,14 @@ const OpenControlsButton = $.button`
   left: 20px;
   outline: none;
   padding: 10px;
+`
+
+const GameStatusBanner = $.div<{ status: GameStatus }>`
+  background: ${props => props.status === GameStatus.Paused ? 'red' : '#fafafa'};
+  color: ${props => props.status === GameStatus.Paused ? 'white' : '#aaa'};
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem;
 `
 
 export default ControlBoard
