@@ -65,6 +65,7 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound }) => {
             Sounds.HALF_CARD,
             Sounds.WILD_CARD,
             Sounds.THEME,
+            Sounds.BUZZER,
           ].map((sound, i) => (
             <SoundboardButton
               key={i}

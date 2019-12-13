@@ -31,9 +31,6 @@ export const Spoiler: React.FC<SpoilerProps> = ({ phrase }) => {
         </ControlBoardSpoiler>
 
         <Button onClick={handleSolve}>Reveal Puzzle</Button>
-        <Button onClick={() => dispatch(setCurrentSound(Sounds.BUZZER))}>
-          {Sounds.getSoundName(Sounds.BUZZER)}
-        </Button>
       </details>
     </ControlBoardSection>
   )
