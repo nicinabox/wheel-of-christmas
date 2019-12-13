@@ -1,5 +1,5 @@
 import React from 'react'
-import { ControlBoardSection, ControlBoardSectionTitle } from '../styled'
+import { ControlBoardSection, Summary } from '../styled'
 import UsedLetterBoard from 'components/UsedLetterBoard'
 import { Button } from 'styled/buttons'
 import { setRevealedIndexes } from 'store/actions/roundActions'
@@ -14,7 +14,7 @@ interface LetterBoardProps {
 export const LetterBoard: React.FC<LetterBoardProps> = ({ currentRound }) => {
   const dispatch = useDispatch()
 
-  const { highlightedChars, revealedIndexes, phraseChars } = currentRound
+  const { highlightedChars, revealedIndexes, phraseChars, round_type } = currentRound
   const unrevealed = getUnrevealedIndexes(highlightedChars, revealedIndexes, phraseChars)
 
   function handleReveal() {
@@ -24,17 +24,20 @@ export const LetterBoard: React.FC<LetterBoardProps> = ({ currentRound }) => {
 
   return (
     <ControlBoardSection>
-      <ControlBoardSectionTitle>
-        USED LETTER BOARD
-      </ControlBoardSectionTitle>
-      <UsedLetterBoard controlBoard={true} />
+      <details open={round_type !== 'toss_up'}>
+        <Summary>
+          USED LETTER BOARD
+        </Summary>
 
-      <Button
-        onClick={handleReveal}
-        disabled={!unrevealed.length}>
-        Reveal Highlighted
-        {unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
-      </Button>
+        <UsedLetterBoard controlBoard={true} />
+
+        <Button
+          onClick={handleReveal}
+          disabled={!unrevealed.length}>
+          Reveal Highlighted
+          {unrevealed.length ? ` (${unrevealed.length} remaining)` : null}
+        </Button>
+      </details>
     </ControlBoardSection>
   )
 }

@@ -20,7 +20,7 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
   const [status, setStatus] = useState<TossUpStatus>('stopped')
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const { toss_up_reveal_order } = currentRound
+  const { toss_up_reveal_order, round_type } = currentRound
   const revealPuzzleIndex = toss_up_reveal_order[currentIndex]
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
 
   return (
     <ControlBoardSection>
-      <details>
+      <details open={round_type === 'toss_up'}>
         <Summary>
           TOSS-UP ROUND
         </Summary>

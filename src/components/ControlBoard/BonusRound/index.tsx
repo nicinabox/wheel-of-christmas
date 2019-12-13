@@ -20,7 +20,7 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
   const dispatch = useDispatch()
   const [timerStatus, setTimerStatus] = useState<TimerStatus>('stopped')
 
-  const { attemptedLetters } = currentRound
+  const { attemptedLetters, round_type } = currentRound
 
   useEffect(() => {
     if (timerStatus === 'active' && currentSound.status === 'STOPPED') {
@@ -47,7 +47,7 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
 
   return (
     <ControlBoardSection>
-      <details>
+      <details open={round_type === 'bonus'}>
         <Summary>
           BONUS ROUND
         </Summary>
