@@ -31,7 +31,8 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
 
   useEffect(() => {
     if (status === 'active' && revealPuzzleIndex === undefined) {
-      handleSolve()
+      handleStop()
+      dispatch(setCurrentSound(Sounds.BUZZER))
     }
   }, [revealPuzzleIndex])
 
@@ -58,10 +59,14 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
     dispatch(setCurrentSound(Sounds.TOSS_UP_THEME))
   }
 
-  function handleSolve() {
+  function handleStop() {
     setStatus('stopped')
     setCurrentIndex(0)
     dispatch(setPuzzleSolved())
+  }
+
+  function handleSolve() {
+    handleStop()
     dispatch(setCurrentSound(Sounds.TOSS_UP_SOLVE))
   }
 
