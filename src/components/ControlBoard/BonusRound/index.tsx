@@ -27,7 +27,7 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
       setTimerStatus('stopped')
       dispatch(setPuzzleSolved())
     }
-  }, [currentSound.status])
+  }, [timerStatus, currentSound.status])
 
   function handleStartTimer() {
     setTimerStatus('active')

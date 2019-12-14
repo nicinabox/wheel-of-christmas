@@ -27,14 +27,14 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
     if (status === 'active' && currentSound.status === 'STOPPED') {
       setStatus('paused')
     }
-  }, [currentSound.status])
+  }, [status, currentSound.status])
 
   useEffect(() => {
     if (status === 'active' && revealPuzzleIndex === undefined) {
       handleStop()
       dispatch(setCurrentSound(Sounds.BUZZER))
     }
-  }, [revealPuzzleIndex])
+  }, [status, revealPuzzleIndex])
 
   useEffect(() => {
     let timer: number
@@ -47,7 +47,7 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
     }
 
     return () => clearTimeout(timer)
-  }, [status, currentIndex])
+  }, [status, currentIndex, revealPuzzleIndex])
 
   function handlePause() {
     setStatus('paused')

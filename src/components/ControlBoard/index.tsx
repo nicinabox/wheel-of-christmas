@@ -19,7 +19,7 @@ import { GameStatus } from 'store/reducers/currentGame'
 
 interface ControlBoardProps {}
 
-const ControlBoard: React.FC<ControlBoardProps> = ({ }) => {
+const ControlBoard: React.FC<ControlBoardProps> = () => {
   const PopOutButton = () => (
     <OpenControlsButton onClick={() => setShouldPopOut(true)} title="Open Controls">
       <ControlsIcon width={25} style={{fill: 'white'}} />
