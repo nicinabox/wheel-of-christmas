@@ -10,6 +10,7 @@ import { Button } from 'styled/buttons'
 import { lighten } from 'polished'
 import { RangeInput } from 'styled/forms'
 import { CurrentRoundState } from 'store/reducers/currentRound'
+import { WedgeColors } from 'styled/colors'
 
 interface SoundboardProps {
   currentRound: CurrentRoundState
@@ -92,10 +93,10 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRou
 
 const SoundboardButton = $(Button)<{ sound: string }>`
   flex: 1 1 20%;
-  background: ${props => Sounds.WedgeColors[props.sound] || '#1a4048'}
+  background: ${props => WedgeColors[props.sound] || '#1a4048'}
 
   &:hover {
-    background: ${props => lighten(0.1, Sounds.WedgeColors[props.sound] || '#1a4048')};
+    background: ${props => lighten(0.1, WedgeColors[props.sound] || '#1a4048')};
   }
 `
 

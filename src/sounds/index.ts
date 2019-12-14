@@ -1,3 +1,5 @@
+import { PlayStatus } from "store/reducers/currentSound"
+
 // Puzzle board sounds
 export const BUZZER = 'Buzzer.mp3'
 export const DING = 'Ding.mp3'
@@ -22,19 +24,8 @@ export const THEME = 'Theme.mp3'
 export const TOSS_UP_SOLVE = 'Toss Up Solve.mp3'
 export const TOSS_UP_THEME = 'Toss Up Theme.mp3'
 
-export const WedgeColors = {
-  [BANKRUPT]: '#171515',
-  [PRIZE]: '#64c190',
-  [EXPRESS]: '#58caea',
-  [HALF_CARD]: '#f17444',
-  [MYSTERY]: '#b78abe',
-  [WILD_CARD]: '#e43f97',
-}
+export const getSoundName = (sound: string) => sound.replace(/\.\w{3}$/, '')
 
-export const getSoundName = (sound: string) => {
-  return sound.replace(/\.\w{3}$/, '')
-}
-
-export const isPlaying = (status: string) => status === 'PLAYING'
-export const isPaused = (status: string) => status === 'PAUSED'
-export const isStopped = (status: string) => status === 'STOPPED'
+export const isPlaying = (status: PlayStatus) => status === 'PLAYING'
+export const isPaused = (status: PlayStatus) => status === 'PAUSED'
+export const isStopped = (status: PlayStatus) => status === 'STOPPED'

@@ -1,9 +1,11 @@
 import { AnyAction } from 'redux'
 import { SET_SOUND, SET_SOUND_STATUS, SET_SOUND_VOLUME } from 'store/actions/soundsActions'
 
+export type PlayStatus = 'PLAYING' | 'PAUSED' | 'STOPPED'
+
 export interface CurrentSoundState {
   sound: string
-  status: 'PLAYING' | 'PAUSED' | 'STOPPED'
+  status: PlayStatus
   volume: number
 }
 
