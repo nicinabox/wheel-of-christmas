@@ -27,7 +27,11 @@ const ControlBoard: React.FC<ControlBoardProps> = () => {
   )
 
   const PopOutWindow = ({ children }) => (
-    <NewWindow onUnload={() => setShouldPopOut(false)} title="Controls">
+    <NewWindow
+      title="Controls"
+      onUnload={() => setShouldPopOut(false)}
+      features={{ width: 750, height: 700 }}
+    >
       {children}
     </NewWindow>
   )
