@@ -33,7 +33,11 @@ const Game: React.FC<GameProps> = ({ match }) => {
   useEffect(() => {
     dispatch(setGameStatus(GameStatus.Paused))
     dispatch(setCurrentGame(game))
-  }, [dispatch, gameId, game])
+  }, [dispatch, game])
+
+  useEffect(() => {
+    dispatch(setGameStatus(GameStatus.Paused))
+  }, [roundIndex])
 
   useEffect(() => {
     if (currentGame.status === GameStatus.Active) {
