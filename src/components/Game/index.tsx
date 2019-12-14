@@ -37,13 +37,13 @@ const Game: React.FC<GameProps> = ({ match }) => {
 
   useEffect(() => {
     dispatch(setGameStatus(GameStatus.Paused))
-  }, [roundIndex])
+  }, [dispatch, roundIndex])
 
   useEffect(() => {
     if (currentGame.status === GameStatus.Active) {
       dispatch(setCurrentSound(Sounds.PUZZLE_REVEAL))
     }
-  }, [currentGame.status])
+  }, [dispatch, currentGame.status])
 
   useEffect(() => {
     if (!currentGame) return

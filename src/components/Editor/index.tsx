@@ -32,7 +32,7 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
     return () => {
       dispatch(resetPuzzle())
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <Root>

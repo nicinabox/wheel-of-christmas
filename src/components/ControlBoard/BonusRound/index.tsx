@@ -27,7 +27,7 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
       setTimerStatus('stopped')
       dispatch(setPuzzleSolved())
     }
-  }, [timerStatus, currentSound.status])
+  }, [dispatch, timerStatus, currentSound.status])
 
   function revealRSTLNE() {
     dispatch(setCurrentSound(Sounds.RSTLNE))

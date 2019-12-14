@@ -33,7 +33,10 @@ const Home: React.FC = () => {
   return (
       <Wrapper>
         <Header>
-          <h1>🎄 Wheel of Christmas</h1>
+          <h1>
+            <span role="img" aria-label="tree">🎄</span>
+            Wheel of Christmas
+          </h1>
 
           <Button onClick={handleNewGameClick}>
             New Game

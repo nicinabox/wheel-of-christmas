@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import * as Sounds from 'sounds'
 import { Section, Summary, Details, DetailsSection, SolvePuzzleButton } from '../styled'
 import { CurrentRoundState } from 'store/reducers/currentRound'
@@ -17,6 +17,7 @@ type TossUpStatus = 'active' | 'paused' | 'stopped'
 
 export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentSound }) => {
   const dispatch = useDispatch()
+  const endRound = useCallback(handleStop, [])
   const [status, setStatus] = useState<TossUpStatus>('stopped')
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -31,10 +32,10 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
 
   useEffect(() => {
     if (status === 'active' && revealPuzzleIndex === undefined) {
-      handleStop()
+      endRound()
       dispatch(setCurrentSound(Sounds.BUZZER))
     }
-  }, [status, revealPuzzleIndex])
+  }, [dispatch, endRound, status, revealPuzzleIndex])
 
   useEffect(() => {
     let timer: number
@@ -47,7 +48,7 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
     }
 
     return () => clearTimeout(timer)
-  }, [status, currentIndex, revealPuzzleIndex])
+  }, [status, dispatch, currentIndex, revealPuzzleIndex])
 
   function handlePause() {
     setStatus('paused')
@@ -66,7 +67,7 @@ export const TossUpRound: React.FC<TossUpRoundProps> = ({ currentRound, currentS
   }
 
   function handleSolve() {
-    handleStop()
+    endRound()
     dispatch(setCurrentSound(Sounds.TOSS_UP_SOLVE))
   }
 
