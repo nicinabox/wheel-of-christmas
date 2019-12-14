@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import $ from 'styled-components'
 import { Section, Summary, Details, DetailsSection, SolvePuzzleButton } from '../styled'
 import { setCurrentSound } from 'store/actions/soundsActions'
@@ -13,17 +13,27 @@ interface SpoilerProps {
 
 export const Spoiler: React.FC<SpoilerProps> = ({ currentRound }) => {
   const dispatch = useDispatch()
+  const [isOpen, setIsOpen] = useState(false)
 
-  const { phrase, round_type } = currentRound
+  const { phrase, roundIndex, round_type } = currentRound
 
-  const handleSolve = () => {
+  useEffect(() => {
+    setIsOpen(false)
+  }, [roundIndex])
+
+  function handleSolve() {
     dispatch(setPuzzleSolved())
     dispatch(setCurrentSound(Sounds.PUZZLE_SOLVE))
   }
 
+  function handleToggleClick(e) {
+    e.preventDefault()
+    setIsOpen(!isOpen)
+  }
+
   return (
     <Section>
-      <Details>
+      <Details open={isOpen} onClick={handleToggleClick}>
         <Summary>
           SPOILER
         </Summary>
