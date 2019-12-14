@@ -29,6 +29,11 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
     }
   }, [timerStatus, currentSound.status])
 
+  function revealRSTLNE() {
+    dispatch(setCurrentSound(Sounds.RSTLNE))
+    handleHighlightChars('RSTLNE')
+  }
+
   function handleStartTimer() {
     setTimerStatus('active')
     dispatch(setCurrentSound(Sounds.BONUS_ROUND_TIMER))
@@ -55,7 +60,7 @@ export const BonusRound: React.FC<BonusRoundProps> = ({ currentRound, currentSou
         <DetailsSection>
           <Ol>
             <li>
-              <Button onClick={() => handleHighlightChars('RSTLNE')}>
+              <Button onClick={() => revealRSTLNE()}>
                 Highlight RSTLNE
               </Button>
             </li>

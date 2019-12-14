@@ -5,6 +5,7 @@ export const LAST_SPIN = 'Last Spin.mp3'
 export const NO_VOWELS_LEFT = 'No Vowels Left.mp3'
 export const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
 export const PUZZLE_SOLVE = 'Puzzle Solve.mp3'
+export const RSTLNE = 'RSTLNE.mp3'
 
 // Wheel sounds
 export const BANKRUPT = 'Bankrupt.mp3'
