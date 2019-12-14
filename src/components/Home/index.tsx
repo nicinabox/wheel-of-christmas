@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { receiveGame } from 'store/actions/gamesActions';
 import { RootState } from 'store/reducers';
 import $ from 'styled-components';
-import { Button } from 'styled/buttons';
+import { Button, SecondaryButton } from 'styled/buttons';
 import { createGame } from 'wheelAPI';
 
 const Home: React.FC = () => {
@@ -32,9 +32,13 @@ const Home: React.FC = () => {
 
   return (
       <Wrapper>
-        <Button onClick={handleNewGameClick}>
-          New Game
-        </Button>
+        <Header>
+          <h1>🎄 Wheel of Christmas</h1>
+
+          <Button onClick={handleNewGameClick}>
+            New Game
+          </Button>
+        </Header>
 
         <OrderedList>
           {getGamesIds().map((gameId) => {
@@ -43,18 +47,14 @@ const Home: React.FC = () => {
                 {games[gameId].name}
 
                 <Actions>
-                    {hasPuzzles(gameId) && (
-                      <React.Fragment>
-                        <Link to={`/play/${gameId}/round/0`}>
-                        Play
-                      </Link>
-                      {' | '}
-                    </React.Fragment>
-                    )}
-
-                    <Link to={`/edit/${gameId}`}>
-                      Edit
-                    </Link>
+                  {hasPuzzles(gameId) && (
+                    <Button as={Link} to={`/play/${gameId}/round/0`}>
+                      Play
+                    </Button>
+                  )}
+                  <SecondaryButton as={Link} to={`/edit/${gameId}`}>
+                    Edit
+                  </SecondaryButton>
                 </Actions>
               </ListItem>
             )
@@ -68,6 +68,12 @@ const Wrapper = $.div`
   margin: 0 auto;
   padding: 30px;
   width: 600px;
+`
+
+const Header = $.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const OrderedList = $.ol`

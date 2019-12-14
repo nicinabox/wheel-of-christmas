@@ -1,18 +1,26 @@
 import $ from 'styled-components'
 import { lighten } from 'polished'
 
-export const Button = $.button`
+const defaultColor = '#1a4048'
+
+interface ButtonProps {
+  background?: string
+  color?: string
+}
+
+export const Button = $.button<ButtonProps>`
   font-size: 1rem;
   border: none;
-  background: #1a4048;
-  color: white;
+  background: ${p => p.background || defaultColor};
+  color: ${p => p.color || 'white'};
   padding: 0.4rem 0.8rem;
   margin: 2px;
   border-radius: 6px;
   outline: none;
+  text-decoration: none;
 
   &:hover {
-    background: ${lighten(0.1, '#1a4048')};
+    background: ${p => lighten(0.1, p.background || defaultColor)};
   }
 
   &[disabled] {
@@ -21,9 +29,19 @@ export const Button = $.button`
   }
 `
 
+export const SecondaryButton = $(Button)`
+  background: none;
+  color: ${defaultColor};
+
+  &:hover {
+    background: #efefef;
+    color: ${lighten(0.2, defaultColor)};
+  }
+`
+
 export const DestructiveButton = $(Button)`
   border: none;
-  background: transparent;
+  background: none;
   color: black;
 
   &:hover {
