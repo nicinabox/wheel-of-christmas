@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { updateGame, deleteGame } from 'wheelAPI'
 import { receiveGame, removeGame } from 'store/actions/gamesActions'
 import { DestructiveButton, Button } from 'styled/buttons'
+import { useHistory } from 'react-router-dom'
 
 interface EditGameProps {
   game: API.Game
@@ -13,6 +14,7 @@ interface EditGameProps {
 
 export const EditGame: React.FC<EditGameProps> = ({ game }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const [formValues, setFormValues] = useState({ name: game.name || '' })
 
   function handleChange({ target }) {
@@ -37,6 +39,7 @@ export const EditGame: React.FC<EditGameProps> = ({ game }) => {
 
     try {
       await deleteGame(game.id)
+      history.replace('/')
       dispatch(removeGame(game.id))
     } catch (e) {
       alert('There was a problem deleting game id: ' + game.name)
