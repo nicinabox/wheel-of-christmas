@@ -11,6 +11,7 @@ export interface FormValues {
   category: string
   round_type: API.RoundType | undefined
   toss_up_reveal_order: number[]
+  position: number
 }
 
 interface FormFieldsProps {
@@ -46,6 +47,15 @@ export const FormFields: React.FC<FormFieldsProps> = ({ values, onChange, onSubm
           <TextInput type="text" name="name" value={values.name || ''} onChange={handleChange}
             placeholder="Optional"
           />
+        </Label>
+      </InputGroup>
+
+      <InputGroup>
+        <Label>
+          <LabelText>
+            Position
+          </LabelText>
+          <TextInput type="number" min={1} name="position" value={values.position} onChange={handleChange} />
         </Label>
       </InputGroup>
 

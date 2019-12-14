@@ -7,7 +7,7 @@ import Category from 'components/Category'
 import { setPuzzleSolved, setCurrentRound } from 'store/actions/roundActions'
 import { useDispatch } from 'react-redux'
 import FormFields, { FormValues } from '../FormFields'
-import { createGameRound, updateGameRound, deleteGameRound } from 'wheelAPI'
+import { createGameRound, updateGameRound, deleteGameRound, getGamePuzzles } from 'wheelAPI'
 import { receiveGamePuzzles } from 'store/actions/gamesActions'
 
 interface EditRoundProps {
@@ -20,6 +20,7 @@ const initialFormValues = {
   category: '',
   round_type: undefined,
   toss_up_reveal_order: [],
+  position: 1,
 }
 
 const toFormValues = (resource, initialValues) => {
@@ -61,15 +62,10 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
   }
 
   async function updateRound() {
-    const { data } = await updateGameRound(game.id, puzzle.id, formValues)
-    const nextPuzzles = game.puzzles.map((puzzle) => {
-      if (puzzle.id === data.id) {
-        return data
-      }
-      return puzzle
-    })
-
-    dispatch(receiveGamePuzzles(game.id, nextPuzzles))
+    await updateGameRound(game.id, puzzle.id, formValues)
+    const { data } = await getGamePuzzles(game.id)
+    dispatch(receiveGamePuzzles(game.id, data))
+    history.replace(`/edit/${game.id}/round/${formValues.position - 1}`)
   }
 
   async function handleSubmit() {
