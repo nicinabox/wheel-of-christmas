@@ -1,25 +1,25 @@
 // Puzzle board sounds
-export const BUZZER = 'Buzzer.wav'
-export const DING = 'Ding.wav'
-export const LAST_SPIN = 'Last Spin.wav'
-export const NO_VOWELS_LEFT = 'No Vowels Left.wav'
+export const BUZZER = 'Buzzer.mp3'
+export const DING = 'Ding.mp3'
+export const LAST_SPIN = 'Last Spin.mp3'
+export const NO_VOWELS_LEFT = 'No Vowels Left.mp3'
 export const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
-export const PUZZLE_SOLVE = 'Puzzle Solve.wav'
+export const PUZZLE_SOLVE = 'Puzzle Solve.mp3'
 
 // Wheel sounds
-export const BANKRUPT = 'Bankrupt.wav'
-export const PRIZE = 'Prize.wav'
-export const EXPRESS = 'Express.wav'
-export const HALF_CARD = 'Half Card.wav'
-export const MYSTERY = 'Mystery.wav'
-export const WILD_CARD = 'Wild Card.wav'
+export const BANKRUPT = 'Bankrupt.mp3'
+export const PRIZE = 'Prize.mp3'
+export const EXPRESS = 'Express.mp3'
+export const HALF_CARD = 'Half Card.mp3'
+export const MYSTERY = 'Mystery.mp3'
+export const WILD_CARD = 'Wild Card.mp3'
 
 // Manual
-export const BONUS_ROUND_SOLVE = 'Bonus Round Solve.wav'
-export const BONUS_ROUND_TIMER = 'Bonus Round Timer.wav'
-export const THEME = 'Theme.wav'
-export const TOSS_UP_SOLVE = 'Toss Up Solve.wav'
-export const TOSS_UP_THEME = 'Toss Up Theme.wav'
+export const BONUS_ROUND_SOLVE = 'Bonus Round Solve.mp3'
+export const BONUS_ROUND_TIMER = 'Bonus Round Timer.mp3'
+export const THEME = 'Theme.mp3'
+export const TOSS_UP_SOLVE = 'Toss Up Solve.mp3'
+export const TOSS_UP_THEME = 'Toss Up Theme.mp3'
 
 export const WedgeColors = {
   [BANKRUPT]: '#171515',
