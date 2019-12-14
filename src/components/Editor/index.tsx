@@ -58,7 +58,7 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
               <RoundItem key={puzzle.id}>
                 <RoundLink to={`${url}/round/${i}`} activeStyle={{background:'#eee'}}>
                   <div>
-                    {puzzle.name || `Round ${puzzle.position}`}
+                    {puzzle.position}. {puzzle.name || `Round ${puzzle.position}`}
                   </div>
                   <RoundLinkSubtitle>
                     {getFormattedCategory(puzzle.category)}
