@@ -74,7 +74,7 @@ export const Editor: React.FC<EditorProps> = ({ match }) => {
 
         <Switch>
           <Route exact path={`${path}/round/new`}>
-          <EditRound game={game} />
+          <EditRound key="new" game={game} />
         </Route>
 
         <Route exact path={`${path}/round/:roundIndex`}>

@@ -41,11 +41,9 @@ export const EditRound: React.FC<EditRoundProps> = ({ game }) => {
 
   useEffect(() => {
     if (roundIndex) {
-      setFormValues(toFormValues(puzzle, game.puzzles[roundIndex]))
-    } else {
-      setFormValues(initialFormValues)
+      setFormValues(toFormValues(puzzle, initialFormValues))
     }
-  }, [game.puzzles, roundIndex, puzzle])
+  }, [roundIndex, puzzle])
 
   useEffect(() => {
     dispatch(setCurrentRound(formValues as API.Puzzle, 0))
