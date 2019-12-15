@@ -1,16 +1,16 @@
-import React from 'react'
-import $ from 'styled-components'
-import * as Sounds from 'sounds'
-import { Section, DetailsSection, Summary, Details, SummaryActions } from '../styled'
-import { isStopped, isPaused } from 'sounds'
-import { CurrentSoundState } from 'store/reducers/currentSound'
-import { useDispatch } from 'react-redux'
-import { setSoundStatus, setSoundVolume, setCurrentSound } from 'store/actions/soundsActions'
-import { Button } from 'styled/buttons'
 import { lighten } from 'polished'
-import { RangeInput } from 'styled/forms'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import Sound from 'react-sound'
+import * as Sounds from 'sounds'
+import { setSoundVolume } from 'store/actions/soundsActions'
 import { CurrentRoundState } from 'store/reducers/currentRound'
+import { CurrentSoundState } from 'store/reducers/currentSound'
+import $ from 'styled-components'
+import { Button } from 'styled/buttons'
 import { WedgeColors } from 'styled/colors'
+import { RangeInput } from 'styled/forms'
+import { Details, DetailsSection, Section, Summary, SummaryActions } from '../styled'
 
 interface SoundboardProps {
   currentRound: CurrentRoundState
@@ -19,41 +19,28 @@ interface SoundboardProps {
 
 export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRound }) => {
   const dispatch = useDispatch()
+  const [sounds, setSounds] = useState<string[]>([])
 
   const { round_type } = currentRound
 
   return (
     <Section>
+      {sounds.map(sound => (
+        <Sound
+          key={sound}
+          url={require(`sounds/${sound}`)}
+          playStatus="PLAYING"
+          volume={currentSound.volume}
+          onFinishedPlaying={() => setSounds(sounds.filter(s => s !== sound))}
+        />
+      ))}
+
       <Details open={!Boolean(round_type)}>
         <Summary>
           SOUNDS
 
           <SummaryActions>
-            {!isStopped(currentSound.status) && (
-              <PlayingSoundName>
-                {currentSound.status} {Sounds.getSoundName(currentSound.sound)}...
-              </PlayingSoundName>
-            )}
-
-            {Sounds.isPlaying(currentSound.status) && (
-              <Button
-                onClick={() => dispatch(setSoundStatus('PAUSED'))}
-                disabled={currentSound.status !== 'PLAYING'}>
-                Pause
-              </Button>
-            )}
-            {isPaused(currentSound.status) && (
-              <Button
-                onClick={() => dispatch(setSoundStatus('PLAYING'))}>
-                Play
-              </Button>
-            )}
-            <Button
-              onClick={() => dispatch(setSoundStatus('STOPPED'))}
-              disabled={isStopped(currentSound.status)}>
-              Stop
-            </Button>
-
+            🔈
             <RangeInput
               type="range"
               min={0}
@@ -77,14 +64,23 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRou
               Sounds.FINAL_ROUND,
               Sounds.THEME,
               Sounds.BUZZER,
-            ].map((sound, i) => (
-              <SoundboardButton
-              key={i}
-              sound={sound}
-              onClick={() => dispatch(setCurrentSound(sound))}>
-              {Sounds.getSoundName(sound)}
-              </SoundboardButton>
-            ))}
+            ].map((sound, i) => {
+              const isPlaying = sounds.includes(sound)
+              return (
+                <SoundboardButton
+                  key={i}
+                  sound={sound}
+                  onClick={() => {
+                    if (isPlaying) {
+                      setSounds(sounds.filter(s => s !== sound))
+                    } else {
+                      setSounds(sounds.concat(sound))
+                    }
+                  }}>
+                  {isPlaying && `⏹️`} {Sounds.getSoundName(sound)}
+                </SoundboardButton>
+              )
+            })}
           </FlexSection>
         </DetailsSection>
       </Details>
@@ -99,12 +95,6 @@ const SoundboardButton = $(Button)<{ sound: string }>`
   &:hover {
     background: ${props => lighten(0.1, WedgeColors[props.sound] || '#1a4048')};
   }
-`
-
-const PlayingSoundName = $.span`
-  margin-right: 1rem;
-  display: inline-block;
-  color: #8c959d;
 `
 
 export const FlexSection = $.div`
