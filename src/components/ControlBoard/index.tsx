@@ -44,7 +44,7 @@ const ControlBoard: React.FC<ControlBoardProps> = () => {
   const { phraseChars, phraseVowels } = currentRound
 
   useEffect(() => {
-    const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w\s]/g)
+    const revealedIndexes = getRevealedIndexes(phraseChars, /[^\w\s]/)
     dispatch(setRevealedIndexes(revealedIndexes))
   }, [dispatch, phraseChars])
 
