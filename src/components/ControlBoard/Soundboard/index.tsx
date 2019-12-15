@@ -74,6 +74,7 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRou
               Sounds.EXPRESS,
               Sounds.HALF_CARD,
               Sounds.WILD_CARD,
+              Sounds.LAST_SPIN,
               Sounds.THEME,
               Sounds.BUZZER,
             ].map((sound, i) => (
