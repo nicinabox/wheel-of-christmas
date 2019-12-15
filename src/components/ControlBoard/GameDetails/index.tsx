@@ -11,6 +11,7 @@ import { CurrentRoundState } from 'store/reducers/currentRound'
 import $ from 'styled-components'
 import { Button } from 'styled/buttons'
 import { Section as ControlSection } from '../styled'
+import { setSecondarySoundStatus } from 'store/actions/secondarySoundsActions'
 
 interface GameDetailsProps {
   currentGame: CurrentGameState
@@ -60,6 +61,7 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
   function handleEndGame() {
     dispatch(setGameStatus(GameStatus.Paused))
     dispatch(setSoundStatus('STOPPED'))
+    dispatch(setSecondarySoundStatus('STOPPED'))
     dispatch(resetPuzzle())
     history.push('/')
   }

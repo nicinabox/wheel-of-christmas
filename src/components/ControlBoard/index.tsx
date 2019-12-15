@@ -37,7 +37,7 @@ const ControlBoard: React.FC<ControlBoardProps> = () => {
   )
 
   const dispatch = useDispatch()
-  const { currentGame, currentRound, currentSound } = useSelector((state: RootState) => state)
+  const { currentGame, currentRound, currentSound, secondarySound } = useSelector((state: RootState) => state)
   const [shouldPopOut, setShouldPopOut] = useState(false)
   const Controls = useMemo(() => shouldPopOut ? PopOutWindow : PopOutButton, [shouldPopOut])
 
@@ -67,7 +67,11 @@ const ControlBoard: React.FC<ControlBoardProps> = () => {
             currentGame={currentGame}
             currentRound={currentRound}
           />
-          <Soundboard currentSound={currentSound} currentRound={currentRound} />
+          <Soundboard
+            currentSound={currentSound}
+            secondarySound={secondarySound}
+            currentRound={currentRound}
+          />
           <LetterBoard currentRound={currentRound} />
           <Spoiler currentRound={currentRound} />
           <BonusRound currentRound={currentRound} currentSound={currentSound} />

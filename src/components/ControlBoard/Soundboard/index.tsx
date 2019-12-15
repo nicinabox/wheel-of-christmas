@@ -11,14 +11,16 @@ import { lighten } from 'polished'
 import { RangeInput } from 'styled/forms'
 import { CurrentRoundState } from 'store/reducers/currentRound'
 import { WedgeColors } from 'styled/colors'
-import { setSecondarySound } from 'store/actions/secondarySoundsActions'
+import { setSecondarySound, setSecondarySoundStatus } from 'store/actions/secondarySoundsActions'
+import { SecondarySoundState } from 'store/reducers/secondarySound'
 
 interface SoundboardProps {
   currentRound: CurrentRoundState
   currentSound: CurrentSoundState
+  secondarySound: SecondarySoundState
 }
 
-export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRound }) => {
+export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, secondarySound, currentRound }) => {
   const dispatch = useDispatch()
 
   const { round_type } = currentRound
@@ -30,7 +32,7 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRou
           SOUNDS
 
           <SummaryActions>
-            {!isStopped(currentSound.status) && (
+            {!isStopped(currentSound.status || secondarySound.status) && (
               <PlayingSoundName>
                 {currentSound.status} {Sounds.getSoundName(currentSound.sound)}...
               </PlayingSoundName>
@@ -38,20 +40,29 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRou
 
             {Sounds.isPlaying(currentSound.status) && (
               <Button
-                onClick={() => dispatch(setSoundStatus('PAUSED'))}
-                disabled={currentSound.status !== 'PLAYING'}>
+                onClick={() => {
+                  dispatch(setSoundStatus('PAUSED'))
+                  dispatch(setSecondarySoundStatus('PAUSED'))
+                }}
+                disabled={(currentSound.status) !== 'PLAYING'}>
                 Pause
               </Button>
             )}
             {isPaused(currentSound.status) && (
               <Button
-                onClick={() => dispatch(setSoundStatus('PLAYING'))}>
+                onClick={() => {
+                  dispatch(setSoundStatus('PLAYING'))
+                  dispatch(setSecondarySoundStatus('PLAYING'))
+                }}>
                 Play
               </Button>
             )}
             <Button
-              onClick={() => dispatch(setSoundStatus('STOPPED'))}
-              disabled={isStopped(currentSound.status)}>
+              onClick={() => {
+                dispatch(setSoundStatus('STOPPED'))
+                dispatch(setSecondarySoundStatus('STOPPED'))
+              }}
+              disabled={isStopped(currentSound.status && secondarySound.status)}>
               Stop
             </Button>
 
