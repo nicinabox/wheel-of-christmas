@@ -28,7 +28,7 @@ const Game: React.FC<GameProps> = ({ match }) => {
   const dispatch = useDispatch()
 
   const game = useSelector((state: RootState) => state.games[gameId])
-  const { currentRound, currentSound, currentGame } = useSelector((state: RootState) => state)
+  const { currentRound, currentSound, secondarySound, currentGame } = useSelector((state: RootState) => state)
 
   useEffect(() => {
     dispatch(setGameStatus(GameStatus.Paused))
@@ -78,6 +78,15 @@ const Game: React.FC<GameProps> = ({ match }) => {
           url={require(`sounds/${currentSound.sound}`)}
           playStatus={currentSound.status}
           volume={currentSound.volume}
+          onFinishedPlaying={() => dispatch(setCurrentSound(''))}
+        />
+      )}
+
+      {secondarySound.sound && (
+        <Sound
+          url={require(`sounds/${secondarySound.sound}`)}
+          playStatus={secondarySound.status}
+          volume={secondarySound.volume}
           onFinishedPlaying={() => dispatch(setCurrentSound(''))}
         />
       )}

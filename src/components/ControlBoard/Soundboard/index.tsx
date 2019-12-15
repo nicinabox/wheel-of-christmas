@@ -11,6 +11,7 @@ import { lighten } from 'polished'
 import { RangeInput } from 'styled/forms'
 import { CurrentRoundState } from 'store/reducers/currentRound'
 import { WedgeColors } from 'styled/colors'
+import { setSecondarySound } from 'store/actions/secondarySoundsActions'
 
 interface SoundboardProps {
   currentRound: CurrentRoundState
@@ -74,7 +75,6 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRou
               Sounds.EXPRESS,
               Sounds.HALF_CARD,
               Sounds.WILD_CARD,
-              Sounds.LAST_SPIN,
               Sounds.THEME,
               Sounds.BUZZER,
             ].map((sound, i) => (
@@ -82,6 +82,18 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, currentRou
               key={i}
               sound={sound}
               onClick={() => dispatch(setCurrentSound(sound))}>
+              {Sounds.getSoundName(sound)}
+              </SoundboardButton>
+            ))}
+          </FlexSection>
+          <FlexSection>
+            {[
+              Sounds.LAST_SPIN,
+            ].map((sound, i) => (
+              <SoundboardButton
+              key={i}
+              sound={sound}
+              onClick={() => dispatch(setSecondarySound(sound))}>
               {Sounds.getSoundName(sound)}
               </SoundboardButton>
             ))}
