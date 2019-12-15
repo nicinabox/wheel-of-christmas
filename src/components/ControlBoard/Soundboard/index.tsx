@@ -99,7 +99,7 @@ export const Soundboard: React.FC<SoundboardProps> = ({ currentSound, secondaryS
           </FlexSection>
           <FlexSection>
             {[
-              Sounds.LAST_SPIN,
+              Sounds.FINAL_ROUND,
             ].map((sound, i) => (
               <SoundboardButton
               key={i}

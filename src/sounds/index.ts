@@ -3,7 +3,7 @@ import { PlayStatus } from "store/reducers/currentSound"
 // Puzzle board sounds
 export const BUZZER = 'Buzzer.mp3'
 export const DING = 'Ding.mp3'
-export const LAST_SPIN = 'Last Spin.mp3'
+export const FINAL_ROUND = 'Final Round.mp3'
 export const NO_VOWELS_LEFT = 'No Vowels Left.mp3'
 export const PUZZLE_REVEAL = 'Puzzle Reveal.mp3'
 export const PUZZLE_SOLVE = 'Puzzle Solve.mp3'
