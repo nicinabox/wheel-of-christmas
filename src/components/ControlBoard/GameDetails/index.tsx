@@ -95,7 +95,7 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
             <StatusButton
               nextStatus={GameStatus.Active}
               onClick={() => dispatch(setGameStatus(GameStatus.Active))}>
-              Resume game
+                Ready
             </StatusButton>
           )}
           <StatusButton
@@ -137,9 +137,9 @@ export const GameDetails: React.FC<GameDetailsProps> = ({ currentGame, currentRo
 const getStatusColor = (status: GameStatus) => {
   switch(status) {
     case GameStatus.Active:
-      return 'orange'
-    case GameStatus.Paused:
       return 'green'
+    case GameStatus.Paused:
+      return 'orange'
     case GameStatus.Played:
       return 'black'
     default:
