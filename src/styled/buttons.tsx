@@ -13,7 +13,7 @@ export const Button = $.button<ButtonProps>`
   border: none;
   background: ${p => p.background || defaultColor};
   color: ${p => p.color || 'white'};
-  padding: 0.4rem 0.8rem;
+  padding: 0.6rem 0.8rem;
   margin: 2px;
   border-radius: 6px;
   outline: none;
